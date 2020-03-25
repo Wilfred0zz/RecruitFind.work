@@ -1,8 +1,13 @@
-import time
-from flask import Flask
+from flask import Flask, Blueprint
+from Routes.register import reg
+from Routes.login import log
+
 
 app = Flask(__name__)
 
-@app.route('/time')
-def get_current_time():
-    return {'time': time.time()}
+app.register_blueprint(reg)
+app.register_blueprint(log)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
