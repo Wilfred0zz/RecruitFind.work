@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { Link, animateScroll as scroll } from "react-scroll";
 
 

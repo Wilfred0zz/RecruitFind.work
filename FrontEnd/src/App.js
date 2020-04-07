@@ -1,15 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
+
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './store/index';
 import './App.css';
 
-import styled from 'styled-components';
-
-import Mainpage from './components/Mainpage';
-import Toolbar from './components/Toolbar';
-import AboutUs from './components/AboutUs';
-//import store from './store';
+import Mainpage from './components/main_page/Mainpage';
+import Toolbar from './components/main_page/Toolbar';
+import AboutUs from './components/main_page/AboutUs';
 
 function App() {
   return (

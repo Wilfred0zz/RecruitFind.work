@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import officeImg from '../public/office.jpg';
+import officeImg from './static/office.jpg';
 
 class Mainpage extends Component {
   render() {
