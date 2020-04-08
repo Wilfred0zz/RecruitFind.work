@@ -1,10 +1,11 @@
 from flask import Flask, Blueprint
+from Routes.connection import connect
 from Routes.register import reg
 from Routes.login import log
 
-
 app = Flask(__name__)
 
+app.register_blueprint(connect)
 app.register_blueprint(reg)
 app.register_blueprint(log)
 
