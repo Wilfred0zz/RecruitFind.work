@@ -19,6 +19,7 @@ def login():
     email = data['email']
     cursor.execute(f"""SELECT COUNT(1) FROM public."Personal Information" WHERE email = '{email}'""")
 
+    #checks to see whether or not the user exists
     if not cursor.fetchone()[0]:
         response['status']= False
         response['status_info'] = 'User does not exist'
@@ -28,19 +29,16 @@ def login():
         cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
         results = cursor.fetchall()
 
-        if len(results) > 0:
-            response['status']= False
-            response['status_info'] = 'invalid password'
+        #fetches the salt that's associated with the user, creates a replica encrypted password, and compares it with the one that's already stored in the database
         cursor.execute(f"""SELECT salts FROM public."Personal Information" WHERE email = '{email}'""")
         salt_result = cursor.fetchone()[0]
         salt_result = str.encode(salt_result)
         for row in results:
             if encrypt_password(password, salt_result) == row[0]:
-                response = make_response("Setting a cookie")
+                response = make_response("User Authenticated")
                 response.set_cookie(secrets.token_hex(), 'Cookie')
                 
     return response
-
 
 def generate_salt_string():
     salt_string = bcrypt.gensalt()
