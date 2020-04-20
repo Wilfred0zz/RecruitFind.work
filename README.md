@@ -1,6 +1,6 @@
 <div align="center">
   
-# RecruitFind.work
+# RecruitFind.work :mag:
 
 </div>
 
