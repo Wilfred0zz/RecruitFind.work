@@ -16,6 +16,7 @@ def createRecruiterProfile():
     data = request.get_json()
 
     token = request.cookies.get('token')
+    print("this is the token from broswer: ", token)
 
     recruiterCompany = data['recruiter_company']
     recruiterPosition = data['recruiter_position']
@@ -27,13 +28,13 @@ def createRecruiterProfile():
     cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
     currentUserId = cursor.fetchone()[0]
-    print("this is the user's id: " + currentUserId)
+    print("this is the user's id: ", currentUserId)
 
     if currentUserId:
-        cursor.execute(f"""INSERT INTO public."Recruiter Company Information" (user_id, recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country) VALUES ('{recruiterCompany}', '{recruiterPosition}', '{recruiterCompanyStreetAddress}', '{recruiterCity}', '{recruiterPostal}', '{recruiterCountry}')""")
+        cursor.execute(f"""INSERT INTO public."Recruiter Company Information" (user_id, recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country) VALUES ('{currentUserId}' ,'{recruiterCompany}', '{recruiterPosition}', '{recruiterCompanyStreetAddress}', '{recruiterCity}', '{recruiterPostal}', '{recruiterCountry}')""")
         database.commit()
         response['status'] = True
-        response['status_info'] = 'Account created successfully!'
+        response['status_info'] = 'Recruiter Profile Info Stored Successfully'
     else:
         response['status'] = False
         response['status_info'] = 'Invalid token!'
