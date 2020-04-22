@@ -34,9 +34,13 @@ def login():
         salt_result = cursor.fetchone()[0]
         salt_result = str.encode(salt_result)
         for row in results:
-            if encrypt_password(password, salt_result) == row[0]:
+            if encrypt_function(password, salt_result) == row[0]:
+                tokenSalt = generate_salt_string()
+                token = encrypt_function(email, tokenSalt)
+                cursor.execute(f"""UPDATE public."Personal Information" SET token='{token}' WHERE token IS NULL""")
+                database.commit()
                 response = make_response("User Authenticated")
-                response.set_cookie(secrets.token_hex(), 'Cookie')
+                response.set_cookie('token', token)
                 
     return response
 
@@ -44,6 +48,6 @@ def generate_salt_string():
     salt_string = bcrypt.gensalt()
     return salt_string
 
-def encrypt_password(password_unencrypted, salt_string):
-    encrypted_password = argon2.using(rounds=5, salt=salt_string).hash(password_unencrypted)
-    return encrypted_password
+def encrypt_function(unencrypted_value, salt_string):
+    encrypted_value = argon2.using(rounds=5, salt=salt_string).hash(unencrypted_value)
+    return encrypted_value
