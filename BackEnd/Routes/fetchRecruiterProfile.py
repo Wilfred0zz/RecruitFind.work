@@ -21,7 +21,7 @@ def fetchRecruiterProfileInfo():
     currentUserId = cursor.fetchone()[0]
 
     if currentUserId:
-        cursor.execute(f"""SELECT recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country FROM public."Recruiter Company Information" WHERE user_id='{currentUserId}'""")
+        cursor.execute(f"""SELECT recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country, recruiter_state FROM public."Recruiter Company Information" WHERE user_id='{currentUserId}'""")
         queryResult = cursor.fetchall()
         response['recruiter_company'] = queryResult[0][0]
         response['recruiter_position'] = queryResult[0][1]
@@ -29,9 +29,10 @@ def fetchRecruiterProfileInfo():
         response['recruiter_city'] = queryResult[0][3]
         response['recruiter_postal'] = queryResult[0][4]
         response['recruiter_country'] = queryResult[0][5]
+        response['recruiter_state'] = queryResult[0][6]
 
         response['status'] = True
-        response['status_info'] = 'Recruiter Profile Info Stored Successfully'
+        response['status_info'] = 'Recruiter Profile Info Fetched Successfully'
     else:
         response['status'] = False
         response['status_info'] = 'Invalid token!'

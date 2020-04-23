@@ -24,6 +24,7 @@ def updateRecruiterProfileInfo():
     recruiterCity = data['recruiter_city']
     recruiterPostal = data['recruiter_postal']
     recruiterCountry = data['recruiter_country']
+    recruiterState = data['recruiter_state']
 
     cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
@@ -31,7 +32,7 @@ def updateRecruiterProfileInfo():
     #print("this is the user's id: ", currentUserId)
 
     if currentUserId:
-        cursor.execute(f"""UPDATE public."Recruiter Company Information" SET user_id='{currentUserId}', recruiter_company='{recruiterCompany}', recruiter_position='{recruiterPosition}', recruiter_company_street_address='{recruiterCompanyStreetAddress}', recruiter_city='{recruiterCity}', recruiter_postal='{recruiterPostal}', recruiter_country='{recruiterCountry}'""")
+        cursor.execute(f"""UPDATE public."Recruiter Company Information" SET user_id='{currentUserId}', recruiter_company='{recruiterCompany}', recruiter_position='{recruiterPosition}', recruiter_company_street_address='{recruiterCompanyStreetAddress}', recruiter_city='{recruiterCity}', recruiter_postal='{recruiterPostal}', recruiter_country='{recruiterCountry}', recruiter_state='{recruiterState}'""")
         database.commit()
         response['status'] = True
         response['status_info'] = 'Recruiter Profile Info Updated Successfully'
