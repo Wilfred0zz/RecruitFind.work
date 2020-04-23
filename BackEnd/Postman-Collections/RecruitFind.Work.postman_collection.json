@@ -6,12 +6,21 @@
 	},
 	"item": [
 		{
-			"name": "http://127.0.0.1:5000/api/signUp",
+			"name": "http://127.0.0.1:5000/api/register",
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"recruiter2@gmail.com\",\n    \"password\": \"blunkie123\",\n    \"first_name\": \"lawyer\",\n    \"last_name\": \"Rodriguez\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"New York\",\n    \"personal_state\": \"NY\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/signUp",
+					"raw": "http://127.0.0.1:5000/api/register",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -22,7 +31,156 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"signUp"
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "connection",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/connection",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"connection"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"recruiter2@gmail.com\",\n    \"password\": \"blunkie123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recruiterProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/recruiterProfile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"recruiterProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchRecruiterProfileInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchRecruiterProfileInfo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchRecruiterProfileInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateRecruiterProfileInfo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recruiter_company\": \"Facebook\",\n    \"recruiter_position\": \"L7 Software Engineer\",\n    \"recruiter_company_street_address\": \"42nd Street\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11288\",\n    \"recruiter_country\": \"America\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/updateRecruiterProfileInfo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"updateRecruiterProfileInfo"
 					]
 				}
 			},
