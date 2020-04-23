@@ -24,6 +24,7 @@ def createRecruiterProfile():
     recruiterCity = data['recruiter_city']
     recruiterPostal = data['recruiter_postal']
     recruiterCountry = data['recruiter_country']
+    recruiterState = data['recruiter_state']
 
     cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
@@ -31,7 +32,7 @@ def createRecruiterProfile():
     print("this is the user's id: ", currentUserId)
 
     if currentUserId:
-        cursor.execute(f"""INSERT INTO public."Recruiter Company Information" (user_id, recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country) VALUES ('{currentUserId}' ,'{recruiterCompany}', '{recruiterPosition}', '{recruiterCompanyStreetAddress}', '{recruiterCity}', '{recruiterPostal}', '{recruiterCountry}')""")
+        cursor.execute(f"""INSERT INTO public."Recruiter Company Information" (user_id, recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country, recruiter_state) VALUES ('{currentUserId}' ,'{recruiterCompany}', '{recruiterPosition}', '{recruiterCompanyStreetAddress}', '{recruiterCity}', '{recruiterPostal}', '{recruiterCountry}', '{recruiterState}')""")
         database.commit()
         response['status'] = True
         response['status_info'] = 'Recruiter Profile Info Stored Successfully'
