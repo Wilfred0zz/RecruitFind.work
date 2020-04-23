@@ -106,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\"\n}",
+					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\",\n    \"recruiter_state\": \"NY\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -161,7 +161,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"recruiter_company\": \"Facebook\",\n    \"recruiter_position\": \"L7 Software Engineer\",\n    \"recruiter_company_street_address\": \"42nd Street\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11288\",\n    \"recruiter_country\": \"America\"\n}",
+					"raw": "{\n    \"recruiter_company\": \"Facebook\",\n    \"recruiter_position\": \"L7 Software Engineer\",\n    \"recruiter_company_street_address\": \"42nd Street\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11288\",\n    \"recruiter_country\": \"America\",\n    \"recruiter_state\": \"NJ\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
