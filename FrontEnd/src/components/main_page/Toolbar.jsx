@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Link, animateScroll as scroll } from "react-scroll";
+import {Scroll} from "react-scroll";
+import {Route, Switch, Link} from "react-router-dom";
 
-
+const ScrollLink = Scroll.ScrollLink
 class Toolbar extends Component {
   render() {
     return (
@@ -9,28 +10,29 @@ class Toolbar extends Component {
       <table className = 'toolbar'>
           <th>RecruitFind</th> 
           <th>
-            <Link
+            <ScrollLink
                 activeClass="active"
                 to="main"
                 spy={true}
                 smooth={true}
                 offset={-70}
                 duration= {500}
-            >Home </Link>
+            >Home </ScrollLink>
           </th>
           <th>
-            <Link
+            <ScrollLink
                 activeClass="active"
                 to="abtUs"
                 spy={true}
                 smooth={true}
                 offset={-70}
                 duration={500}
-            >About Us</Link>
+            >About Us</ScrollLink>
           </th>
           <th>Contact</th>
           <th>Sign in</th>
           <th>Log in</th>
+          <th><Link to = "/newpaths" >Path</Link></th>
       </table>
     </div>
     )

@@ -1,24 +1,25 @@
 import React from 'react';
-
-import { Provider } from 'react-redux';
-import store from './store/index';
+import {Route, Switch} from 'react-router-dom';
+import NewPaths from './components/Test Stuff/newpaths';
 import './App.css';
 
-import Mainpage from './components/main_page/Mainpage';
-import Toolbar from './components/main_page/Toolbar';
-import AboutUs from './components/main_page/AboutUs';
+import MainPage from './components/main_page/MainPage';
 
 function App() {
+  const Routing = () => <NewPaths/>
+  const MainPageComponent = () => <MainPage/>
+
   return (
-    <Provider store={store}>
-      <div className="App">
-        <header className="App-header">
-        </header>
-        <Toolbar/>
-        <Mainpage/>
-        <AboutUs/>
-      </div>
-    </Provider>
+    <div className="App">
+      <header className="App-header">
+      </header>
+      <Switch> 
+        <Route exact path="/" render={MainPageComponent}/>
+        <Route exact path="/newpaths" render={Routing}/> 
+      </Switch>
+
+     
+    </div>
   );
 }
 
