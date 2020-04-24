@@ -35,10 +35,10 @@ def updateCandidateProfileInfo():
     print("this is the user's id: ", currentUserId)
 
     if currentUserId:
-        cursor.execute(f"""UPDATE public."Candidate Information" SET user_id='{currentUserId}', candidate_school='{candidateSchool}', candidate_highest_level_of_education='{candidateHighestLevelOfEducation}', candidate_description='{candidateDescription}', candidate_current_position='{candidateCurrentPosition}'""")
-        cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id='{currentUserId}', name_of_interest='{nameOfInterest1}', is_deleted='{isDeleted1}'""")
-        cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id='{currentUserId}', name_of_interest='{nameOfInterest2}', is_deleted='{isDeleted2}'""")
-        cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id='{currentUserId}', name_of_interest='{nameOfInterest3}', is_deleted='{isDeleted3}'""")
+        cursor.execute(f"""UPDATE public."Candidate Information" SET user_id='{currentUserId}', candidate_school='{candidateSchool}', candidate_highest_level_of_education='{candidateHighestLevelOfEducation}', candidate_description='{candidateDescription}', candidate_current_position='{candidateCurrentPosition}' WHERE user_id='{currentUserId}'""")
+        cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id='{currentUserId}', name_of_interest='{nameOfInterest1}', is_deleted='{isDeleted1}' WHERE user_id='{currentUserId}'""")
+        cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id='{currentUserId}', name_of_interest='{nameOfInterest2}', is_deleted='{isDeleted2}' WHERE user_id='{currentUserId}'""")
+        cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id='{currentUserId}', name_of_interest='{nameOfInterest3}', is_deleted='{isDeleted3}' WHERE user_id='{currentUserId}'""")
         response['status'] = True
         response['status_info'] = 'Candidate Profile Info Updated Successfully'
     else:
