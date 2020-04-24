@@ -9,6 +9,8 @@ from Routes.candidateProfile import cp
 from Routes.candidateExperiences import ce
 from Routes.updateCandidateProfileInfo import ucp
 from Routes.updateCandidateExperiences import uce
+from Routes.candidateLinks import cl
+from Routes.updateCandidateLinks import ucl
 
 app = Flask(__name__)
 
@@ -22,6 +24,8 @@ app.register_blueprint(cp)
 app.register_blueprint(ce)
 app.register_blueprint(ucp)
 app.register_blueprint(uce)
+app.register_blueprint(cl)
+app.register_blueprint(ucl)
 
 
 if __name__ == '__main__':

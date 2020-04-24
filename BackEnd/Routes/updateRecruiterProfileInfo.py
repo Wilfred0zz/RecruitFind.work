@@ -1,7 +1,6 @@
 from flask import Flask, Blueprint, request
 import psycopg2
-from passlib.hash import argon2
-import bcrypt
+
 
 database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
 
@@ -29,10 +28,9 @@ def updateRecruiterProfileInfo():
     cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
     currentUserId = cursor.fetchone()[0]
-    #print("this is the user's id: ", currentUserId)
 
     if currentUserId:
-        cursor.execute(f"""UPDATE public."Recruiter Company Information" SET user_id='{currentUserId}', recruiter_company='{recruiterCompany}', recruiter_position='{recruiterPosition}', recruiter_company_street_address='{recruiterCompanyStreetAddress}', recruiter_city='{recruiterCity}', recruiter_postal='{recruiterPostal}', recruiter_country='{recruiterCountry}', recruiter_state='{recruiterState}'""")
+        cursor.execute(f"""UPDATE public."Recruiter Company Information" SET recruiter_company='{recruiterCompany}', recruiter_position='{recruiterPosition}', recruiter_company_street_address='{recruiterCompanyStreetAddress}', recruiter_city='{recruiterCity}', recruiter_postal='{recruiterPostal}', recruiter_country='{recruiterCountry}', recruiter_state='{recruiterState}' WHERE user_id={currentUserId}""")
         database.commit()
         response['status'] = True
         response['status_info'] = 'Recruiter Profile Info Updated Successfully'
