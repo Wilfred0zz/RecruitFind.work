@@ -8,10 +8,10 @@ database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", ho
 #creates a cursor object to execute PostgreSQL commands via python
 cursor = database.cursor()
 
-ucp = Blueprint('updateCandidateProfileInfo', __name__)
+uce = Blueprint('updateCandidateExperiences', __name__)
 
-@ucp.route("/api/updateCandidateProfileInfo", methods=["PUT"])
-def updateCandidateProfileInfo():
+@uce.route("/api/updateCandidateExperiences", methods=["PUT"])
+def updateCandidateExperiences():
     response = dict()
     data = request.get_json()
 

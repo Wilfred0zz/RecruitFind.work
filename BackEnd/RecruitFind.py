@@ -8,6 +8,7 @@ from Routes.updateRecruiterProfileInfo import urp
 from Routes.candidateProfile import cp
 from Routes.candidateExperiences import ce
 from Routes.updateCandidateProfileInfo import ucp
+from Routes.updateCandidateExperiences import uce
 
 app = Flask(__name__)
 
@@ -20,6 +21,7 @@ app.register_blueprint(urp)
 app.register_blueprint(cp)
 app.register_blueprint(ce)
 app.register_blueprint(ucp)
+app.register_blueprint(uce)
 
 
 if __name__ == '__main__':
