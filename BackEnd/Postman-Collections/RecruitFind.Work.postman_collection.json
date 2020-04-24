@@ -185,6 +185,198 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "candidateProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Bachelors\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L3 Software Engineer\",\n    \"name_of_interest_1\": \"swimming\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"reading\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dancing\",\n    \"is_deleted_3\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/candidateProfile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"candidateProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "candidateExperiences",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_title_1\": \"Software Engineer\",\n    \"description_1\": \"Worked at a startup\",\n    \"start_date_1\": \"May 2017\",\n    \"end_date_1\": \"August 2017\",\n    \"present_1\": false,\n    \"is_deleted_1\": false,\n    \n    \"role_title_2\": \"\",\n    \"description_2\": \"\",\n    \"start_date_2\": \"\",\n    \"end_date_2\": \"\",\n    \"present_2\": false,\n    \"is_deleted_2\": false,\n    \n    \"role_title_3\": \"\",\n    \"description_3\": \"\",\n    \"start_date_3\": \"\",\n    \"end_date_3\": \"\",\n    \"present_3\": false,\n    \"is_deleted_3\": false,\n    \n    \"role_title_4\": \"\",\n    \"description_4\": \"\",\n    \"start_date_4\": \"\",\n    \"end_date_4\": \"\",\n    \"present_4\": false,\n    \"is_deleted_4\": false,\n    \n    \"role_title_5\": \"\",\n    \"description_5\": \"\",\n    \"start_date_5\": \"\",\n    \"end_date_5\": \"\",\n    \"present_5\": false,\n    \"is_deleted_5\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/candidateExperiences",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"candidateExperiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCandidateProfileInfo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": \"false\",\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": \"false\",\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": \"false\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/updateCandidateProfileInfo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"updateCandidateProfileInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCandidateExperiences",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_title_1\": \"Software Engineer\",\n    \"description_1\": \"Worked at a startup\",\n    \"start_date_1\": \"May 2017\",\n    \"end_date_1\": \"August 2017\",\n    \"present_1\": false,\n    \"is_deleted_1\": \"false\",\n    \n    \"role_title_2\": \"TechLead\",\n    \"description_2\": \"Worked at Microsoft\",\n    \"start_date_2\": \"Sep 2019\",\n    \"end_date_2\": \"\",\n    \"present_2\": true,\n    \"is_deleted_2\": \"false\",\n    \n    \"role_title_3\": \"\",\n    \"description_3\": \"\",\n    \"start_date_3\": \"\",\n    \"end_date_3\": \"\",\n    \"present_3\": false,\n    \"is_deleted_3\": \"false\",\n    \n    \"role_title_4\": \"\",\n    \"description_4\": \"\",\n    \"start_date_4\": \"\",\n    \"end_date_4\": \"\",\n    \"present_4\": false,\n    \"is_deleted_4\": \"false\",\n    \n    \"role_title_5\": \"\",\n    \"description_5\": \"\",\n    \"start_date_5\": \"\",\n    \"end_date_5\": \"\",\n    \"present_5\": false,\n    \"is_deleted_5\": \"false\"\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/updateCandidateExperiences",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"updateCandidateExperiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "candidateLinks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type_of_link_1\": \"Github\",\n\t\"link_1\": \"github.com\",\n\t\"is_deleted_1\": false,\n\t\"type_of_link_2\": \"Profile Website\",\n\t\"link_2\": \"HenryWordsworth.com\",\n\t\"is_deleted_2\": false,\n\t\"type_of_link_3\": \"Google\",\n\t\"link_3\": \"google.com\",\n\t\"is_deleted_3\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/candidateLinks",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"candidateLinks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCandidateLinks",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type_of_link_1\": \"mypersonalwebsite\",\n\t\"link_1\": \"mypersonalwebsite.com\",\n\t\"is_deleted_1\": false,\n\t\"type_of_link_2\": \"Profile Website\",\n\t\"link_2\": \"HenryWordsworth.com\",\n\t\"is_deleted_2\": true,\n\t\"type_of_link_3\": \"Google\",\n\t\"link_3\": \"google.com\",\n\t\"is_deleted_3\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/updateCandidateLinks",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"updateCandidateLinks"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

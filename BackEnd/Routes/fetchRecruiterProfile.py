@@ -1,7 +1,6 @@
 from flask import Flask, Blueprint, request
 import psycopg2
-from passlib.hash import argon2
-import bcrypt
+
 
 database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
 
@@ -21,7 +20,7 @@ def fetchRecruiterProfileInfo():
     currentUserId = cursor.fetchone()[0]
 
     if currentUserId:
-        cursor.execute(f"""SELECT recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country, recruiter_state FROM public."Recruiter Company Information" WHERE user_id='{currentUserId}'""")
+        cursor.execute(f"""SELECT recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country, recruiter_state FROM public."Recruiter Company Information" WHERE user_id={currentUserId}""")
         queryResult = cursor.fetchall()
         response['recruiter_company'] = queryResult[0][0]
         response['recruiter_position'] = queryResult[0][1]
