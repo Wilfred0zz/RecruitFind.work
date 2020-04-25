@@ -1,24 +1,23 @@
 import React from 'react';
-
-import { Provider } from 'react-redux';
-import store from './store/index';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
 
-import Mainpage from './components/main_page/Mainpage';
-import Toolbar from './components/main_page/Toolbar';
-import AboutUs from './components/main_page/AboutUs';
+import MainPage from './components/main_page/MainPage';
 
 function App() {
+  const MainPageComponent = () => <MainPage/>
+
   return (
-    <Provider store={store}>
-      <div className="App">
-        <header className="App-header">
-        </header>
-        <Toolbar/>
-        <Mainpage/>
-        <AboutUs/>
-      </div>
-    </Provider>
+    <div className="App">
+      <header className="App-header">
+      </header>
+      {/* Listing all routes that will be used in our application */}
+      <Switch> 
+        <Route exact path="/" render={MainPageComponent}/>
+      </Switch>
+
+     
+    </div>
   );
 }
 
