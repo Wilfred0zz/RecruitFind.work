@@ -377,6 +377,75 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "fetchCandidateExperiences",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidateExperiences",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidateExperiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidateLinks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidateLinks",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidateLinks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidateProfileInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidateProfileInfo",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidateProfileInfo"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
