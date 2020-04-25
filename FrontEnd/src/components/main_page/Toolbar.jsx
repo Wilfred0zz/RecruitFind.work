@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
+// renaming of Link import so no conflict with Link import from react-router-dom
+import { Link as ScrollLink } from "react-scroll";
+import { Link } from "react-router-dom";
+
+// in order to connect to the store
 import { connect } from 'react-redux'
+import ModalRoot from './ModalRoot'
 
-import { Link, animateScroll as scroll } from "react-scroll";
-
-import ModalRoot from '../../ModalRoot'
-
-import '../../dist/css/template.css'
+import './static/css/template.css'
 import './static/css/toolbar.css'
 
-import { showModal, hideModal } from '../../actions/modal'
+import { showModal, hideModal } from '../../store/actions/Modals/modal_action_creators'
 
 const mapDispatchToProps = dispatch => ({
   hideModal: () => dispatch(hideModal()),
@@ -94,24 +96,24 @@ class Toolbar extends Component {
           <table className = 'toolbar'>
           <th>RecruitFind</th> 
           <th>
-            <Link
+            <ScrollLink
                 activeClass="active"
                 to="main"
                 spy={true}
                 smooth={true}
                 offset={-70}
                 duration= {500}
-            >Home </Link>
+            >Home </ScrollLink>
           </th>
           <th>
-            <Link
+            <ScrollLink
                 activeClass="active"
                 to="abtUs"
                 spy={true}
                 smooth={true}
                 offset={-70}
                 duration={500}
-            >About Us</Link>
+            >About Us</ScrollLink>
           </th>
           <th>            
             <button

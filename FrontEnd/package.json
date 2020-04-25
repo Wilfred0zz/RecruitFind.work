@@ -9,19 +9,34 @@
     "react-dom": "^16.2.0",
     "react-modal": "^3.3.1",
     "react-redux": "^5.0.7",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.1",
     "react-scroll": "^1.7.16",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
-    "gulp-sass": "^3.2.0",
-    "react-scripts": "1.1.1"
+    "gulp-sass": "^3.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

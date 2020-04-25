@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/ActionTypes'
+import ActionTypes from './modal_action_types'
 
 export const showModal = ({ modalProps, modalType }) => dispatch => {
   dispatch({

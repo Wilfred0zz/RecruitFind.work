@@ -1,23 +1,24 @@
-import React, { Component } from 'react'
+import React from 'react';
+import {Route, Switch} from 'react-router-dom';
+import './App.css';
 
-//import './dist/css/template.css'
-import './App.css'
+import MainPage from './components/main_page/MainPage';
 
-import Mainpage from './components/main_page/Mainpage';
-import Toolbar from './components/main_page/Toolbar';
-import AboutUs from './components/main_page/AboutUs';
+function App() {
+  const MainPageComponent = () => <MainPage/>
 
-class App extends Component {
-  render() {
-    return (
-      <div className="app">
-        <header className="App-header"></header>
-          <Toolbar/>
-          <Mainpage/>
-          <AboutUs/>
-      </div>
-    )
-  }
+  return (
+    <div className="App">
+      <header className="App-header">
+      </header>
+      {/* Listing all routes that will be used in our application */}
+      <Switch> 
+        <Route exact path="/" render={MainPageComponent}/>
+      </Switch>
+
+     
+    </div>
+  );
 }
 
 export default App;

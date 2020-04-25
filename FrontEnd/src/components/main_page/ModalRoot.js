@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
-import { default as modalTypes } from './components/main_page'
+import { default as modalTypes } from '.'
 
 const MODAL_TYPES = {
   'contact': modalTypes.contactModal,
