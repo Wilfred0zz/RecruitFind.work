@@ -1,19 +1,19 @@
 from flask import Flask, Blueprint
 from Routes.connection import connect
-from Routes.register import reg
-from Routes.login import log
-from Routes.recruiterProfile import rp
-from Routes.fetchRecruiterProfile import frp
-from Routes.updateRecruiterProfileInfo import urp
-from Routes.candidateProfile import cp
-from Routes.candidateExperiences import ce
-from Routes.updateCandidateProfileInfo import ucp
-from Routes.updateCandidateExperiences import uce
-from Routes.candidateLinks import cl
-from Routes.updateCandidateLinks import ucl
-from Routes.fetchCandidateExperiences import fce
-from Routes.fetchCandidateLinks import fcl
-from Routes.fetchCandidateProfileInfo import fcp
+from Routes.Create.register import reg
+from Routes.Read.login import log
+from Routes.Create.recruiterProfile import rp
+from Routes.Read.fetchRecruiterProfile import frp
+from Routes.Update.updateRecruiterProfileInfo import urp
+from Routes.Create.candidateProfile import cp
+from Routes.Create.candidateExperiences import ce
+from Routes.Update.updateCandidateProfileInfo import ucp
+from Routes.Update.updateCandidateExperiences import uce
+from Routes.Create.candidateLinks import cl
+from Routes.Update.updateCandidateLinks import ucl
+from Routes.Read.fetchCandidateExperiences import fce
+from Routes.Read.fetchCandidateLinks import fcl
+from Routes.Read.fetchCandidateProfileInfo import fcp
 
 app = Flask(__name__)
 
