@@ -19,3 +19,6 @@ pip freeze > requirements.txt
 ```
 Be sure to be in the venv. If you aren't in the venv the pip freeze will install all
 your imports on the machine, when you only want the ones installed in this repo.
+
+To test the database locally you need to connect to the GCP instance. First make sure youre IP is added to Google SQL.
+Then run the command in slack
