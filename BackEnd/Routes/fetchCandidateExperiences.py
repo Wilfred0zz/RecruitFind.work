@@ -10,7 +10,7 @@ cursor = database.cursor()
 fce = Blueprint('fetchCandidateExperiences', __name__)
 
 @fce.route("/api/fetchCandidateExperiences", methods=["GET"])
-def fetchRecruiterProfileInfo():
+def fetchCandidateExperiences():
     response = dict()
 
     token = request.cookies.get('token')
