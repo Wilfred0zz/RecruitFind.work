@@ -10,7 +10,7 @@ class MainPage extends Component {
             <Toolbar />
             <div className = 'main-'page id = 'main'> >
               <h1 id='catchPhrase'>Don't be a slob, get a job</h1>
-              <img id = 'officePic' src={officeImg} alt="image of office"/>
+              <img id = 'officePic' src={officeImg} alt="office"/>
             </div>
             <AboutUs/>
         </div>

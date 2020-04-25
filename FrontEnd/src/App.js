@@ -13,6 +13,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       </header>
+      {/* Listing all routes that will be used in our application */}
       <Switch> 
         <Route exact path="/" render={MainPageComponent}/>
         <Route exact path="/newpaths" render={Routing}/> 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {Scroll} from "react-scroll";
-import {Route, Switch, Link} from "react-router-dom";
+// renaming of Link import so no confluct with link import from react-router-dom
+import { Link as ScrollLink } from "react-scroll";
+import { Link } from "react-router-dom";
 
-const ScrollLink = Scroll.ScrollLink
 class Toolbar extends Component {
   render() {
     return (
@@ -17,7 +17,7 @@ class Toolbar extends Component {
                 smooth={true}
                 offset={-70}
                 duration= {500}
-            >Home </ScrollLink>
+                >Home </ScrollLink>
           </th>
           <th>
             <ScrollLink

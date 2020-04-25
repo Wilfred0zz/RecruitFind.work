@@ -21,6 +21,9 @@ import ReactDOM from 'react-dom';
  * general home page.
  * 
  * https://stackoverflow.com/questions/53065686/why-do-we-use-browserrouter-in-react
+ * 
+ * The link below clarifies the difference between react router, and the route component used in app.js
+ * https://stackoverflow.com/questions/43949554/what-is-the-different-between-router-vs-route-in-react-router-dom
  */
 import { BrowserRouter } from 'react-router-dom';
 
