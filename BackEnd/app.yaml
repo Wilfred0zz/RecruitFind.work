@@ -1,0 +1,7 @@
+runtime: python
+env: flex
+
+runtime_config:
+    python_version: 3
+
+entrypoint: gunicorn --worker-class gevent -b :$PORT main:app --timeout 90
