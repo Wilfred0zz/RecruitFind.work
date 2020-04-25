@@ -1,0 +1,5 @@
+Flask==1.1.1
+passlib==1.7.2
+psycopg2==2.8.5
+python_bcrypt==0.3.2
+secrets==1.0.2
