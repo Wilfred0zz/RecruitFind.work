@@ -1,3 +1,19 @@
+// import { createStore, applyMiddleware } from 'redux';
+// import thunk from 'redux-thunk';
+// import rootReducer from './reducers';
+
+// /**
+//  * @param {object} initialState 
+//  * @returns {func} createStore
+//  */
+// export default function configureStore(initialState) {
+//   return createStore(
+//     rootReducer,
+//     applyMiddleware(thunk)
+//   );
+// }
+
+
 /**
  * This file has the main imports needed to set up our store.
  * The store will have our state(refer to react state), and we will
@@ -42,14 +58,13 @@
   * Here we import all reducers we will be using. Reducers
   * will provide the functionality for our app. 
   */
- // we have none so far hahahahaaha
+ import modal from './reducers/modal'
  
  /** Here we are having one variable store all reducers, its empty for now */
- const rootReducer = combineReducers({})
+ const rootReducer = combineReducers({modal})
  const logger = createLogger({ collapsed: true});
  const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware, logger));
  const store = createStore(rootReducer, middleware);
  
  // by declaring this default export, when other files import from here the store variable will be used.
  export default store;
- 
