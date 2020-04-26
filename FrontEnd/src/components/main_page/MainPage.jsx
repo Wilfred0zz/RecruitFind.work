@@ -8,7 +8,7 @@ class MainPage extends Component {
     return (
         <div className = 'home'> 
             <Toolbar />
-            <div className = 'main-'page id = 'main'> >
+            <div className = 'main-page' id = 'main'> >
               <h1 id='catchPhrase'>Don't be a slob, get a job</h1>
               <img id = 'officePic' src={officeImg} alt="office"/>
             </div>
