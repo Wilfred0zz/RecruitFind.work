@@ -1,5 +1,5 @@
-import contactModal from './ContactModal'
-import signupModal from './SignupModal'
+import contactModal from '../modals/ContactModal'
+import signupModal from '../modals/SignUpModal'
 
 const modalTypes = {
   contactModal,

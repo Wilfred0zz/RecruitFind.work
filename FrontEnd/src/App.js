@@ -2,7 +2,7 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import './App.css';
 
-import MainPage from './components/main_page/MainPage';
+import MainPage from './components/main_page/Mainpage';
 
 function App() {
   const MainPageComponent = () => <MainPage/>
