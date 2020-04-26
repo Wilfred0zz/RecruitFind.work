@@ -7,15 +7,15 @@ database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", ho
 #creates a cursor object to execute PostgreSQL commands via python
 cursor = database.cursor()
 
-rp = Blueprint('recruiterProfile', __name__)
+urp = Blueprint('updateRecruiterProfileInfo', __name__)
 
-@rp.route("/api/recruiterProfile", methods=["POST"])
-def createRecruiterProfile():
+@urp.route("/api/updateRecruiterProfileInfo", methods=["PUT"])
+def updateRecruiterProfileInfo():
     response = dict()
     data = request.get_json()
 
     token = request.cookies.get('token')
-    print("this is the token from broswer: ", token)
+    #print("this is the token from broswer: ", token)
 
     recruiterCompany = data['recruiter_company']
     recruiterPosition = data['recruiter_position']
@@ -28,13 +28,12 @@ def createRecruiterProfile():
     cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
     currentUserId = cursor.fetchone()[0]
-    print("this is the user's id: ", currentUserId)
 
     if currentUserId:
-        cursor.execute(f"""INSERT INTO public."Recruiter Company Information" (user_id, recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country, recruiter_state) VALUES ({currentUserId} ,'{recruiterCompany}', '{recruiterPosition}', '{recruiterCompanyStreetAddress}', '{recruiterCity}', '{recruiterPostal}', '{recruiterCountry}', '{recruiterState}')""")
+        cursor.execute(f"""UPDATE public."Recruiter Company Information" SET recruiter_company='{recruiterCompany}', recruiter_position='{recruiterPosition}', recruiter_company_street_address='{recruiterCompanyStreetAddress}', recruiter_city='{recruiterCity}', recruiter_postal='{recruiterPostal}', recruiter_country='{recruiterCountry}', recruiter_state='{recruiterState}' WHERE user_id={currentUserId}""")
         database.commit()
         response['status'] = True
-        response['status_info'] = 'Recruiter Profile Created Successfully'
+        response['status_info'] = 'Recruiter Profile Info Updated Successfully'
     else:
         response['status'] = False
         response['status_info'] = 'Invalid token!'

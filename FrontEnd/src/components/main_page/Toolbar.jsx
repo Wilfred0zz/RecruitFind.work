@@ -116,13 +116,10 @@ class Toolbar extends Component {
             >About Us</ScrollLink>
           </th>
           <th>            
-            <button
-              onClick={this.openContactModal}
-            >Contact</button></th>
+            <button onClick={this.openContactModal}>Contact</button>
+          </th>
           <th>
-            <button
-                onClick={this.openSignupModal}
-              >Signup</button>
+            <button onClick={this.openSignupModal}>Signup</button>
           </th>
           <th>Log in</th>
       </table>
