@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 
 // in order to connect to the store
 import { connect } from 'react-redux'
-import ModalRoot from './ModalRoot'
+import ModalRoot from '../modals/ModalRoot'
 
 import './static/css/template.css'
 import './static/css/toolbar.css'
 
-import { showModal, hideModal } from '../../store/actions/Modals/modal_action_creators'
+import { showModal, hideModal } from '../../store/actions/modal_actions/modal_action_creators'
 
 const mapDispatchToProps = dispatch => ({
   hideModal: () => dispatch(hideModal()),
@@ -94,34 +94,38 @@ class Toolbar extends Component {
     return (
       <div className="app">
           <table className = 'toolbar'>
-          <th>RecruitFind</th> 
-          <th>
-            <ScrollLink
-                activeClass="active"
-                to="main"
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration= {500}
-            >Home </ScrollLink>
-          </th>
-          <th>
-            <ScrollLink
-                activeClass="active"
-                to="abtUs"
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration={500}
-            >About Us</ScrollLink>
-          </th>
-          <th>            
-            <button onClick={this.openContactModal}>Contact</button>
-          </th>
-          <th>
-            <button onClick={this.openSignupModal}>Signup</button>
-          </th>
-          <th>Log in</th>
+            <tbody>
+              <tr>
+                <th>RecruitFind</th> 
+                <th>
+                  <ScrollLink
+                      activeClass="active"
+                      to="main"
+                      spy={true}
+                      smooth={true}
+                      offset={-70}
+                      duration= {500}
+                  >Home </ScrollLink>
+                </th>
+                <th>
+                  <ScrollLink
+                      activeClass="active"
+                      to="abtUs"
+                      spy={true}
+                      smooth={true}
+                      offset={-70}
+                      duration={500}
+                  >About Us</ScrollLink>
+                </th>
+                <th>            
+                  <button onClick={this.openContactModal}>Contact</button>
+                </th>
+                <th>
+                  <button onClick={this.openSignupModal}>Signup</button>
+                </th>
+                <th>Log in</th>
+              </tr>
+            </tbody>
       </table>
         <ModalRoot hideModal={this.props.hideModal} />
       </div>

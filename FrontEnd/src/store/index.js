@@ -1,19 +1,3 @@
-// import { createStore, applyMiddleware } from 'redux';
-// import thunk from 'redux-thunk';
-// import rootReducer from './reducers';
-
-// /**
-//  * @param {object} initialState 
-//  * @returns {func} createStore
-//  */
-// export default function configureStore(initialState) {
-//   return createStore(
-//     rootReducer,
-//     applyMiddleware(thunk)
-//   );
-// }
-
-
 /**
  * This file has the main imports needed to set up our store.
  * The store will have our state(refer to react state), and we will
@@ -68,3 +52,4 @@
  
  // by declaring this default export, when other files import from here the store variable will be used.
  export default store;
+ 

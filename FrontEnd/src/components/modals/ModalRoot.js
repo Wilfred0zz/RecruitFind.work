@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import ReactModal from 'react-modal'
 
-import { default as modalTypes } from '.'
+import { default as modalTypes } from '../main_page'
 
 const MODAL_TYPES = {
   'contact': modalTypes.contactModal,
@@ -22,10 +22,10 @@ class ModalContainer extends React.Component {
     this.closeModal = this.closeModal.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     if (nextProps.modalProps.open !== this.props.modalProps.open) {
       this.setState({
-        modalIsOpen: nextProps.modalProps.open
+        modalIsOpen: !nextProps.modalProps.open
       })
     }
   }
