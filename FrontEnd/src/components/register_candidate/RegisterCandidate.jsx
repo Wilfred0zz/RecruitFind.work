@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Autocomplete from 'react-google-autocomplete';
+
 import axios from 'axios';
 
 class CandidateRegister extends Component{
@@ -19,13 +21,28 @@ class CandidateRegister extends Component{
     }
   }
 
-  handleChange=(event)=>{
+  handleChange = (event) =>{
     this.setState({
       [event.target.name]: event.target.value
     }, ()=>console.log(this.state))
   } 
 
-  redirectCandidateProfile=(event)=>{
+  handleGoogleChange = (event) =>{
+    const code = parseInt(event.address_components[7].long_name);
+    const state = event.address_components[5].short_name;
+    const address = event.address_components[0].long_name + ' '+ event.address_components[1].long_name;
+    const country = event.address_components;
+    const city = event.address_components[2].long_name;
+    this.setState({
+      "personal_street_address": address, 
+      "personal_city": city,
+      "personal_state": state, 
+      "personal_postal": code, 
+      "personal_country": country, 
+    })
+  }
+
+  redirectCandidateProfile = (event) =>{
     event.preventDefault();
     console.log('form filled');
     const user = {"email": this.state.email, 
@@ -70,12 +87,25 @@ class CandidateRegister extends Component{
                 <label className='password'> Password: </label>
                 <input type='text' name='password' placeholder="Password" onChange={this.handleChange}/>
                 <select onChange={this.handleChange} name='gender'>
+                  <option value="none" hidden> 
+                    gender
+                  </option> 
                   <option value='Male'>Male</option>
                   <option value='Female'>Female</option>
                   <option value='Other'>Other</option>
                 </select>
                 <p> Address </p>
-                <label className='personal_street_address'> Street: </label>
+                {/* Google Places API to return a location information */}
+                <Autocomplete
+                  style={{width: '50%'}}
+                  onPlaceSelected={(place) => {
+                    console.log(place);
+                    this.handleGoogleChange(place);
+                  }}
+                  types={['geocode', 'establishment']}
+                  componentRestrictions={{country: "us"}}/>  
+
+                {/* <label className='personal_street_address'> Street: </label>
                 <input type='text' name='personal_street_address' placeholder='First Name' onChange={this.handleChange}/>
                 <label className='personal_city'> City: </label>
                 <input type='text' name='personal_city' placeholder='City' onChange={this.handleChange}/>
@@ -84,8 +114,9 @@ class CandidateRegister extends Component{
                 <label className='personal_postal'> ZIP Code: </label>
                 <input type='text' name='personal_postal' placeholder='ZIP Code' onChange={this.handleChange}/>
                 <label className='personal_country'> Country: </label>
-                <input type='text' name='personal_country' placeholder='Country' onChange={this.handleChange}/>
-                <p> Country </p>
+                <input type='text' name='personal_country' placeholder='Country' onChange={this.handleChange}/> */}
+
+                <p> Contact </p>
                 <label className='phone_number'> Phone Number: </label>
                 <input type='text' name='phone_number' placeholder='xxx-xxx-xxxx' onChange={this.handleChange}/>
               </div>
