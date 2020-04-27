@@ -27,28 +27,16 @@ import ReactDOM from 'react-dom';
  */
 import { BrowserRouter } from 'react-router-dom';
 
-/**
- * This allows any components wrapped in the Provider to have
- * access to store. The store is our single source of truth. It 
- * containes our state and necesary info for our SPA.
- * For more https://react-redux.js.org/api/provider
- */
-import { Provider } from 'react-redux';
-
-
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import store from './store'
 
 // React.StrictMode has various advantages, ex: https://stackoverflow.com/questions/53183362/what-is-strictmode-in-react
 ReactDOM.render(
-  <Provider store={store}> 
-    <BrowserRouter>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </BrowserRouter>
-  </Provider>,
+  <BrowserRouter>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </BrowserRouter>,
    document.getElementById('root')
 );
 
