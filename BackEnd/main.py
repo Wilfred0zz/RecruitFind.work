@@ -1,20 +1,28 @@
 from flask import Flask, Blueprint
-from Routes.connection import connect
-from Routes.register import reg
-from Routes.login import log
-from Routes.recruiterProfile import rp
-from Routes.fetchRecruiterProfile import frp
-from Routes.updateRecruiterProfileInfo import urp
-from Routes.candidateProfile import cp
-from Routes.candidateExperiences import ce
-from Routes.updateCandidateProfileInfo import ucp
-from Routes.updateCandidateExperiences import uce
-from Routes.candidateLinks import cl
-from Routes.updateCandidateLinks import ucl
-from Routes.fetchCandidateExperiences import fce
-from Routes.fetchCandidateLinks import fcl
-from Routes.fetchCandidateProfileInfo import fcp
-from Routes.candidateSkills import cs
+
+#Connection Route
+from Routes.Connections.connection import connect
+
+#Authentication Routes
+from Routes.Authentication.register import reg
+from Routes.Authentication.login import log
+
+#Recruiter Routes
+from Routes.Recruiter.recruiterProfile import rp
+from Routes.Recruiter.fetchRecruiterProfile import frp
+from Routes.Recruiter.updateRecruiterProfileInfo import urp
+
+#Candidate Routes
+from Routes.Candidate.candidateProfile import cp
+from Routes.Candidate.candidateExperiences import ce
+from Routes.Candidate.updateCandidateProfileInfo import ucp
+from Routes.Candidate.updateCandidateExperiences import uce
+from Routes.Candidate.candidateLinks import cl
+from Routes.Candidate.updateCandidateLinks import ucl
+from Routes.Candidate.fetchCandidateExperiences import fce
+from Routes.Candidate.fetchCandidateLinks import fcl
+from Routes.Candidate.fetchCandidateProfileInfo import fcp
+from Routes.Candidate.candidateSkills import cs
 
 app = Flask(__name__)
 
