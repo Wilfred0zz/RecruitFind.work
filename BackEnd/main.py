@@ -14,6 +14,7 @@ from Routes.updateCandidateLinks import ucl
 from Routes.fetchCandidateExperiences import fce
 from Routes.fetchCandidateLinks import fcl
 from Routes.fetchCandidateProfileInfo import fcp
+from Routes.candidateSkills import cs
 
 app = Flask(__name__)
 
@@ -32,6 +33,7 @@ app.register_blueprint(ucl)
 app.register_blueprint(fce)
 app.register_blueprint(fcl)
 app.register_blueprint(fcp)
+app.register_blueprint(cs)
 
 
 if __name__ == '__main__':
