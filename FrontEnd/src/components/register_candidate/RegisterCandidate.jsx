@@ -41,13 +41,13 @@ class CandidateRegister extends Component{
       "status": "candidate", 
       "gender": this.state.gender
     }
-    
+
     axios.post('/api/register', user)
     .then((response)=>{
       // if(response.data.status === 'false'){
       //   alert()
       // }
-      console.log('i registered');
+      console.log('i registered', response);
     })
     .catch((error)=>{
       console.log(error);
