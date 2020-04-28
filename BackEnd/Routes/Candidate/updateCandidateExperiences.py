@@ -1,7 +1,6 @@
 from flask import Flask, Blueprint, request
 import psycopg2
 
-
 uce = Blueprint('updateCandidateExperiences', __name__)
 
 @uce.route("/api/updateCandidateExperiences", methods=["PUT"])
@@ -60,15 +59,15 @@ def updateCandidateExperiences():
                 cursor.execute(f"""SELECT experience_id FROM public."Candidate Experiences" WHERE user_id = '{currentUserId}'""")
                 queryResult = cursor.fetchall()
 
-                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle1}', description='{description1}', start_date='{startDate1}', end_date='{endDate1}', present='{present1}', is_deleted='{isDeleted1}' WHERE experience_id={queryResult[0][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle1}', description='{description1}', start_date='{startDate1}', end_date='{endDate1}', present='{present1}', is_deleted={isDeleted1} WHERE experience_id={queryResult[0][0]}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle2}', description='{description2}', start_date='{startDate2}', end_date='{endDate2}', present='{present2}', is_deleted='{isDeleted2}' WHERE experience_id={queryResult[1][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle2}', description='{description2}', start_date='{startDate2}', end_date='{endDate2}', present='{present2}', is_deleted={isDeleted2} WHERE experience_id={queryResult[1][0]}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle3}', description='{description3}', start_date='{startDate3}', end_date='{endDate3}', present='{present3}', is_deleted='{isDeleted3}' WHERE experience_id={queryResult[2][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle3}', description='{description3}', start_date='{startDate3}', end_date='{endDate3}', present='{present3}', is_deleted={isDeleted3} WHERE experience_id={queryResult[2][0]}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle4}', description='{description4}', start_date='{startDate4}', end_date='{endDate4}', present='{present4}', is_deleted='{isDeleted4}' WHERE experience_id={queryResult[3][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle4}', description='{description4}', start_date='{startDate4}', end_date='{endDate4}', present='{present4}', is_deleted={isDeleted4} WHERE experience_id={queryResult[3][0]}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle5}', description='{description5}', start_date='{startDate5}', end_date='{endDate5}', present='{present5}', is_deleted='{isDeleted5}' WHERE experience_id={queryResult[4][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Experiences" SET user_id={currentUserId}, role_title='{roleTitle5}', description='{description5}', start_date='{startDate5}', end_date='{endDate5}', present='{present5}', is_deleted={isDeleted5} WHERE experience_id={queryResult[4][0]}""")
                 database.commit()
                 
                 response['status'] = True

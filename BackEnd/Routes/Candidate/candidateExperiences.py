@@ -56,15 +56,15 @@ def storeCandidateExperiences():
             print("this is the user's id: ", currentUserId)
 
             if currentUserId:
-                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle1}', '{description1}', '{startDate1}', '{endDate1}', '{present1}', {isDeleted1})""")
+                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle1}', '{description1}', '{startDate1}', '{endDate1}', {present1}, {isDeleted1})""")
                 database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle2}', '{description2}', '{startDate2}', '{endDate2}', '{present2}', {isDeleted2})""")
+                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle2}', '{description2}', '{startDate2}', '{endDate2}', {present2}, {isDeleted2})""")
                 database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle3}', '{description3}', '{startDate3}', '{endDate3}', '{present3}', {isDeleted3})""")
+                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle3}', '{description3}', '{startDate3}', '{endDate3}', {present3}, {isDeleted3})""")
                 database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle4}', '{description4}', '{startDate4}', '{endDate4}', '{present4}', {isDeleted4})""")
+                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle4}', '{description4}', '{startDate4}', '{endDate4}', {present4}, {isDeleted4})""")
                 database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle5}', '{description5}', '{startDate5}', '{endDate5}', '{present5}', {isDeleted5})""")
+                cursor.execute(f"""INSERT INTO public."Candidate Experiences" (user_id, role_title, description, start_date, end_date, present, is_deleted) VALUES ('{currentUserId}', '{roleTitle5}', '{description5}', '{startDate5}', '{endDate5}', {present5}, {isDeleted5})""")
                 database.commit()
                 response['status'] = True
                 response['status_info'] = 'Candidate Experiences Stored Successfully'
