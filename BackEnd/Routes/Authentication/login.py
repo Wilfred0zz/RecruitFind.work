@@ -3,8 +3,8 @@ import psycopg2
 from passlib.hash import argon2
 import bcrypt
 import secrets
+from BackEnd.Database.databaseConnection import database
 
-database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
 
 #creates a cursor object to execute PostgreSQL commands via python
 cursor = database.cursor()
