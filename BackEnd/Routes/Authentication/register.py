@@ -8,54 +8,53 @@ reg = Blueprint('register', __name__)
 
 @reg.route("/api/register", methods=["POST"])
 def register():
-    database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+    try:
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
 
-    if database:
-        cursor = database.cursor()
-        response = dict()
-        data = request.get_json()
-        
-        for key, value in data.items():
-            error = checkValidityOfData(value, key)
-            if error != None:
-                return error, 400
-        
-        #the following will parse the json request data into their respective variables
-        email = data['email']
-        password = data['password']
-        firstName = data['first_name']
-        lastName = data['last_name']
-        personalStreetAddress = data['personal_street_address']
-        personalCity = data['personal_city']
-        personalState = data['personal_state']
-        personalPostal = data['personal_postal']
-        personalCountry = data['personal_country']
-        phoneNumber = data['phone_number']
-        status = data['status']
-        gender = data['gender']
+        if database:
+            cursor = database.cursor()
+            response = dict()
+            data = request.get_json()
+            
+            for key, value in data.items():
+                error = checkValidityOfData(value, key)
+                response['error'] = error
+                if error != None:
+                    return response, 400
+            
+            #the following will parse the json request data into their respective variables
+            email = data['email']
+            password = data['password']
+            firstName = data['first_name']
+            lastName = data['last_name']
+            personalStreetAddress = data['personal_street_address']
+            personalCity = data['personal_city']
+            personalState = data['personal_state']
+            personalPostal = data['personal_postal']
+            personalCountry = data['personal_country']
+            phoneNumber = data['phone_number']
+            status = data['status']
+            gender = data['gender']
 
-        salt = generate_salt_string()
-        encryptedPassword = encrypt_password(password, salt)
-        salt = salt.decode("utf-8")
+            salt = generate_salt_string()
+            encryptedPassword = encrypt_password(password, salt)
+            salt = salt.decode("utf-8")
 
 
-        cursor.execute(f"""SELECT * FROM public."Personal Information" WHERE email = '{email}' and first_name = '{firstName}'""")
-        account = cursor.fetchone()
+            cursor.execute(f"""SELECT * FROM public."Personal Information" WHERE email = '{email}' and first_name = '{firstName}'""")
+            account = cursor.fetchone()
 
-        #checks to see whether an account with this email and first name already exists in the database
-        if account:
-            response['status'] = False
-            response['status_info'] = 'user already exists'
-        else:
-            cursor.execute(f"""INSERT INTO public."Personal Information" (email, password, first_name, last_name, personal_street_address, personal_state, personal_city, personal_postal, personal_country, phone_number, status, gender, salts ) VALUES ('{email}', '{encryptedPassword}', '{firstName}', '{lastName}', '{personalStreetAddress}', '{personalState}', '{personalCity}', '{personalPostal}', '{personalCountry}', '{phoneNumber}', '{status}', '{gender}', '{salt}')""")
-            database.commit()
-            response['status'] = True
-            response['status_info'] = 'Account created successfully!'
-    else:
-        response['status']= False
-        response['status_info'] = 'Connection to database failed!'
-        
-    return response  
+            #checks to see whether an account with this email and first name already exists in the database
+            if not account:
+                cursor.execute(f"""INSERT INTO public."Personal Information" (email, password, first_name, last_name, personal_street_address, personal_state, personal_city, personal_postal, personal_country, phone_number, status, gender, salts ) VALUES ('{email}', '{encryptedPassword}', '{firstName}', '{lastName}', '{personalStreetAddress}', '{personalState}', '{personalCity}', '{personalPostal}', '{personalCountry}', '{phoneNumber}', '{status}', '{gender}', '{salt}')""")
+                database.commit()
+                response['status'] = True
+                response['status_info'] = 'Account created successfully!'
+                return response
+                
+    except Exception as e:
+        print("This is e: ", e)
+        return (str(e))
 
 def generate_salt_string():
     salt_string = bcrypt.gensalt()
