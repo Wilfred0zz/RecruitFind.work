@@ -43,10 +43,11 @@ class CandidateRegister extends Component{
     })
   }
 
-  redirectCandidateProfile = (event) =>{
+  redirectCandidateProfile = async (event) =>{
     event.preventDefault();
     console.log('form filled');
-    const user = {"email": this.state.email, 
+    const user = {
+      "email": this.state.email, 
       "password": this.state.password, 
       "first_name": this.state.last_name, 
       "last_name": this.state.last_name, 
@@ -59,17 +60,28 @@ class CandidateRegister extends Component{
       "status": "candidate", 
       "gender": this.state.gender
     }
-
-    axios.post('/api/register', user)
-    .then((response)=>{
-      console.log('i registered', response);
-      if(response.data.status === true){
-        console.log("sucess")
+    
+    try {
+      const response = await fetch('/api/register', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(user)
+        });
+    
+      const status = response.status;   
+      const result = await response.json();
+    
+      if (status === 400 || status === 500) {
+        alert(result.error);
+      } else {
+        console.log(result.status_info);
       }
-    })
-    .catch((error)=>{
+    } catch (error) {
       console.log(error);
-    })
+    }
   }
 
   render() {
@@ -119,7 +131,7 @@ class CandidateRegister extends Component{
 
                 <p> Contact </p>
                 <label className='phone_number'> Phone Number: </label>
-                <input type='text' name='phone_number' placeholder='xxx-xxx-xxxx' onChange={this.handleChange}/>
+                <input type='tel' name='phone_number' placeholder='xxx-xxx-xxxx' onChange={this.handleChange}/>
               </div>
               <button onClick={this.redirectCandidateProfile}>Register</button>
             </form>

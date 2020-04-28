@@ -21,17 +21,21 @@ class MainPage extends Component {
 
   confirmLogIn=(event)=>{
     event.preventDefault();
-    axios.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
+    fetch.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
     .then((response) => {
-      if(response.data.status === true)
-        console.log("I have logged in", response.data.status_info);
-      else {
-        this.setState({
-          email: '',
-          password: ''
-        })
-        alert("error: " + response.data.status_info);
-      }
+      // if(response.data.status === true)
+      //   console.log("I have logged in", response.data.status_info);
+      // else {
+      //   this.setState({
+      //     email: '',
+      //     password: ''
+      //   })
+      //   alert("error: " + response.data.status_info);
+      // }
+      console.log(response);
+    })
+    .catch(err=>{
+      alert(err);
     });
   }
 
