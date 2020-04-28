@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"recruiter2@gmail.com\",\n    \"password\": \"blunkie123\",\n    \"first_name\": \"Wil suks @ csgo\",\n    \"last_name\": \"Big papi-Caitlin\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"New York\",\n    \"personal_state\": \"NY\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"raw": "{\n    \"email\": \"brgrhbhrb\",\n    \"password\": \"blunkie123\",\n    \"first_name\": \"jbcjdbv\",\n    \"last_name\": \"\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"\",\n    \"password\": \"\"\n}",
+					"raw": "{\n    \"email\": \"suc\",\n    \"password\": \"wil\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
