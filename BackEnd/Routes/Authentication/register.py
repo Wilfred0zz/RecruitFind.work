@@ -9,7 +9,7 @@ reg = Blueprint('register', __name__)
 @reg.route("/api/register", methods=["POST"])
 def register():
     database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
-    
+
     if database:
         cursor = database.cursor()
         response = dict()
@@ -28,6 +28,54 @@ def register():
         phoneNumber = data['phone_number']
         status = data['status']
         gender = data['gender']
+
+        result = checkValidityOfData(email, "email")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(password, "password")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(firstName, "first_name")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(lastName, "last_name")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(personalStreetAddress, "personal_street_address")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(personalCity, "personal_city")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(personalState, "personal_state")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(personalPostal, "personal_postal")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(personalCountry, "personal_country")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(phoneNumber, "phone_number")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(status, "status")
+        if result != None:
+            return result, 400
+
+        result = checkValidityOfData(gender, "gender")
+        if result != None:
+            return result, 400
 
         salt = generate_salt_string()
         encryptedPassword = encrypt_password(password, salt)
@@ -59,3 +107,13 @@ def generate_salt_string():
 def encrypt_password(password_unencrypted, salt_string):
     encrypted_password = argon2.using(rounds=5, salt=salt_string).hash(password_unencrypted)
     return encrypted_password
+
+def checkValidityOfData(requestData, typeOfData):
+    print("this is request data: ", requestData)
+    print("in here")
+    if requestData == "":
+        print("empty")
+        print("this is request data!", requestData)
+        error = typeOfData + " needs a value!"
+        return error
+    
