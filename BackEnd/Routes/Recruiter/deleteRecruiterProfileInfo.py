@@ -1,10 +1,10 @@
 from flask import Flask, Blueprint, request
 import psycopg2
 
-rp = Blueprint('recruiterProfile', __name__)
+drp = Blueprint('deleteRecruiterProfileInfo', __name__)
 
-@rp.route("/api/recruiterProfile", methods=["POST"])
-def createRecruiterProfile():
+@drp.route("/api/deleteRecruiterProfileInfo", methods=["PUT"])
+def deleteRecruiterProfileInfo():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
@@ -28,10 +28,10 @@ def createRecruiterProfile():
             currentUserId = cursor.fetchone()[0]
 
             if currentUserId:
-                cursor.execute(f"""INSERT INTO public."Recruiter Company Information" (user_id, recruiter_company, recruiter_position, recruiter_company_street_address, recruiter_city, recruiter_postal, recruiter_country, recruiter_state, is_deleted) VALUES ({currentUserId} ,'{recruiterCompany}', '{recruiterPosition}', '{recruiterCompanyStreetAddress}', '{recruiterCity}', '{recruiterPostal}', '{recruiterCountry}', '{recruiterState}', {isDeleted})""")
+                cursor.execute(f"""UPDATE public."Recruiter Company Information" SET recruiter_company='{recruiterCompany}', recruiter_position='{recruiterPosition}', recruiter_company_street_address='{recruiterCompanyStreetAddress}', recruiter_city='{recruiterCity}', recruiter_postal='{recruiterPostal}', recruiter_country='{recruiterCountry}', recruiter_state='{recruiterState}', is_deleted={isDeleted} WHERE user_id={currentUserId}""")
                 database.commit()
                 response['status'] = True
-                response['status_info'] = 'Recruiter Profile Created Successfully'
+                response['status_info'] = 'Recruiter Profile Info Deleted Successfully'
             else:
                 error = "Invalid Token!"
                 response['error'] = error
@@ -42,6 +42,5 @@ def createRecruiterProfile():
             raise Exception(response)
     except Exception:
         return response, 400
-        
-    
-    return response
+
+    return response 

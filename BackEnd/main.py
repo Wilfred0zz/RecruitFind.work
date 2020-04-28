@@ -11,6 +11,7 @@ from Routes.Authentication.login import log
 from Routes.Recruiter.recruiterProfile import rp
 from Routes.Recruiter.fetchRecruiterProfile import frp
 from Routes.Recruiter.updateRecruiterProfileInfo import urp
+from Routes.Recruiter.deleteRecruiterProfileInfo import drp
 
 #Candidate Routes
 from Routes.Candidate.candidateProfile import cp
@@ -23,6 +24,8 @@ from Routes.Candidate.fetchCandidateExperiences import fce
 from Routes.Candidate.fetchCandidateLinks import fcl
 from Routes.Candidate.fetchCandidateProfileInfo import fcp
 from Routes.Candidate.candidateSkills import cs
+from Routes.Candidate.deleteCandidateExperiences import dce
+from Routes.Candidate.deleteCandidateLinks import dcl
 
 app = Flask(__name__)
 
@@ -42,6 +45,9 @@ app.register_blueprint(fce)
 app.register_blueprint(fcl)
 app.register_blueprint(fcp)
 app.register_blueprint(cs)
+app.register_blueprint(dce)
+app.register_blueprint(dcl)
+app.register_blueprint(drp)
 
 
 if __name__ == '__main__':

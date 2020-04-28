@@ -20,7 +20,7 @@ def register():
                 error = checkValidityOfData(value, key)
                 response['error'] = error
                 if error != None:
-                    return response, 400
+                    raise Exception(response)
             
             #the following will parse the json request data into their respective variables
             email = data['email']
@@ -52,12 +52,12 @@ def register():
                 response['status'] = True
                 response['status_info'] = 'Account created successfully!'
                 return response
-            else: 
-                raise Exception()
+            else:
+                response['error'] = "User Already Exists!" 
+                raise Exception(response)
                 
-    except Exception as e:
-        e = "User Already Exists!"
-        return (str(e))
+    except Exception:
+        return (response, 400)
 
 def generate_salt_string():
     salt_string = bcrypt.gensalt()
