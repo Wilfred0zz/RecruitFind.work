@@ -15,6 +15,11 @@ def register():
         response = dict()
         data = request.get_json()
         
+        for key, value in data.items():
+            error = checkValidityOfData(value, key)
+            if error != None:
+                return error, 400
+        
         #the following will parse the json request data into their respective variables
         email = data['email']
         password = data['password']
@@ -28,66 +33,6 @@ def register():
         phoneNumber = data['phone_number']
         status = data['status']
         gender = data['gender']
-
-        result = checkValidityOfData(email, "email")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(password, "password")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(firstName, "first_name")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(lastName, "last_name")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(personalStreetAddress, "personal_street_address")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(personalCity, "personal_city")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(personalState, "personal_state")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(personalPostal, "personal_postal")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(personalCountry, "personal_country")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(phoneNumber, "phone_number")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(status, "status")
-        if result != None:
-            response['error'] = result
-            return response, 400
-
-        result = checkValidityOfData(gender, "gender")
-        if result != None:
-            response['error'] = result
-            return response, 400
 
         salt = generate_salt_string()
         encryptedPassword = encrypt_password(password, salt)
@@ -121,11 +66,9 @@ def encrypt_password(password_unencrypted, salt_string):
     return encrypted_password
 
 def checkValidityOfData(requestData, typeOfData):
-    print("this is request data: ", requestData)
-    print("in here")
     if requestData == "":
-        print("empty")
-        print("this is request data!", requestData)
         error = typeOfData + " needs a value!"
         return error
+    else:
+        return None
     
