@@ -20,15 +20,18 @@ class MainPage extends Component {
   } 
 
   confirmLogIn=(event)=>{
-    // prevent default form action
     event.preventDefault();
-    console.log("Im In");
     axios.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
     .then((response) => {
-        console.log(response);
-    })
-    .catch((error)=>{
-        console.log(error);
+      if(response.data.status === true)
+        console.log("I have logged in", response.data.status_info);
+      else {
+        this.setState({
+          email: '',
+          password: ''
+        })
+        alert("error: " + response.data.status_info);
+      }
     });
   }
 
@@ -42,9 +45,9 @@ class MainPage extends Component {
             <form className='log-in-form'>
               <div className='email-password'>
                 <label className='email'> Email: </label>
-                <input type='text' name='email' placeholder='Email' onChange={this.handleChange}/>
+                <input type='text' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
                 <label className='password'> Password: </label>
-                <input type='text' name='password' placeholder="Password" onChange={this.handleChange}/>
+                <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>
               <button onClick={this.confirmLogIn}>Log In</button>
             </form>

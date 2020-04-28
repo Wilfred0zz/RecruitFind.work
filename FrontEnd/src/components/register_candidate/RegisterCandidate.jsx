@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Autocomplete from 'react-google-autocomplete';
 
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class CandidateRegister extends Component{
   constructor(props){
@@ -31,8 +32,8 @@ class CandidateRegister extends Component{
     const code = parseInt(event.address_components[7].long_name);
     const state = event.address_components[5].short_name;
     const address = event.address_components[0].long_name + ' '+ event.address_components[1].long_name;
-    const country = event.address_components;
-    const city = event.address_components[2].long_name;
+    const country = event.address_components[6].short_name;
+    const city = event.address_components[2].short_name;
     this.setState({
       "personal_street_address": address, 
       "personal_city": city,
@@ -61,10 +62,10 @@ class CandidateRegister extends Component{
 
     axios.post('/api/register', user)
     .then((response)=>{
-      // if(response.data.status === 'false'){
-      //   alert()
-      // }
       console.log('i registered', response);
+      if(response.data.status === true){
+        console.log("sucess")
+      }
     })
     .catch((error)=>{
       console.log(error);
