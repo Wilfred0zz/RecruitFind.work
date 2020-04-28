@@ -16,19 +16,23 @@ def login():
         data = request.get_json()
 
         email = data['email']
+        
+        if len(email) == 0:
+            Response = ""
+            return Response, 400
+
         cursor.execute(f"""SELECT COUNT(1) FROM public."Personal Information" WHERE email = '{email}'""")
 
         #checks to see whether or not the user exists
         if not cursor.fetchone()[0]:
-            if len(email) == 0:
-                Response = ""
-                return Response, 404
+            response['status']= False
+            response['status_info'] = 'User does not exist!'
         
         else:
             password = data['password']
             if len(password) == 0:
                 Response = ""
-                return Response, 404
+                return Response, 400
 
             cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
             results = cursor.fetchall()
