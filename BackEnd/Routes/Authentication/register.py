@@ -46,14 +46,17 @@ def register():
 
             #checks to see whether an account with this email and first name already exists in the database
             if not account:
+                print("not in here!!!!!!!!!!")
                 cursor.execute(f"""INSERT INTO public."Personal Information" (email, password, first_name, last_name, personal_street_address, personal_state, personal_city, personal_postal, personal_country, phone_number, status, gender, salts ) VALUES ('{email}', '{encryptedPassword}', '{firstName}', '{lastName}', '{personalStreetAddress}', '{personalState}', '{personalCity}', '{personalPostal}', '{personalCountry}', '{phoneNumber}', '{status}', '{gender}', '{salt}')""")
                 database.commit()
                 response['status'] = True
                 response['status_info'] = 'Account created successfully!'
                 return response
+            else: 
+                raise Exception()
                 
     except Exception as e:
-        print("This is e: ", e)
+        e = "User Already Exists!"
         return (str(e))
 
 def generate_salt_string():
