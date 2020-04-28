@@ -31,51 +31,63 @@ def register():
 
         result = checkValidityOfData(email, "email")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(password, "password")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(firstName, "first_name")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(lastName, "last_name")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(personalStreetAddress, "personal_street_address")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(personalCity, "personal_city")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(personalState, "personal_state")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(personalPostal, "personal_postal")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(personalCountry, "personal_country")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(phoneNumber, "phone_number")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(status, "status")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         result = checkValidityOfData(gender, "gender")
         if result != None:
-            return result, 400
+            response['error'] = result
+            return response, 400
 
         salt = generate_salt_string()
         encryptedPassword = encrypt_password(password, salt)
