@@ -16,23 +16,23 @@ def login():
         data = request.get_json()
 
         email = data['email']
-        
+
         if len(email) == 0:
-            Response = ""
-            return Response, 400
+            error = ""
+            return error, 400
 
         cursor.execute(f"""SELECT COUNT(1) FROM public."Personal Information" WHERE email = '{email}'""")
 
         #checks to see whether or not the user exists
         if not cursor.fetchone()[0]:
-            response['status']= False
-            response['status_info'] = 'User does not exist!'
+            error = ""
+            return error, 400
         
         else:
             password = data['password']
             if len(password) == 0:
-                Response = ""
-                return Response, 400
+                error = ""
+                return error, 400
 
             cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
             results = cursor.fetchall()
@@ -50,8 +50,8 @@ def login():
                     response = make_response("User Authenticated")
                     response.set_cookie('token', token)
     else:
-        response['status']= False
-        response['status_info'] = 'Connection to database failed!'
+        error = ""
+        return  error, 400
                 
     return response
 
