@@ -64,8 +64,7 @@ def fetchCandidateProfileInfo():
                         response['status_info'] = 'Candidate Profile Info Fetched Successfully'
                     else:
                         error = "Candidate Interests Do Not Exist!"
-                        response['error'] = error
-                        raise Exception(response)  
+                        response['error'] = error 
                 else:
                     error = "Candidate Profile Does Not Exist!"
                     response['error'] = error
