@@ -193,7 +193,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Bachelors\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L3 Software Engineer\",\n    \"name_of_interest_1\": \"swimming\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"reading\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dancing\",\n    \"is_deleted_3\": false\n}",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Bachelors\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L3 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"swimming\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"reading\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dancing\",\n    \"is_deleted_3\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -257,7 +257,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": \"false\",\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": \"false\",\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": \"false\"\n}",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -547,6 +547,93 @@
 					"path": [
 						"api",
 						"deleteRecruiterProfileInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidateExperiences",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidateExperiences",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidateExperiences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCandidateProfile",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/deleteCandidateProfile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"deleteCandidateProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCandidateInterests",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": true,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": true,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/deleteCandidateInterests",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"deleteCandidateInterests"
 					]
 				}
 			},
