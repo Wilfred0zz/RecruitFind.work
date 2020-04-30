@@ -3,6 +3,7 @@ import psycopg2
 from passlib.hash import argon2
 import bcrypt
 import secrets
+from validate_email import validate_email
 
 
 log = Blueprint('login', __name__)
@@ -16,11 +17,16 @@ def login():
             response = dict()
             data = request.get_json()
 
-            email = data['email']
+            email = data['email'].lower()
 
             if len(email) == 0:
                 error = "Email Needs Value!"
                 response["error"] = error
+                raise Exception(response)
+
+            isValid = validate_email(email)
+            if(not isValid):
+                response['error'] = "Entered Email Is Not Valid!" 
                 raise Exception(response)
 
             cursor.execute(f"""SELECT COUNT(1) FROM public."Personal Information" WHERE email = '{email}'""")
@@ -65,7 +71,7 @@ def login():
             raise Exception(response)
 
     except Exception:            
-        return response, 400
+        return (response, 400)
     
     return response
 
