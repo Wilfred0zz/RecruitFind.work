@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request
 import psycopg2
 from passlib.hash import argon2
 import bcrypt
-
+from validate_email import validate_email
 
 reg = Blueprint('register', __name__)
 
@@ -35,26 +35,35 @@ def register():
             phoneNumber = data['phone_number']
             status = data['status']
             gender = data['gender']
+            
+            isValid = validate_email(email)
+            
+            if isValid:
+                salt = generate_salt_string()
+                encryptedPassword = encrypt_password(password, salt)
+                salt = salt.decode("utf-8")
 
-            salt = generate_salt_string()
-            encryptedPassword = encrypt_password(password, salt)
-            salt = salt.decode("utf-8")
 
+                cursor.execute(f"""SELECT * FROM public."Personal Information" WHERE email = '{email}' and first_name = '{firstName}'""")
+                account = cursor.fetchone()
 
-            cursor.execute(f"""SELECT * FROM public."Personal Information" WHERE email = '{email}' and first_name = '{firstName}'""")
-            account = cursor.fetchone()
-
-            #checks to see whether an account with this email and first name already exists in the database
-            if not account:
-                print("not in here!!!!!!!!!!")
-                cursor.execute(f"""INSERT INTO public."Personal Information" (email, password, first_name, last_name, personal_street_address, personal_state, personal_city, personal_postal, personal_country, phone_number, status, gender, salts ) VALUES ('{email}', '{encryptedPassword}', '{firstName}', '{lastName}', '{personalStreetAddress}', '{personalState}', '{personalCity}', '{personalPostal}', '{personalCountry}', '{phoneNumber}', '{status}', '{gender}', '{salt}')""")
-                database.commit()
-                response['status'] = True
-                response['status_info'] = 'Account created successfully!'
-                return response
+                #checks to see whether an account with this email and first name already exists in the database
+                if not account:
+                    cursor.execute(f"""INSERT INTO public."Personal Information" (email, password, first_name, last_name, personal_street_address, personal_state, personal_city, personal_postal, personal_country, phone_number, status, gender, salts ) VALUES ('{email}', '{encryptedPassword}', '{firstName}', '{lastName}', '{personalStreetAddress}', '{personalState}', '{personalCity}', '{personalPostal}', '{personalCountry}', '{phoneNumber}', '{status}', '{gender}', '{salt}')""")
+                    database.commit()
+                    response['status'] = True
+                    response['status_info'] = 'Account created successfully!'
+                    return response
+                else:
+                    response['error'] = "User Already Exists!" 
+                    raise Exception(response)
             else:
-                response['error'] = "User Already Exists!" 
+                response['error'] = "Entered Email Is Not Valid!" 
                 raise Exception(response)
+        else:
+            error = "Connection to database failed!"
+            response['error'] = error
+            raise Exception(response)
                 
     except Exception:
         return (response, 400)
