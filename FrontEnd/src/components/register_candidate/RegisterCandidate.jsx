@@ -73,7 +73,7 @@ class CandidateRegister extends Component{
     
       const status = response.status;   
       const result = await response.json();
-    
+      console.log(result);
       if (status === 400 || status === 500) {
         alert(result.error);
       } else {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useReducer } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -13,16 +13,29 @@ class MainPage extends Component {
     };
   }
 
-  handleChange=(event)=>{
+  handleChange = (event) =>{
     this.setState({
       [event.target.name]: event.target.value
     }, ()=>console.log(this.state))
   } 
 
-  confirmLogIn=(event)=>{
+  confirmLogIn = async (event) =>{
     event.preventDefault();
-    fetch.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
-    .then((response) => {
+    const user = {
+      "email": this.state.email, 
+      "password": this.state.password
+    }
+    // if(user.email === '') {
+    //   alert("Please enter email")
+    //   return;
+    // }
+    // else if (user.password === ''){
+    //   alert ("Please enter password")
+    //   return;
+    // }
+    
+    // axios.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
+    // .then((response) => {
       // if(response.data.status === true)
       //   console.log("I have logged in", response.data.status_info);
       // else {
@@ -32,11 +45,34 @@ class MainPage extends Component {
       //   })
       //   alert("error: " + response.data.status_info);
       // }
-      console.log(response);
-    })
-    .catch(err=>{
-      alert(err);
-    });
+    //   console.log(response);
+    // })
+    // .catch(err=>{
+    //   console.log(err);
+    // });
+    try{
+      const response = await fetch('/api/login', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(user)
+      });
+
+      const status = response.status;
+      const result = await response.json();
+      console.log('the response is', result)
+
+      if (status >= 400) {
+        // alert("Your password or email is incorrect. Please try again");
+        alert(result.error);
+      } else {
+        console.log("user exists", result.status);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -49,7 +85,7 @@ class MainPage extends Component {
             <form className='log-in-form'>
               <div className='email-password'>
                 <label className='email'> Email: </label>
-                <input type='text' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
+                <input type='email' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
                 <label className='password'> Password: </label>
                 <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>
