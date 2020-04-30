@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"1\",\n    \"password\": \"blunkie123\",\n    \"first_name\": \"john\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"raw": "{\n    \"email\": \"wilfredo.erecinos8@gmail.com \",\n    \"password\": \"blunkie123\",\n    \"first_name\": \"john\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"1\",\n    \"password\": \"blunkie123\"\n}",
+					"raw": "{\n    \"email\": \"wilfredo.erecinos8@gmail.com \",\n    \"password\": \"blunkie123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"cooking\"\n}",
+					"raw": "{\n\t\"skill\": \"cooking\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -634,6 +634,38 @@
 					"path": [
 						"api",
 						"deleteCandidateInterests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCandidateSkill",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"skill\": \"cooking\",\n\t\"is_deleted\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/deleteCandidateSkill",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"deleteCandidateSkill"
 					]
 				}
 			},
