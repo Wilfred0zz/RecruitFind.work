@@ -16,37 +16,44 @@ def storeCandidateSkills():
             token = request.cookies.get('token')
 
             skill = data['skill']
-            lcSkill = skill.lower()
+            if len(skill) != 0:
+                
+                lcSkill = skill.lower()
 
-            cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
+                cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
-            currentUserId = cursor.fetchone()[0]
+                currentUserId = cursor.fetchone()[0]
 
-            if currentUserId:
-                query = (f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{lcSkill}')""")
-                cursor.execute(query)
+                if currentUserId:
+                    query = (f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{lcSkill}')""")
+                    cursor.execute(query)
 
-                if cursor.fetchone() != None:
-                    cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
-                    skillId = cursor.fetchone()[0]
-                    cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
-                    database.commit()
-                    response['status'] = True
-                    response['status_info'] = 'Skill Already Exists! Skill Stored For Candidate Successfully'
+                    if cursor.fetchone() != None:
+                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
+                        skillId = cursor.fetchone()[0]
+                        cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
+                        database.commit()
+                        response['status'] = True
+                        response['status_info'] = 'Skill Already Exists! Skill Stored For Candidate Successfully'
+                    else:
+                        print(cursor.fetchone())
+                        cursor.execute(f"""INSERT INTO public."Skills" (skill) VALUES ('{lcSkill}')""")
+                        database.commit()
+                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
+                        skillId = cursor.fetchone()[0]
+                        cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
+                        database.commit()
+                        response['status'] = True
+                        response['status_info'] = 'Candidate Skill Stored Successfully'
                 else:
-                    print(cursor.fetchone())
-                    cursor.execute(f"""INSERT INTO public."Skills" (skill) VALUES ('{lcSkill}')""")
-                    database.commit()
-                    cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
-                    skillId = cursor.fetchone()[0]
-                    cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
-                    database.commit()
-                    response['status'] = True
-                    response['status_info'] = 'Candidate Skill Stored Successfully'
+                    error = "Invalid Token!"
+                    response['error'] = error
+                    raise Exception(response)
             else:
-                error = "Invalid Token!"
+                error = "Skills Needs A Value!"
                 response['error'] = error
                 raise Exception(response)
+
         else:
             error = "Connection To Database Failed!"
             response['error'] = error

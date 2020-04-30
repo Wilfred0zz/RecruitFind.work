@@ -28,6 +28,7 @@ from Routes.Candidate.deleteCandidateExperiences import dce
 from Routes.Candidate.deleteCandidateLinks import dcl
 from Routes.Candidate.deleteCandidateProfile import dcp
 from Routes.Candidate.deleteCandidateInterests import dci
+from Routes.Candidate.deleteCandidateSkill import dcs
 
 app = Flask(__name__)
 
@@ -52,6 +53,7 @@ app.register_blueprint(dcl)
 app.register_blueprint(drp)
 app.register_blueprint(dcp)
 app.register_blueprint(dci)
+app.register_blueprint(dcs)
 
 
 if __name__ == '__main__':
