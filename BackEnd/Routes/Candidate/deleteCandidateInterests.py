@@ -1,10 +1,12 @@
 from flask import Flask, Blueprint, request
 import psycopg2
+from passlib.hash import argon2
+import bcrypt
 
-cp = Blueprint('candidateProfile', __name__)
+dci = Blueprint('deleteCandidateInterests', __name__)
 
-@cp.route("/api/candidateProfile", methods=["POST"])
-def createCandidateProfile():
+@dci.route("/api/deleteCandidateInterests", methods=["PUT"])
+def deleteCandidateInterests():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
@@ -14,11 +16,7 @@ def createCandidateProfile():
 
             token = request.cookies.get('token')
             print("this is the token from broswer: ", token)
-
-            candidateSchool = data['candidate_school']
-            candidateHighestLevelOfEducation = data['candidate_highest_level_of_education']
-            candidateDescription = data['candidate_description']
-            candidateCurrentPosition = data['candidate_current_position']
+ 
             nameOfInterest1 = data['name_of_interest_1']
             isDeleted1 = data['is_deleted_1']
             nameOfInterest2 = data['name_of_interest_2']
@@ -32,16 +30,17 @@ def createCandidateProfile():
             print("this is the user's id: ", currentUserId)
 
             if currentUserId:
-                cursor.execute(f"""INSERT INTO public."Candidate Information" (user_id, candidate_school, candidate_highest_level_of_education, candidate_description, candidate_current_position, is_candidate_profile_deleted) VALUES ('{currentUserId}', '{candidateSchool}', '{candidateHighestLevelOfEducation}', '{candidateDescription}', '{candidateCurrentPosition}', {False})""")
+                cursor.execute(f"""SELECT interest_id FROM public."Candidate Interests" WHERE user_id = '{currentUserId}'""")
+                queryResult = cursor.fetchall()
+            
+                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest1}', is_deleted={isDeleted1} WHERE interest_id={queryResult[0][0]}""")
                 database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Interests" (user_id, name_of_interest, is_deleted) VALUES ('{currentUserId}', '{nameOfInterest1}', {isDeleted1})""")
+                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest2}', is_deleted={isDeleted2} WHERE interest_id={queryResult[1][0]}""")
                 database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Interests" (user_id, name_of_interest, is_deleted) VALUES ('{currentUserId}', '{nameOfInterest2}', {isDeleted2})""")
-                database.commit()
-                cursor.execute(f"""INSERT INTO public."Candidate Interests" (user_id, name_of_interest, is_deleted) VALUES ('{currentUserId}', '{nameOfInterest3}', {isDeleted3})""")
+                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest3}', is_deleted={isDeleted3} WHERE interest_id={queryResult[2][0]}""")
                 database.commit()
                 response['status'] = True
-                response['status_info'] = 'Candidate Profile Created Successfully'
+                response['status_info'] = 'Candidate Interests Deleted Successfully'
             else:
                 error = "Invalid Token!"
                 response['error'] = error

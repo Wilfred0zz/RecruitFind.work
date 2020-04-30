@@ -21,6 +21,7 @@ def updateCandidateProfileInfo():
             candidateHighestLevelOfEducation = data['candidate_highest_level_of_education']
             candidateDescription = data['candidate_description']
             candidateCurrentPosition = data['candidate_current_position']
+            
             nameOfInterest1 = data['name_of_interest_1']
             isDeleted1 = data['is_deleted_1']
             nameOfInterest2 = data['name_of_interest_2']
@@ -37,13 +38,13 @@ def updateCandidateProfileInfo():
                 cursor.execute(f"""SELECT interest_id FROM public."Candidate Interests" WHERE user_id = '{currentUserId}'""")
                 queryResult = cursor.fetchall()
             
-                cursor.execute(f"""UPDATE public."Candidate Information" SET user_id={currentUserId}, candidate_school='{candidateSchool}', candidate_highest_level_of_education='{candidateHighestLevelOfEducation}', candidate_description='{candidateDescription}', candidate_current_position='{candidateCurrentPosition}' WHERE user_id={currentUserId}""")
+                cursor.execute(f"""UPDATE public."Candidate Information" SET user_id={currentUserId}, candidate_school='{candidateSchool}', candidate_highest_level_of_education='{candidateHighestLevelOfEducation}', candidate_description='{candidateDescription}', candidate_current_position='{candidateCurrentPosition}', is_candidate_profile_deleted={False} WHERE user_id={currentUserId}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest1}', is_deleted='{isDeleted1}' WHERE interest_id={queryResult[0][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest1}', is_deleted={isDeleted1} WHERE interest_id={queryResult[0][0]}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest2}', is_deleted='{isDeleted2}' WHERE interest_id={queryResult[1][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest2}', is_deleted={isDeleted2} WHERE interest_id={queryResult[1][0]}""")
                 database.commit()
-                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest3}', is_deleted='{isDeleted3}' WHERE interest_id={queryResult[2][0]}""")
+                cursor.execute(f"""UPDATE public."Candidate Interests" SET user_id={currentUserId}, name_of_interest='{nameOfInterest3}', is_deleted={isDeleted3} WHERE interest_id={queryResult[2][0]}""")
                 database.commit()
                 response['status'] = True
                 response['status_info'] = 'Candidate Profile Info Updated Successfully'
