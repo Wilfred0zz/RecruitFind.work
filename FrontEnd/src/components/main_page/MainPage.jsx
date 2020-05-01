@@ -15,7 +15,7 @@ class MainPage extends Component {
   handleChange = (event) =>{
     this.setState({
       [event.target.name]: event.target.value
-    }, ()=>console.log(this.state))
+    })
   } 
 
   confirmLogIn = async (event) =>{
@@ -40,7 +40,7 @@ class MainPage extends Component {
       if (status === 400 || status === 500) {
         alert(result.error);
       } else {
-        console.log("user exists", result);
+        console.log("Successfully logged in");
       }
     } catch (error) {
       console.log(error);

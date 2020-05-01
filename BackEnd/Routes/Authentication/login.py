@@ -29,6 +29,12 @@ def login():
                 response['error'] = "Entered Email Is Not Valid!" 
                 raise Exception(response)
 
+            password = data['password']
+            if(len(password) == 0):
+                error = "Password Needs Value!"
+                response["error"] = error
+                raise Exception(response)
+
             cursor.execute(f"""SELECT COUNT(1) FROM public."Personal Information" WHERE email = '{email}'""")
 
             #checks to see whether or not the user exists
@@ -38,12 +44,6 @@ def login():
                 raise Exception(response)
             
             else:
-                password = data['password']
-                if len(password) == 0:
-                    error = "Password Needs Value!"
-                    response["error"] = error
-                    raise Exception(response)
-
                 cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
                 results = cursor.fetchall()
                 print("this is results: ", results)
