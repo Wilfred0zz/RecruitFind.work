@@ -41,6 +41,7 @@ from Routes.Candidate.Skills.fetchCandidateSkills import fcs
 
 #Query Routes
 from Routes.Queries.query import qry
+from Routes.Queries.queryResult import qryrslt
 
 app = Flask(__name__)
 
@@ -85,6 +86,7 @@ app.register_blueprint(fcs)
 
 #Query Blueprints
 app.register_blueprint(qry)
+app.register_blueprint(qryrslt)
 
 
 if __name__ == '__main__':
