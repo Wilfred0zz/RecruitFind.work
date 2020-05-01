@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"playing games\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"skill\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"cooking\",\n\t\"is_deleted\": true\n}",
+					"raw": "{\n\t\"skill\": \"playing games\",\n\t\"is_deleted\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -689,6 +689,38 @@
 					"path": [
 						"api",
 						"fetchCandidateSkills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "query",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"swift\",\n\t\"desired_skill_5\": \"flutter\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/query",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"query"
 					]
 				}
 			},

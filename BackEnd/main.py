@@ -39,6 +39,9 @@ from Routes.Candidate.Skills.candidateSkills import cs
 from Routes.Candidate.Skills.deleteCandidateSkill import dcs
 from Routes.Candidate.Skills.fetchCandidateSkills import fcs
 
+#Query Routes
+from Routes.Queries.query import qry
+
 app = Flask(__name__)
 
 #Connection Blueprint
@@ -79,6 +82,9 @@ app.register_blueprint(dce)
 app.register_blueprint(cs)
 app.register_blueprint(dcs)
 app.register_blueprint(fcs)
+
+#Query Blueprints
+app.register_blueprint(qry)
 
 
 if __name__ == '__main__':
