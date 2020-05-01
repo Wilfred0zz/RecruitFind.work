@@ -4,7 +4,7 @@ from passlib.hash import argon2
 import bcrypt
 import secrets
 from validate_email import validate_email
-
+import json
 
 log = Blueprint('login', __name__)
 
@@ -58,7 +58,9 @@ def login():
                         token = encrypt_function(email, tokenSalt)
                         cursor.execute(f"""UPDATE public."Personal Information" SET token='{token}' WHERE token IS NULL""")
                         database.commit()
-                        response = make_response("User Authenticated")
+                        response = make_response(json.dumps({
+                            'status_info': 'User Logged In'
+                        }))
                         response.set_cookie('token', token)
                     else:
                         error = "Incorrect Password"

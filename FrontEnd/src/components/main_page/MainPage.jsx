@@ -1,5 +1,4 @@
-import React, { Component, useReducer } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class MainPage extends Component {
@@ -25,31 +24,6 @@ class MainPage extends Component {
       "email": this.state.email, 
       "password": this.state.password
     }
-    // if(user.email === '') {
-    //   alert("Please enter email")
-    //   return;
-    // }
-    // else if (user.password === ''){
-    //   alert ("Please enter password")
-    //   return;
-    // }
-    
-    // axios.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
-    // .then((response) => {
-      // if(response.data.status === true)
-      //   console.log("I have logged in", response.data.status_info);
-      // else {
-      //   this.setState({
-      //     email: '',
-      //     password: ''
-      //   })
-      //   alert("error: " + response.data.status_info);
-      // }
-    //   console.log(response);
-    // })
-    // .catch(err=>{
-    //   console.log(err);
-    // });
     try{
       const response = await fetch('/api/login', {
         headers:{
@@ -62,16 +36,13 @@ class MainPage extends Component {
 
       const status = response.status;
       const result = await response.json();
-      console.log('the response is', result)
 
-      if (status >= 400) {
-        // alert("Your password or email is incorrect. Please try again");
+      if (status === 400 || status === 500) {
         alert(result.error);
       } else {
-        console.log("user exists", result.status);
+        console.log("user exists", result);
       }
     } catch (error) {
-      // const result = await error.json();
       console.log(error);
     }
   }
