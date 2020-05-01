@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './static/css/MainPageCSS.css';
+import './../navigation_bar/NavigationBar';
+import NavBar from './../navigation_bar/NavigationBar';
 
 class MainPage extends Component {
   constructor(props){
@@ -38,10 +41,12 @@ class MainPage extends Component {
   render() {
     return (
       <div className = 'home'> 
+        <NavBar/>
+        <main style={{marginTop:'64px'}}>
         <div className = 'main-page' id = 'main'>
-          <h1 id='catch-phrase'>Don't be a slob, get a job</h1>  
+          <h1 className='header' id='catch-phrase'>Don't be a slob, get a job</h1>  
           <div className='log-in'>
-            <h4>Log In</h4>
+            <h2 className="login-header">Log In</h2>
             <form className='log-in-form'>
               <div className='email-password'>
                 <label className='email'> Email: </label>
@@ -49,19 +54,24 @@ class MainPage extends Component {
                 <label className='password'> Password: </label>
                 <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>
-              <button onClick={this.confirmLogIn}>Log In</button>
+              <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
             </form>
+            <h3 className='OR-option'>================== OR ==================</h3>
           </div>
-          <h4 id='log-in'>Sign Up</h4>
-          <h5> Are you a Recruiter</h5>
+          <h2 id='log-in' className="sign-up">Sign Up</h2>
           <Link to='/register_recruiter'>
-            <button>Recruiter</button>
+            <button className='recruiter-button'>
+              <h3> Are you a Recruiter? </h3>
+              Recruiter
+            </button>
           </Link>
-          <h5> or a Candidate</h5>
           <Link to='/register_candidate'>
-            <button>Candidate</button>
+            <button className='candidate-button'>
+              <h3> Are you a Candidate?</h3>Candidate
+              </button>
           </Link>
         </div>
+        </main>
       </div>
     )
   }
