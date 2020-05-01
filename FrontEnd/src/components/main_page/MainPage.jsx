@@ -71,6 +71,7 @@ class MainPage extends Component {
         console.log("user exists", result.status);
       }
     } catch (error) {
+      // const result = await error.json();
       console.log(error);
     }
   }

@@ -49,7 +49,7 @@ class CandidateRegister extends Component{
     const user = {
       "email": this.state.email, 
       "password": this.state.password, 
-      "first_name": this.state.last_name, 
+      "first_name": this.state.first_name, 
       "last_name": this.state.last_name, 
       "personal_street_address": this.state.personal_street_address, 
       "personal_city": this.state.personal_city,
