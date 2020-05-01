@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 class MainPage extends Component {
@@ -13,30 +12,39 @@ class MainPage extends Component {
     };
   }
 
-  handleChange=(event)=>{
+  handleChange = (event) =>{
     this.setState({
       [event.target.name]: event.target.value
-    }, ()=>console.log(this.state))
+    })
   } 
 
-  confirmLogIn=(event)=>{
+  confirmLogIn = async (event) =>{
     event.preventDefault();
-    fetch.post(`/api/login`, { "email": this.state.email, "password": this.state.password})
-    .then((response) => {
-      // if(response.data.status === true)
-      //   console.log("I have logged in", response.data.status_info);
-      // else {
-      //   this.setState({
-      //     email: '',
-      //     password: ''
-      //   })
-      //   alert("error: " + response.data.status_info);
-      // }
-      console.log(response);
-    })
-    .catch(err=>{
-      alert(err);
-    });
+    const user = {
+      "email": this.state.email, 
+      "password": this.state.password
+    }
+    try{
+      const response = await fetch('/api/login', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(user)
+      });
+
+      const status = response.status;
+      const result = await response.json();
+
+      if (status === 400 || status === 500) {
+        alert(result.error);
+      } else {
+        console.log("Successfully logged in");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -49,7 +57,7 @@ class MainPage extends Component {
             <form className='log-in-form'>
               <div className='email-password'>
                 <label className='email'> Email: </label>
-                <input type='text' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
+                <input type='email' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
                 <label className='password'> Password: </label>
                 <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>

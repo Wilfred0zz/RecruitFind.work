@@ -3,6 +3,7 @@ import psycopg2
 from passlib.hash import argon2
 import bcrypt
 from validate_email import validate_email
+import phonenumbers
 
 reg = Blueprint('register', __name__)
 
@@ -23,7 +24,7 @@ def register():
                     raise Exception(response)
             
             #the following will parse the json request data into their respective variables
-            email = data['email']
+            email = data['email'].lower()
             password = data['password']
             firstName = data['first_name']
             lastName = data['last_name']
@@ -36,6 +37,11 @@ def register():
             status = data['status']
             gender = data['gender']
             
+            # Check if phone number is a valid US number
+            if (not phonenumbers.is_valid_number(phonenumbers.parse(phoneNumber, "US"))):
+                response['error'] = "Invalid US Phone Number" 
+                raise Exception(response)
+
             isValid = validate_email(email)
             
             if isValid:

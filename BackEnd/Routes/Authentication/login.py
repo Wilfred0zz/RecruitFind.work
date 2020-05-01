@@ -3,7 +3,8 @@ import psycopg2
 from passlib.hash import argon2
 import bcrypt
 import secrets
-
+from validate_email import validate_email
+import json
 
 log = Blueprint('login', __name__)
 
@@ -16,10 +17,21 @@ def login():
             response = dict()
             data = request.get_json()
 
-            email = data['email']
+            email = data['email'].lower()
 
             if len(email) == 0:
                 error = "Email Needs Value!"
+                response["error"] = error
+                raise Exception(response)
+
+            isValid = validate_email(email)
+            if(not isValid):
+                response['error'] = "Entered Email Is Not Valid!" 
+                raise Exception(response)
+
+            password = data['password']
+            if(len(password) == 0):
+                error = "Password Needs Value!"
                 response["error"] = error
                 raise Exception(response)
 
@@ -32,12 +44,6 @@ def login():
                 raise Exception(response)
             
             else:
-                password = data['password']
-                if len(password) == 0:
-                    error = "Password Needs Value!"
-                    response["error"] = error
-                    raise Exception(response)
-
                 cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
                 results = cursor.fetchall()
                 print("this is results: ", results)
@@ -52,7 +58,9 @@ def login():
                         token = encrypt_function(email, tokenSalt)
                         cursor.execute(f"""UPDATE public."Personal Information" SET token='{token}' WHERE token IS NULL""")
                         database.commit()
-                        response = make_response("User Authenticated")
+                        response = make_response(json.dumps({
+                            'status_info': 'User Logged In'
+                        }))
                         response.set_cookie('token', token)
                     else:
                         error = "Incorrect Password"
@@ -65,7 +73,7 @@ def login():
             raise Exception(response)
 
     except Exception:            
-        return response, 400
+        return (response, 400)
     
     return response
 

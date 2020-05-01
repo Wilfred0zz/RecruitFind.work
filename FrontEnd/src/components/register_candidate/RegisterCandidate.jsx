@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Autocomplete from 'react-google-autocomplete';
 
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 class CandidateRegister extends Component{
@@ -25,7 +24,7 @@ class CandidateRegister extends Component{
   handleChange = (event) =>{
     this.setState({
       [event.target.name]: event.target.value
-    }, ()=>console.log(this.state))
+    })
   } 
 
   handleGoogleChange = (event) =>{
@@ -49,7 +48,7 @@ class CandidateRegister extends Component{
     const user = {
       "email": this.state.email, 
       "password": this.state.password, 
-      "first_name": this.state.last_name, 
+      "first_name": this.state.first_name, 
       "last_name": this.state.last_name, 
       "personal_street_address": this.state.personal_street_address, 
       "personal_city": this.state.personal_city,
@@ -73,7 +72,7 @@ class CandidateRegister extends Component{
     
       const status = response.status;   
       const result = await response.json();
-    
+
       if (status === 400 || status === 500) {
         alert(result.error);
       } else {
@@ -116,18 +115,7 @@ class CandidateRegister extends Component{
                     this.handleGoogleChange(place);
                   }}
                   types={['geocode', 'establishment']}
-                  componentRestrictions={{country: "us"}}/>  
-
-                {/* <label className='personal_street_address'> Street: </label>
-                <input type='text' name='personal_street_address' placeholder='First Name' onChange={this.handleChange}/>
-                <label className='personal_city'> City: </label>
-                <input type='text' name='personal_city' placeholder='City' onChange={this.handleChange}/>
-                <label className='personal_state'> State: </label>
-                <input type='text' name='personal_state' placeholder='State' onChange={this.handleChange}/>
-                <label className='personal_postal'> ZIP Code: </label>
-                <input type='text' name='personal_postal' placeholder='ZIP Code' onChange={this.handleChange}/>
-                <label className='personal_country'> Country: </label>
-                <input type='text' name='personal_country' placeholder='Country' onChange={this.handleChange}/> */}
+                  componentRestrictions={{country: "us"}}/>
 
                 <p> Contact </p>
                 <label className='phone_number'> Phone Number: </label>
