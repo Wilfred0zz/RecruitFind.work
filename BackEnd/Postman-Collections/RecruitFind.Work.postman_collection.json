@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"testy@gmail.com\",\n    \"password\": \"hunkie123\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"raw": "{\n    \"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"testy@gmail.com\",\n    \"password\": \"hunkie123\"\n}",
+					"raw": "{\n    \"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"vue\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"skill\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"swift\",\n\t\"desired_skill_5\": \"flutter\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -727,7 +727,7 @@
 			"response": []
 		},
 		{
-			"name": "queryResult",
+			"name": "computeQuery",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -736,7 +736,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"swift\",\n\t\"desired_skill_5\": \"flutter\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -744,7 +744,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/api/queryResult",
+					"raw": "http://127.0.0.1:5000/api/computeQuery",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -755,7 +755,62 @@
 					"port": "5000",
 					"path": [
 						"api",
-						"queryResult"
+						"computeQuery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchQueries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchQueries",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchQueries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteQuery",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query_id\": 12,\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/deleteQuery",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"deleteQuery"
 					]
 				}
 			},
