@@ -43,6 +43,7 @@ from Routes.Candidate.Skills.fetchCandidateSkills import fcs
 from Routes.Queries.query import qry
 from Routes.Queries.computeQuery import cptQry
 from Routes.Queries.fetchQueries import fqrys
+from Routes.Queries.deleteQuery import dQry
 
 app = Flask(__name__)
 
@@ -89,6 +90,7 @@ app.register_blueprint(fcs)
 app.register_blueprint(qry)
 app.register_blueprint(cptQry)
 app.register_blueprint(fqrys)
+app.register_blueprint(dQry)
 
 
 if __name__ == '__main__':
