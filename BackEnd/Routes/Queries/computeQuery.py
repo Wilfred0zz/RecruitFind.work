@@ -106,9 +106,7 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
     candidates = defaultdict(list)
     
     for keys in targetCandidates:
-        #print("key: ", keys)
         for candidateId in targetCandidates[keys]:
-            #print("this is the candidate id: ", candidateId)
             if candidateId not in candidates:
                 db_cursor.execute(f"""SELECT first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
                 queryResult = db_cursor.fetchall()[0]
@@ -140,7 +138,7 @@ def calculateNumberOfSkillsCandidateHas(targetCandidates):
     return candidateNumberOfSkillsTracker
 
 
-def constructResponse(response, candidateInfos, candidateNumberOfSkills):
+def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills):
     length = len(candidateNumberOfSkills)
 
     for i in range(length):
@@ -149,7 +147,7 @@ def constructResponse(response, candidateInfos, candidateNumberOfSkills):
         candidateWithMostSkills = k[v.index(max(v))]
 
         priorityOfCandidate = str(i+1)
-        response[priorityOfCandidate].extend(candidateInfos[candidateWithMostSkills])
+        rspObj[priorityOfCandidate].extend(candidateInfos[candidateWithMostSkills])
         del candidateNumberOfSkills[candidateWithMostSkills]
 
 
