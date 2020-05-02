@@ -51,11 +51,16 @@ def storeQuery():
                 queryID = cursor.fetchone()[0]
 
                 for i in range(len(skills)):
-                    cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
-                    skillID = cursor.fetchone()[0]
-                    
-                    cursor.execute(f"""INSERT INTO public."Query Skills" (query_id, skill_id, is_deleted) VALUES ({queryID}, {skillID}, {False})""")
-                    database.commit()
+                    cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{skills[i]}')""")
+                    if cursor.fetchone() != None:
+                        skillID = cursor.fetchone()[0]
+                        cursor.execute(f"""INSERT INTO public."Query Skills" (query_id, skill_id, is_deleted) VALUES ({queryID}, {skillID}, {False})""")
+                        database.commit()
+                    else:
+                        nonExistentSkill = skills[i] 
+                        error = "No User With " + nonExistentSkill + " Skills Exists Within Our Database!"
+                        response['error'] = error
+                        raise Exception(response)
 
                 response['status'] = True
                 response['status_info'] = 'Query Stored Successfully!'
