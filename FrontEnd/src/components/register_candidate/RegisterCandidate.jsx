@@ -69,7 +69,7 @@ class CandidateRegister extends Component{
           method: 'POST',
           body: JSON.stringify(user)
         });
-    
+      console.log(JSON.stringify(user));
       const status = response.status;   
       const result = await response.json();
 

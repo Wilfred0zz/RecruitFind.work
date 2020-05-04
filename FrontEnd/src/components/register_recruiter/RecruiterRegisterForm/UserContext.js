@@ -16,10 +16,10 @@ export default props => {
       personal_country: '',
       phone_number: '',
       gender:'',
-      status: "candidate", 
+      status: "recruiter", 
+      
       confirmPassword: "",
     },
-     
     company:{
       //Company information
       company_name: '',

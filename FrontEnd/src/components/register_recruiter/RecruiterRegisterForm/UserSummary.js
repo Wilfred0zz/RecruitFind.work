@@ -22,9 +22,9 @@ export default props => {
   const classes = useStyles();
   const [state] = useContext(UserContext);
   const { first_name, last_name, gender, email, personal_street_address,
-    personal_state,  personal_city, personal_postal, personal_country, phone_number,
-    company_name, recruiter_position, company_street_address, company_state, company_city,
-    company_postal, company_country} = state.user;
+    personal_state,  personal_city, personal_postal, personal_country, phone_number} = state.user;
+  const { company_name, recruiter_position, company_street_address, company_state, company_city,
+    company_postal, company_country } = state.company;
   return (
     <Fragment>
       <Grid container className={classes.summary}>

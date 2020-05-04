@@ -175,7 +175,6 @@ export default props => {
       <Grid item xs={12} lg={6}> 
         <InputLabel shrink={true}> Enter your personal address </InputLabel>
         <Autocomplete
-          name = 'googleapiP'
           required
           style={{width:'50%'}}
           onPlaceSelected={(place) => {

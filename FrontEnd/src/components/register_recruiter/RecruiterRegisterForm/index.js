@@ -86,9 +86,36 @@ export default props => {
     else {
       alert("reached here");
       setCompleted();
-      console.log(JSON.stringify(state.user));
-      console.log(JSON.stringify(state.company));
-      /*try {
+
+      const recruiterPersonalInfo = {
+        "email": state.user.email, 
+        "password": state.user.password, 
+        "first_name": state.user.first_name, 
+        "last_name": state.user.last_name, 
+        "personal_street_address": state.user.personal_street_address, 
+        "personal_city": state.user.personal_city,
+        "personal_state": state.user.personal_state, 
+        "personal_postal": state.user.personal_postal, 
+        "personal_country": state.user.personal_country, 
+        "phone_number": state.user.phone_number, 
+        "status": "recruiter", 
+        "gender": state.user.gender
+      }
+
+      const recruiterCompanyInfo = {
+        "recruiter_company": state.company.company_name,
+        "recruiter_position": state.company.recruiter_position,
+        "recruiter_company_street_address": state.company.recruiter_company_street_address,
+        "recruiter_city":  state.company.company_city,
+        "recruiter_postal":  state.company.company_postal,
+        "recruiter_country":  state.company.company_country,
+        "recruiter_state":  state.company.compant_state,
+      }
+
+      console.log(JSON.stringify(recruiterPersonalInfo));
+      console.log(JSON.stringify(recruiterCompanyInfo));
+
+      try {
         const response = await fetch('/api/register', {
             headers: {
               'Accept': 'application/json',
@@ -130,7 +157,7 @@ export default props => {
         }
       } catch (error) {
         console.log(error);
-      }*/
+      }
     }
   };
 
