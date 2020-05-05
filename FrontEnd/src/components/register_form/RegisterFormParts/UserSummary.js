@@ -25,7 +25,7 @@ export default props => {
     personal_state,  personal_city, personal_postal, personal_country, 
     phone_number, status } = state.user;
   return (
-    <Fragment>
+    <Fragment key="temp">
       <Grid container className={classes.summary}>
         <Grid item xs={12}>
           <Typography variant='h6'>Confirm is the following information is correct</Typography>

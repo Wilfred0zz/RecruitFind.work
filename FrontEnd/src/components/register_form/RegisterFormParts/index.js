@@ -216,15 +216,16 @@ export default props => {
   return ( 
     <div>
     
-    {/* put into component for easier reading 
+    {/* put into component for easier reading later
       This is to either redirect user on login to either candidate profile
       or recruiter profile
+      needed to add key because it was giving a warner of list children having keys
       */}
     { state.user.isRegistered === true ? 
     [(
         state.user.status === 'candidate' ? 
-        <Redirect push to='/candidate_profile'/> :
-        <Redirect push to='/recruiter_profile'/> 
+        <Redirect key="candidate" push to='/candidate_profile'/> :
+        <Redirect key="recruiter" push to='/recruiter_profile'/> 
     )]: null }
 
     <Fragment>
