@@ -2,11 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 //REGISTER FORM
-import RegisterForm from "./RecruiterRegisterForm";
+import RegisterForm from "./RegisterFormParts";
 //HEADER
-import Typography from "@material-ui/core/Typography";
+//import Typography from "@material-ui/core/Typography";
 //CONTEXT
-import UserContextProvider from "./RecruiterRegisterForm/UserContext";
+import UserContextProvider from "./RegisterFormParts/UserContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     alignContent: "stretch",
     [theme.breakpoints.down("sm")]: {
       alignContent: "flex-start"
-    }
+    },
+    width: '70%',
   },
   header: {
     padding: theme.spacing(5),
@@ -36,27 +37,20 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     justifyContent: "center"
+  },
+  box:{
+    borderRadius:"10%",
   }
 }));
-function RecruiterRegister() {
+
+function Register(props) {
   const classes = useStyles();
   return (
-    <UserContextProvider>
+    <UserContextProvider className={classes.content}>
       <Grid container className={classes.root}>
-        <Grid item className={classes.header} xs={12} md={4}>
-          <Typography variant='h3' className={classes.title}>
-            Registration
-          </Typography>
-          <Typography variant='h5' className={classes.subtitle}>
-            Complete all 3 steps to finish registration process
-          </Typography>
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <RegisterForm />
-        </Grid>
+        <RegisterForm/>
       </Grid>
     </UserContextProvider>
   );
 }
-
-export default RecruiterRegister;
+export default Register;
