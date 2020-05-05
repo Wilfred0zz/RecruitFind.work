@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, request, make_response
 import psycopg2
+from collections import defaultdict
 
 fqrys = Blueprint('fetchQueries', __name__)
 
@@ -9,7 +10,7 @@ def fetchAllQueriesForAUser():
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
             cursor = database.cursor()
-            response = dict()
+            response = defaultdict(list)
             
             token = request.cookies.get('token')
             cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
@@ -47,17 +48,8 @@ def fetchAllQueriesForAUser():
 
 
 def constructResponse(rspObj, currQuery, itemId):
-    itemIdStr = str(itemId + 1)
+    queryIdStr = str(currQuery[0])
+    queryInfo =  [{'queryTite': currQuery[1], 'queryDescription': currQuery[2], 'queryPayment': currQuery[3], 'queryDate': currQuery[4]} for x in range(1)]
+    rspObj[queryIdStr].extend(queryInfo)
 
-    queryNumber = 'query_id_' + itemIdStr
-    queryTitle = 'query_title_' + itemIdStr
-    queryDescription = 'query_description_' + itemIdStr
-    queryPayment = 'query_payment_' + itemIdStr
-    queryDate = 'query_date_' + itemIdStr
-
-    rspObj[queryNumber] = currQuery[0]
-    rspObj[queryTitle] = currQuery[1]
-    rspObj[queryDescription] = currQuery[2]
-    rspObj[queryPayment] = currQuery[3]
-    rspObj[queryDate] = currQuery[4]
 

@@ -54,13 +54,19 @@ def computeQueryResult():
                 if queryID:
 
                     for i in range(len(skills)):
+                        
+                        if skills[i] == "":
+                            continue
+                       
                         cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
                         skillID = cursor.fetchone()[0]
-                    
+                       
                         cursor.execute(f"""SELECT user_id FROM public."Candidate Skills" WHERE skill_id={skillID}""")
                         queryResult = cursor.fetchall()
+                        
                         extractedUsers = extractUsersFromQueryResult(queryResult)
                         candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
+                       
                     
                     allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
                     numberOfSkillsEachCandidateHas = calculateNumberOfSkillsCandidateHas(candidatesWithDesiredSkills)
@@ -98,6 +104,7 @@ def extractUsersFromQueryResult(qryResult):
         newQryResult.insert(0, user)
 
     newQryResult = newQryResult[::-1]
+
     return newQryResult
 
 
@@ -108,19 +115,29 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
     for keys in targetCandidates:
         for candidateId in targetCandidates[keys]:
             if candidateId not in candidates:
+                
                 db_cursor.execute(f"""SELECT first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
                 queryResult = db_cursor.fetchall()[0]
                 candidateFirstName = queryResult[0]
                 candidateLastName = queryResult[1]
 
                 db_cursor.execute(f"""SELECT candidate_description FROM public."Candidate Information" WHERE user_id={candidateId}""")
-                candidateDescription = db_cursor.fetchone()[0]
-
-                candidateInfo = []
-                candidateInfo.insert(0, candidateDescription)
-                candidateInfo.insert(0, candidateLastName)
-                candidateInfo.insert(0, candidateFirstName)
-                candidates[candidateId].extend(candidateInfo)
+                candidateDescription = db_cursor.fetchone()
+        
+                if candidateDescription != None:
+                    candidateDescription = candidateDescription[0]
+                    candidateInfo = []
+                    candidateInfo.insert(0, candidateDescription)
+                    candidateInfo.insert(0, candidateLastName)
+                    candidateInfo.insert(0, candidateFirstName)
+                    candidates[candidateId].extend(candidateInfo)
+                else:
+                    candidateDescription = ""
+                    candidateInfo = []
+                    candidateInfo.insert(0, candidateDescription)
+                    candidateInfo.insert(0, candidateLastName)
+                    candidateInfo.insert(0, candidateFirstName)
+                    candidates[candidateId].extend(candidateInfo)
     
     return candidates
 
