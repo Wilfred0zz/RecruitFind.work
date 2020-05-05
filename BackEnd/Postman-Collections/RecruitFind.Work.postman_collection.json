@@ -257,7 +257,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": false\n}",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -736,7 +736,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
