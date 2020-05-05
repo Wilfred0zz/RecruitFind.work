@@ -78,6 +78,34 @@ export default props => {
     setOpen(false);
   };
 
+  const handleLogin = async () => {
+    const user = {
+      "email": state.user.email, 
+      "password": state.user.password
+    }
+    try{
+      const response = await fetch('/api/login', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(user)
+      });
+
+      const status = response.status;
+      const result = await response.json();
+
+      if (status === 400 || status === 500) {
+        alert(result.error);
+      } else {
+        console.log("Successfully logged in");
+      }
+    } catch (error) {
+      console.log(error);
+    } 
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (activeStep < steps.length - 1) handleNext();
@@ -116,7 +144,12 @@ export default props => {
           alert(result.error);
         } else {
           console.log(result.status_info);
-          
+          // get the user logged in if registration is a success
+          await handleLogin();
+          // update state in order to lead to profile page on redirect
+          const temp = JSON.parse(JSON.stringify(state));
+          temp.user.isRegistered = true;
+          setState(temp);
         }
       } catch (error) {
         console.log(error);
@@ -180,8 +213,20 @@ export default props => {
     });
 
   };
+  return ( 
+    <div>
+    
+    {/* put into component for easier reading 
+      This is to either redirect user on login to either candidate profile
+      or recruiter profile
+      */}
+    { state.user.isRegistered === true ? 
+    [(
+        state.user.status === 'candidate' ? 
+        <Redirect push to='/candidate_profile'/> :
+        <Redirect push to='/recruiter_profile'/> 
+    )]: null }
 
-  return (
     <Fragment>
       {!completed && (
         <Box className={classes.root}>
@@ -266,5 +311,6 @@ export default props => {
         </Box>
       )}
     </Fragment>
+    </div>
   );
 };

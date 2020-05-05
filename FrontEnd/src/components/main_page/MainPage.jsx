@@ -74,9 +74,8 @@ class MainPage extends Component {
           </div>
           <h2 id='log-in' className="sign-up">Sign Up</h2>
           <Center>
-              <RegisterForm/>
+              <RegisterForm confirmLogIn={this.confirmLogIn}/>
           </Center>
-
         </div>
         </main>
       </div>

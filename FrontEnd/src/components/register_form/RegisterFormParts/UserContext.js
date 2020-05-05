@@ -19,6 +19,7 @@ export default props => {
       status: '', 
       confirmPassword: "",
       acceptTerms: false,
+      isRegistered: false,
     },
     errors: {}
   });

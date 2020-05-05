@@ -52,11 +52,14 @@ export default props => {
   };
 
   function handleGoogleChangeP(event){
-    const code = parseInt(event.address_components[6].long_name);
-    const state = event.address_components[5].short_name;
-    const address = event.address_components[0].long_name + ' ' + event.address_components[1].long_name;
-    const country = event.address_components[6].short_name;
-    const city = event.address_components[2].short_name;
+    if(!event.formatted_address || event.formatted_address.split(',').length <= 3) {
+      alert('please enter a specific location');
+      return;
+    }
+    let [ address, city, state_zip, country ] = event.formatted_address.split(',');
+    state_zip = state_zip.substr(1);
+    let [ state, code ] = state_zip.split(" ");
+    code = parseInt(code);
     user.personal_street_address = address;
     user.personal_state = state;
     user.personal_city = city;

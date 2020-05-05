@@ -43,12 +43,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Register() {
+function Register(props) {
   const classes = useStyles();
   return (
     <UserContextProvider className={classes.content}>
       <Grid container className={classes.root}>
-            <RegisterForm />
+        <RegisterForm/>
       </Grid>
     </UserContextProvider>
   );
