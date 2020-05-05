@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"raw": "{\n\t\"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -811,6 +811,84 @@
 					"path": [
 						"api",
 						"deleteQuery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "match",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"candidate_email\": \"tombrady12@gmail.com\",\n\t\"query_id\": 46\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/match",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"match"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidateMatches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidateMatches",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidateMatches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"logout"
 					]
 				}
 			},

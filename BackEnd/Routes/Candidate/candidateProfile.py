@@ -13,7 +13,11 @@ def createCandidateProfile():
             data = request.get_json()
 
             token = request.cookies.get('token')
-            print("this is the token from broswer: ", token)
+            
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
 
             candidateSchool = data['candidate_school']
             candidateHighestLevelOfEducation = data['candidate_highest_level_of_education']

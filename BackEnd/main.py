@@ -6,6 +6,7 @@ from Routes.Connections.connection import connect
 #Authentication Routes
 from Routes.Authentication.register import reg
 from Routes.Authentication.login import log
+from Routes.Authentication.logout import logout
 
 #Recruiter Routes
 from Routes.Recruiter.recruiterProfile import rp
@@ -57,6 +58,7 @@ app.register_blueprint(connect)
 ##Authentication BluePrints
 app.register_blueprint(reg)
 app.register_blueprint(log)
+app.register_blueprint(logout)
 
 #Recruiter Blueprints
 app.register_blueprint(rp)
