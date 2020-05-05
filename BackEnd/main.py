@@ -47,6 +47,7 @@ from Routes.Queries.deleteQuery import dQry
 
 #Match Routes
 from Routes.Matches.match import mat
+from Routes.Matches.fetchCandidateMatches import fcm
 
 app = Flask(__name__)
 
@@ -97,6 +98,7 @@ app.register_blueprint(dQry)
 
 #Match Blueprints
 app.register_blueprint(mat)
+app.register_blueprint(fcm)
 
 
 if __name__ == '__main__':
