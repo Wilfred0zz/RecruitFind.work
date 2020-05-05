@@ -12,6 +12,14 @@ def storeQuery():
             response = dict()
             data = request.get_json()
             skills = []
+
+            token = request.cookies.get('token')
+
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
+
             queryTitle = data['query_title']
             queryDescription = data['query_description']
             queryPayment = data['query_payment']
@@ -39,7 +47,6 @@ def storeQuery():
             skills.insert(0, desiredSkill2)
             skills.insert(0, desiredSkill1)
 
-            token = request.cookies.get('token')
             cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
 
             currentUserId = cursor.fetchone()[0]

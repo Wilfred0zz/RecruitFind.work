@@ -13,6 +13,11 @@ def fetchCandidateSkills():
 
             token = request.cookies.get('token')
 
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
+
             cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
             currentUserId = cursor.fetchone()[0]
 

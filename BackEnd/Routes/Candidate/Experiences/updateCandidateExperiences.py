@@ -13,7 +13,11 @@ def updateCandidateExperiences():
             data = request.get_json()
 
             token = request.cookies.get('token')
-            print("this is the token from broswer: ", token)
+            
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
 
             roleTitle1 = data['role_title_1']
             description1 = data['description_1']

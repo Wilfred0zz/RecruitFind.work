@@ -14,6 +14,11 @@ def createRecruiterProfile():
 
             token = request.cookies.get('token')
 
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
+
             recruiterCompany = data['recruiter_company']
             recruiterPosition = data['recruiter_position']
             recruiterCompanyStreetAddress = data['recruiter_company_street_address']

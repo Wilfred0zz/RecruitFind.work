@@ -15,6 +15,11 @@ def storeCandidateSkills():
 
             token = request.cookies.get('token')
 
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
+
             skill = data['skill']
             if len(skill) != 0:
                 

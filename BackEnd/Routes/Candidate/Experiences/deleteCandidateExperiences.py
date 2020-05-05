@@ -13,8 +13,11 @@ def deleteCandidateExperiences():
             data = request.get_json()
 
             token = request.cookies.get('token')
-            print("this is the token from broswer: ", token)
-
+            
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
 
             isDeleted1 = data['is_deleted_1']
             isDeleted2 = data['is_deleted_2']
