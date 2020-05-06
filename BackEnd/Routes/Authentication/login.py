@@ -69,10 +69,13 @@ def login():
                 salt_result = str.encode(salt_result)
                 for row in results:
                     if encrypt_function(password, salt_result) == row[0]:
+                        cursor.execute(f"""SELECT status FROM public."Personal Information" WHERE email = '{email}'""")
+                        statusInfo = cursor.fetchone()[0]
                         response = make_response(json.dumps({
-                            'status_info': 'User Logged In'
+                            'status_info': 'User Logged In',
+                            'status': statusInfo
                         }))
-                        
+
                         login_user(User(email), remember=True, duration=timedelta(days=1))
                       
                     else:
