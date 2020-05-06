@@ -18,7 +18,7 @@ def fetchCandidateExperiences():
                 currentUserId = current_user.get_id()
 
                 if currentUserId:
-                    cursor.execute(f"""SELECT experience_id, role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                    cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={False}""")
                     queryResult = cursor.fetchall()
 
                     if len(queryResult) != 0:
