@@ -1,10 +1,12 @@
 from flask import Flask, Blueprint, request, make_response
 import psycopg2
 from collections import defaultdict
+from flask_login import current_user, login_user, logout_user, login_required
 
 fqrys = Blueprint('fetchQueries', __name__)
 
 @fqrys.route("/api/fetchQueries", methods=["GET"])
+@login_required
 def fetchAllQueriesForAUser():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
@@ -12,37 +14,26 @@ def fetchAllQueriesForAUser():
             cursor = database.cursor()
             response = defaultdict(list)
             
-            token = request.cookies.get('token')
-
-            if token == None:
-                error = "User Not Authenticated!"
-                response['error'] = error
-                raise Exception(response)
+            if current_user.is_authenticated:
             
-            cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
+                currentUserId = current_user.get_id()
 
-            currentUserId = cursor.fetchone()[0]
+                if currentUserId:
+                    cursor.execute(f"""SELECT query_id, query_title, query_description, query_payment, query_date FROM public."Queries" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                    queryResult = cursor.fetchall()
 
-            if currentUserId:
-                cursor.execute(f"""SELECT query_id, query_title, query_description, query_payment, query_date FROM public."Queries" WHERE user_id={currentUserId} AND is_deleted={False}""")
-                queryResult = cursor.fetchall()
+                    if len(queryResult) != 0:
+                        length = len(queryResult)
 
-                if len(queryResult) != 0:
-                    length = len(queryResult)
+                        for i in range(length):
+                            constructResponse(response, queryResult[i], i)
 
-                    for i in range(length):
-                        constructResponse(response, queryResult[i], i)
-
-                    response['status'] = True
-                    response['status_info'] = 'Queries Fetched Successfully!'
-                else:
-                    error = "User Has No Queries!"
-                    response['error'] = error
-                    raise Exception(response)
-            else:
-                error = "Invalid Token!"
-                response['error'] = error
-                raise Exception(response)
+                        response['status'] = True
+                        response['status_info'] = 'Queries Fetched Successfully!'
+                    else:
+                        error = "User Has No Queries!"
+                        response['error'] = error
+                        raise Exception(response)
         else:
             error = "Connection To Database Failed!"
             response['error'] = error
@@ -54,8 +45,8 @@ def fetchAllQueriesForAUser():
 
 
 def constructResponse(rspObj, currQuery, itemId):
-    queryIdStr = str(currQuery[0])
-    queryInfo =  [{'queryTite': currQuery[1], 'queryDescription': currQuery[2], 'queryPayment': currQuery[3], 'queryDate': currQuery[4]} for x in range(1)]
-    rspObj[queryIdStr].extend(queryInfo)
+    itemIdStr = str(itemId+1)
+    queryInfo =  [{'query_id': currQuery[0], 'queryTitle': currQuery[1], 'queryDescription': currQuery[2], 'queryPayment': currQuery[3], 'queryDate': currQuery[4]} for x in range(1)]
+    rspObj['query_' + itemIdStr + '_info'].extend(queryInfo)
 
 

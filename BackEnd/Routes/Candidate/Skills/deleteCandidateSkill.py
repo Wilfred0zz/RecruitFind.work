@@ -1,9 +1,11 @@
 from flask import Flask, Blueprint, request
 import psycopg2
+from flask_login import current_user, login_user, logout_user, login_required
 
 dcs = Blueprint('deleteCandidateSkill', __name__)
 
 @dcs.route("/api/deleteCandidateSkill", methods=["PUT"])
+@login_required
 def deleteCandidateSkill():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
@@ -12,39 +14,27 @@ def deleteCandidateSkill():
             response = dict()
             data = request.get_json()
 
-            token = request.cookies.get('token')
+            if current_user.is_authenticated:
 
-            if token == None:
-                error = "User Not Authenticated!"
-                response['error'] = error
-                raise Exception(response)
+                skill = data['skill']
 
-            skill = data['skill']
+                if len(skill) != 0:            
+                    lcSkill = skill.lower()
 
-            if len(skill) != 0:            
-                lcSkill = skill.lower()
+                    currentUserId = current_user.get_id()
 
-                cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
-
-                currentUserId = cursor.fetchone()[0]
-
-                if currentUserId:
-                    
-                    cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
-                    skillId = cursor.fetchone()[0]
-                    cursor.execute(f"""UPDATE public."Candidate Skills" SET is_deleted={True} WHERE user_id={currentUserId} AND skill_id={skillId}""")
-                    database.commit()
-                    response['status'] = True
-                    response['status_info'] = 'Deleted Candidate Skill Successfully'
-                    
+                    if currentUserId:
+                        
+                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
+                        skillId = cursor.fetchone()[0]
+                        cursor.execute(f"""UPDATE public."Candidate Skills" SET is_deleted={True} WHERE user_id={currentUserId} AND skill_id={skillId}""")
+                        database.commit()
+                        response['status'] = True
+                        response['status_info'] = 'Deleted Candidate Skill Successfully'
                 else:
-                    error = "Invalid Token!"
+                    error = "Skills Needs A Value!"
                     response['error'] = error
                     raise Exception(response)
-            else:
-                error = "Skills Needs A Value!"
-                response['error'] = error
-                raise Exception(response)
 
         else:
             error = "Connection To Database Failed!"
