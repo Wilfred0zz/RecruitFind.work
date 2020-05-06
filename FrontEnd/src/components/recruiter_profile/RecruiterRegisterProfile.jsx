@@ -148,7 +148,6 @@ class RecruiterRegisterProfile extends Component{
                 required
                 style={{width:'50%'}}
                 onPlaceSelected={(place) => {
-                  console.log(place);
                   this.handleGoogleChange(place);
                 }}
                 types={['geocode', 'establishment']}

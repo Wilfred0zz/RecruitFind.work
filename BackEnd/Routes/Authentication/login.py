@@ -5,10 +5,25 @@ import bcrypt
 import secrets
 from validate_email import validate_email
 import json
+from datetime import timedelta
+from flask_login import current_user, login_user, logout_user, login_required
 
 log = Blueprint('login', __name__)
 
-@log.route("/api/login", methods=["POST"])
+class User():
+    def __init__(self, email):
+        self.email = email
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return self.email
+
+
+@log.route("/api/login", methods=["POST", "GET"])
 def login():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
@@ -44,38 +59,29 @@ def login():
                 raise Exception(response)
             
             else:
-                print("this is email: ", email)
-                cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token IS NOT null AND email='{email}'""")
-                alreadyExistingToken = cursor.fetchone()
-                print(alreadyExistingToken)
+                
+                cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
+                results = cursor.fetchall()
 
-                if alreadyExistingToken == None:
-                    cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
-                    results = cursor.fetchall()
-                    print("this is results: ", results)
+                #fetches the salt that's associated with the user, creates a replica encrypted password, and compares it with the one that's already stored in the database
+                cursor.execute(f"""SELECT salts FROM public."Personal Information" WHERE email = '{email}'""")
+                salt_result = cursor.fetchone()[0]
+                salt_result = str.encode(salt_result)
+                for row in results:
+                    if encrypt_function(password, salt_result) == row[0]:
+                        cursor.execute(f"""SELECT status FROM public."Personal Information" WHERE email = '{email}'""")
+                        statusInfo = cursor.fetchone()[0]
+                        response = make_response(json.dumps({
+                            'status_info': 'User Logged In',
+                            'status': statusInfo
+                        }))
 
-                    #fetches the salt that's associated with the user, creates a replica encrypted password, and compares it with the one that's already stored in the database
-                    cursor.execute(f"""SELECT salts FROM public."Personal Information" WHERE email = '{email}'""")
-                    salt_result = cursor.fetchone()[0]
-                    salt_result = str.encode(salt_result)
-                    for row in results:
-                        if encrypt_function(password, salt_result) == row[0]:
-                            tokenSalt = generate_salt_string()
-                            token = encrypt_function(email, tokenSalt)
-                            cursor.execute(f"""UPDATE public."Personal Information" SET token='{token}' WHERE token IS NULL""")
-                            database.commit()
-                            response = make_response(json.dumps({
-                                'status_info': 'User Logged In'
-                            }))
-                            response.set_cookie('token', token)
-                        else:
-                            error = "Incorrect Password"
-                            response['error'] = error
-                            raise Exception(response)
-                else:
-                    error = "Token Already Exists! Cannot login twice!"
-                    response['error'] = error
-                    raise Exception(response)
+                        login_user(User(email), remember=True, duration=timedelta(days=1))
+                      
+                    else:
+                        error = "Incorrect Password"
+                        response['error'] = error
+                        raise Exception(response)
 
         else:
             error = "Connection to database failed!"

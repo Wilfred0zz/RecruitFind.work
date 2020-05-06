@@ -226,7 +226,6 @@ export default props => {
           required
           style={{width:'50%'}}
           onPlaceSelected={(place) => {
-            console.log(place);
             handleGoogleChangeP(place);
           }}
           types={['geocode', 'establishment']}
