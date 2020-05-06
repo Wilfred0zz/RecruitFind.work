@@ -58,6 +58,8 @@ export default props => {
     }
     let [ address, city, state_zip, country ] = event.formatted_address.split(',');
     state_zip = state_zip.substr(1);
+    city = city.substr(1);
+    country = country.substr(1);
     let [ state, code ] = state_zip.split(" ");
     code = parseInt(code);
     user.personal_street_address = address;
@@ -224,7 +226,6 @@ export default props => {
           required
           style={{width:'50%'}}
           onPlaceSelected={(place) => {
-            console.log(place);
             handleGoogleChangeP(place);
           }}
           types={['geocode', 'establishment']}
