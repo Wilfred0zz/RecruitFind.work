@@ -1,10 +1,9 @@
 body{
     padding: 0;
     text-align: center;
-    background-color: steelblue;
     margin: 0;
+    top: 0;
   }
-
 
 .header{
   font-family: sans-serif;
@@ -87,4 +86,18 @@ body{
 
 .OR-option{
   font-family: sans-serif;
+}
+
+img{
+  z-index: -1;
+  width: 100%;
+  position: absolute;
+  top:0;
+  height: 100%;
+  left:0;
+}
+
+.home{
+  background-color:rgba(0,0,0,.4);
+  position: absolute;
 }
