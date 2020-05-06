@@ -92,7 +92,7 @@ export default props => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCompleted();
-    console.log(state.user);
+    
     const PersonalInfo = {
       "email": state.user.email, 
       "password": state.user.password, 
