@@ -6,7 +6,7 @@ class RecruiterRegisterProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
-      first_time_login: true,
+      // first_time_login: true,
       is_logged_in: true,
       recruiter_company_updated: false,
       // Add personal information like location they live at, gender, and more if they wanna change
@@ -84,16 +84,9 @@ class RecruiterRegisterProfile extends Component{
     }
   }
 
-  fetchRecruiterCompanyInfo = async (event) => {
-
-  }
-
-  // need a fetch for candidate name, and description, etc.
-
   // Fetch All Data, and see if any information exists
-  // if it doesnt, then set edit to true, with input values
-  // else set edit to false, and just render view
-  componentDidMount = async () => {
+  // if it does set company_update tot rue cause it already exists
+  fetchRecruiterCompanyInfo = async () => {
     try{
       const response = await fetch('/api/fetchRecruiterProfileInfo', {
         headers:{
@@ -107,7 +100,7 @@ class RecruiterRegisterProfile extends Component{
       const result = await response.json();
 
       if (status === 400 || status === 500) {
-        // If I get an error I need to check the error message
+        // If I dont get an error it means user isn't logged in
         if(!result.error) {
           console.log("User doesn't exist or isn't logged in and should be redirected to login");
           this.setState({
@@ -115,20 +108,20 @@ class RecruiterRegisterProfile extends Component{
           })
         }
       } else { // user already has info so not the first time they are registering, so redirect them
-        const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
+        // const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
         this.setState({
-          recruiter_city: recruiter_city,
-          recruiter_company: recruiter_company,
-          recruiter_company_street_address: recruiter_company_street_address,
-          recruiter_country: recruiter_country,
-          recruiter_position: recruiter_position,
-          recruiter_postal: recruiter_postal,
-          recruiter_state: recruiter_state
+          recruiter_company_updated: true
         }, () => console.log(this.state))
       }
     } catch (error) {
       console.log(error);
     }
+  }
+
+  // need a fetch for candidate name, and description, etc.
+
+  componentDidMount = async () => {
+    await this.fetchRecruiterCompanyInfo();
   }
 
   render() {
@@ -140,7 +133,7 @@ class RecruiterRegisterProfile extends Component{
           : null
         }
         <h1>Welcome Recruiter{/** Need to add name, API doesn't exist yet*/}</h1>
-        {/* Check if the user registered for the first time */}
+        {/* Check if the user registered for the first time by looking at update state*/}
         {!this.state.recruiter_company_updated ? 
           <div className='create_recruiter_profile'>
             <form className='recruiter_company_info'>
