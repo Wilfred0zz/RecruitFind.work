@@ -54,29 +54,7 @@ from Routes.Matches.fetchCandidateMatches import fcm
 
 app = Flask(__name__)
 app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
-authenticationManagement = LoginManager(app)
-
-@authenticationManagement.user_loader
-def load_user(id):
-    try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
-        if database:
-            response = dict()
-            cursor = database.cursor()
-            cursor.execute(f"""SELECT user_id from public."Personal Information" WHERE email='{id}'""")
-            result = cursor.fetchone()
-            
-            if result == None:
-                return None
-            else:
-                return User(result[0])
-        else:
-            error = "Connection To Database Failed!"
-            response['error'] = error
-            raise Exception(response)
-    except Exception:
-        return response, 400
-
+authenticationManager = LoginManager(app)
 
 #Connection Blueprint
 app.register_blueprint(connect)
@@ -131,3 +109,24 @@ app.register_blueprint(fcm)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@authenticationManager.user_loader
+def load_user(id):
+    try:
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        if database:
+            response = dict()
+            cursor = database.cursor()
+            cursor.execute(f"""SELECT user_id from public."Personal Information" WHERE email='{id}'""")
+            result = cursor.fetchone()
+            
+            if result == None:
+                return None
+            else:
+                return User(result[0])
+        else:
+            error = "Connection To Database Failed!"
+            response['error'] = error
+            raise Exception(response)
+    except Exception:
+        return response, 400
