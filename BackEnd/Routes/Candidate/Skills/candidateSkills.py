@@ -1,10 +1,12 @@
 from flask import Flask, Blueprint, request
 import psycopg2
-
+import traceback
+from flask_login import current_user, login_user, logout_user, login_required
 
 cs = Blueprint('candidateSkills', __name__)
 
 @cs.route("/api/candidateSkills", methods=["POST"])
+@login_required
 def storeCandidateSkills():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
@@ -13,65 +15,63 @@ def storeCandidateSkills():
             response = dict()
             data = request.get_json()
 
-            token = request.cookies.get('token')
+            if current_user.is_authenticated:
 
-            if token == None:
-                error = "User Not Authenticated!"
-                response['error'] = error
-                raise Exception(response)
-
-            skill = data['skill']
-            if len(skill) != 0:
+                skill = data['skill']
                 
-                lcSkill = skill.lower()
+                if len(skill) != 0:
+                    
+                    lcSkill = skill.lower()
 
-                cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
-                currentUserId = cursor.fetchone()[0]
+                    
+                    currentUserId = current_user.get_id()
 
 
-                if currentUserId:
-                    query = (f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{lcSkill}')""")
-                    cursor.execute(query)
+                    if currentUserId:
+                        query = (f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{lcSkill}')""")
+                        cursor.execute(query)
 
-                    if cursor.fetchone() != None:
-                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
-                        skillId = cursor.fetchone()[0]
-                        cursor.execute(f"""SELECT skill_id FROM public."Candidate Skills" WHERE EXISTS (SELECT skill, user_id FROM public."Skills" WHERE skill='{lcSkill}' AND user_id={currentUserId})""")
-                        alreadyExistingSkillForCandidate = cursor.fetchone()
-        
-                        if alreadyExistingSkillForCandidate == None:
+                        if cursor.fetchone() != None:
+                            print("jrnvjrnjnrn")
+                            cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
+                            skillId = cursor.fetchone()[0]
+                            print("this is the skill id: ", skillId)
+                            print("this is the candidate id: ", currentUserId)
+                            cursor.execute(f"""SELECT user_id FROM public."Candidate Skills" WHERE skill_id={skillId} AND user_id={currentUserId}""")
+                            print("this is th ejoker!")
+                            alreadyExistingSkillForCandidate = cursor.fetchone()
+                            print(alreadyExistingSkillForCandidate)
+            
+                            if alreadyExistingSkillForCandidate == None:
 
+                                cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
+                                database.commit()
+                                response['status'] = True
+                                response['status_info'] = 'Skill Already Exists! Skill Stored For Candidate Successfully'
+                            else:
+                                error = "Candidate Already Has That Skill!"
+                                response['error'] = error
+                                raise Exception(response)
+                        else:
+                            cursor.execute(f"""INSERT INTO public."Skills" (skill) VALUES ('{lcSkill}')""")
+                            database.commit()
+                            cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
+                            skillId = cursor.fetchone()[0]
                             cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
                             database.commit()
                             response['status'] = True
-                            response['status_info'] = 'Skill Already Exists! Skill Stored For Candidate Successfully'
-                        else:
-                            error = "Candidate Already Has That Skill!"
-                            response['error'] = error
-                            raise Exception(response)
-                    else:
-                        cursor.execute(f"""INSERT INTO public."Skills" (skill) VALUES ('{lcSkill}')""")
-                        database.commit()
-                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
-                        skillId = cursor.fetchone()[0]
-                        cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
-                        database.commit()
-                        response['status'] = True
-                        response['status_info'] = 'Candidate Skill Stored Successfully'
+                            response['status_info'] = 'Candidate Skill Stored Successfully'
                 else:
-                    error = "Invalid Token!"
+                    error = "Skills Needs A Value!"
                     response['error'] = error
                     raise Exception(response)
-            else:
-                error = "Skills Needs A Value!"
-                response['error'] = error
-                raise Exception(response)
 
         else:
             error = "Connection To Database Failed!"
             response['error'] = error
             raise Exception(response)
     except Exception:
+        print(traceback.format_exc())
         return response, 400
     
     return response
