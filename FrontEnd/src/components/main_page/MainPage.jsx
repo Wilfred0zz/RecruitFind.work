@@ -87,7 +87,7 @@ class MainPage extends Component {
                 <label className='email'> Email: </label>
                 <input type='email' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
                 <label className='password'> Password: </label>
-                <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
+                <input type='password' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>
               <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
               <button className='log-in-button' onClick={this.handleLogOut}>Log Out</button>
