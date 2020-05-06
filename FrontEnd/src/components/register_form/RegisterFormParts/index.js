@@ -194,7 +194,7 @@ export default props => {
     [(
         state.user.status === 'candidate' ? 
         <Redirect key="candidate" push to='/candidate_profile' state={ state.user.first_time = 'true' } /> :
-        <Redirect key="recruiter" push to='/recruiter_profile'/> 
+        <Redirect key="recruiter" push to='/recruiter_register_profile'/> 
     )]: null }
 
     <Fragment>
