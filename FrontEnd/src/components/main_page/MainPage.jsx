@@ -7,7 +7,6 @@ import NavBar from './../navigation_bar/NavigationBar';
 class MainPage extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       isLoggedIn: false,
       email: '',
