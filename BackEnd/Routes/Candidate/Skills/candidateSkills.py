@@ -2,19 +2,25 @@ from flask import Flask, Blueprint, request
 import psycopg2
 import traceback
 from flask_login import current_user, login_user, logout_user, login_required
+#from Routes.Authentication.login import User
 
 cs = Blueprint('candidateSkills', __name__)
 
 @cs.route("/api/candidateSkills", methods=["POST"])
 @login_required
 def storeCandidateSkills():
+    print("ntkbnjtnktnkbtnk")
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        #print("bgkmbgkb")
         if database:
             cursor = database.cursor()
             response = dict()
             data = request.get_json()
+            #print("im up here!")
 
+            #print("this is the current dufus: ", current_user)
+            print("this is the email: ", current_user.is_authenticated)
             if current_user.is_authenticated:
 
                 skill = data['skill']
@@ -71,6 +77,7 @@ def storeCandidateSkills():
             response['error'] = error
             raise Exception(response)
     except Exception:
+        print("tnbtjbjtnjtb")
         print(traceback.format_exc())
         return response, 400
     

@@ -1,7 +1,6 @@
 from flask import Flask, Blueprint
-from flask_login import LoginManager
 import psycopg2
-from flask_login import current_user, login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required, LoginManager
 
 #Connection Route
 from Routes.Connections.connection import connect
@@ -55,18 +54,19 @@ from Routes.Matches.fetchCandidateMatches import fcm
 
 app = Flask(__name__)
 app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+authenticationManagement = LoginManager(app)
+authenticationManagement.login_view = 'login.login'
 
-@login_manager.user_loader
+@authenticationManagement.user_loader
 def load_user(id):
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
             response = dict()
             cursor = database.cursor()
-            cursor.execute(f"""SELECT email from public."Personal Information" WHERE user_id={id}""")
+            cursor.execute(f"""SELECT user_id from public."Personal Information" WHERE email='{id}'""")
             result = cursor.fetchone()
+            
             if result == None:
                 return None
             else:
