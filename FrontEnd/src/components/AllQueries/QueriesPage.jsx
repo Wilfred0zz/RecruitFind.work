@@ -17,8 +17,8 @@ class DisplayPastQueries extends Component{
                 method: 'GET',
               });
           
-            const status = response.status;   
-            const result = await response.json();
+            const status = response.status; console.log(response);
+            const result = await response.json(); console.log(result);
             if (status === 400 || status === 500) {
               console.log("reached error")
             } else {
@@ -56,7 +56,14 @@ class DisplayPastQueries extends Component{
                 <div>
                     <button onClick={this.renderRedirect= true}>New Query?</button>
                     <ul> 
-                        
+                        {this.state.PastQueries.map((query) => (
+                            <li key = {query_info.id}>
+                                {query.queryDate}
+                                {query.queryDescription}
+                                {query.queryPayment}
+                                {query.queryTitle}
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

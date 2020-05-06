@@ -5,7 +5,7 @@ class NewQueries extends Component{
     render(){
         return(
             <div>
-                hi
+                
             </div>
         )
     }
