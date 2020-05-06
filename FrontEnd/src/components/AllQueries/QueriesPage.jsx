@@ -62,6 +62,7 @@ class DisplayPastQueries extends Component{
                                 {query.queryDescription}
                                 {query.queryPayment}
                                 {query.queryTitle}
+                                {query.id}
                             </li>
                         ))}
                     </ul>
