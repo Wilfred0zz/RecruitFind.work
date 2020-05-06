@@ -14,6 +14,7 @@ def storeCandidateSkills():
             data = request.get_json()
 
             token = request.cookies.get('token')
+            print("this is th token: ", token)
 
             if token == None:
                 error = "User Not Authenticated!"
@@ -24,18 +25,25 @@ def storeCandidateSkills():
             if len(skill) != 0:
                 
                 lcSkill = skill.lower()
+                print(lcSkill)
 
                 cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
-
+                print(cursor.fetchone())
+                print("1")
                 currentUserId = cursor.fetchone()[0]
+                print("3")
+                print(currentUserId)
 
                 if currentUserId:
                     query = (f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{lcSkill}')""")
                     cursor.execute(query)
+                    print("1")
+                    print(cursor.fetchone())
 
                     if cursor.fetchone() != None:
                         cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
                         skillId = cursor.fetchone()[0]
+                        print(skillId)
                         cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
                         database.commit()
                         response['status'] = True
