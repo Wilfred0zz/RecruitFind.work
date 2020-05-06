@@ -8,7 +8,6 @@ import officeImg from './static/images/office.jpeg';
 class MainPage extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       isLoggedIn: false,
       email: '',
