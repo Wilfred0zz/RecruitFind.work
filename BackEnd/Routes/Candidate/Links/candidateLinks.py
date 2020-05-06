@@ -14,6 +14,11 @@ def storeCandidateLinks():
 
             token = request.cookies.get('token')
 
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
+
             typeOfLink1 = data['type_of_link_1']
             link1 = data['link_1']
             isDeleted1 = data['is_deleted_1']

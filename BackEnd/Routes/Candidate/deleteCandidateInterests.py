@@ -15,7 +15,11 @@ def deleteCandidateInterests():
             data = request.get_json()
 
             token = request.cookies.get('token')
-            print("this is the token from broswer: ", token)
+            
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
  
             nameOfInterest1 = data['name_of_interest_1']
             isDeleted1 = data['is_deleted_1']
