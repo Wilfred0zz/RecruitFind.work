@@ -168,6 +168,9 @@ def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills, candidate
         candidateWithMostSkills = k[v.index(max(v))]
 
         priorityOfCandidate = str(i+1)
+        candidateEmail = candidateInfos[candidateWithMostSkills][2]
+        if candidateEmail in candidateInfos[candidateWithMostSkills]:
+            candidateInfos[candidateWithMostSkills].append(candidatesWithSkills[candidateEmail])
         rspObj[priorityOfCandidate].extend(candidateInfos[candidateWithMostSkills])
         del candidateNumberOfSkills[candidateWithMostSkills]
 

@@ -14,10 +14,13 @@ def signUserOut():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
-            cursor = database.cursor()
+
             response = dict()
 
             logout_user()
+            response = make_response(json.dumps({
+                'status_info': 'User Logged Out!'
+            }))
         else:
             error = "Connection to database failed!"
             response['error'] = error
