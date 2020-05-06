@@ -5,18 +5,18 @@ class CandidateProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
-      "first_time_login": false,
-      "is_logged_in": true,
-      "candidate_current_position": "",
-      "candidate_description": "",
-      "candidate_highest_level_of_education": "",
-      "candidate_school": "",
-      "is_deleted_1": "",
-      "is_deleted_2": "",
-      "is_deleted_3": "",
-      "name_of_interst_1": 0,
-      "name_of_interst_2": 0,
-      "name_of_interst_3": 0,
+      first_time_login: false,
+      is_logged_in: true,
+      candidate_current_position: "",
+      candidate_description: "",
+      candidate_highest_level_of_education: "",
+      candidate_school: "",
+      is_deleted_1: "",
+      is_deleted_2: "",
+      is_deleted_3: "",
+      name_of_interst_1: 0,
+      name_of_interst_2: 0,
+      name_of_interst_3: 0,
     }
   }
 
