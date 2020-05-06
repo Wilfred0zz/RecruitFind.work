@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, request, make_response
 import psycopg2
 from collections import defaultdict
 from flask_login import current_user, login_user, logout_user, login_required
+import traceback
 
 cptQry = Blueprint('computeQuery', __name__)
 
@@ -67,15 +68,14 @@ def computeQueryResult():
                             queryResult = cursor.fetchall()
                             
                             extractedUsers = extractUsersFromQueryResult(queryResult)
-                            print("this is the extracted users: ", extractedUsers)
                             candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
-                            print("these are the candidates with desired skills: ", candidatesWithDesiredSkills)
                         
-                        
+                        print("these are the candidates with desired skills: ", candidatesWithDesiredSkills)
+                        candidatesAndTheirSkills = checkSkillsOfCandidate(candidatesWithDesiredSkills, cursor)
                         allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
                         numberOfSkillsEachCandidateHas = calculateNumberOfSkillsCandidateHas(candidatesWithDesiredSkills)
 
-                        constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas)
+                        constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas, candidatesAndTheirSkills)
 
                         response['query_id'] = queryID
                         response['status'] = True
@@ -91,6 +91,7 @@ def computeQueryResult():
             raise Exception(response)
 
     except Exception:
+        print(traceback.format_exc())
         return response, 400
 
     return response
@@ -116,10 +117,11 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
         for candidateId in targetCandidates[keys]:
             if candidateId not in candidates:
                 
-                db_cursor.execute(f"""SELECT first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
+                db_cursor.execute(f"""SELECT first_name, last_name, email FROM public."Personal Information" WHERE user_id={candidateId}""")
                 queryResult = db_cursor.fetchall()[0]
                 candidateFirstName = queryResult[0]
                 candidateLastName = queryResult[1]
+                candidateEmail = queryResult[2]
 
                 db_cursor.execute(f"""SELECT candidate_description FROM public."Candidate Information" WHERE user_id={candidateId}""")
                 candidateDescription = db_cursor.fetchone()
@@ -128,6 +130,7 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
                     candidateDescription = candidateDescription[0]
                     candidateInfo = []
                     candidateInfo.insert(0, candidateDescription)
+                    candidateInfo.insert(0, candidateEmail)
                     candidateInfo.insert(0, candidateLastName)
                     candidateInfo.insert(0, candidateFirstName)
                     candidates[candidateId].extend(candidateInfo)
@@ -135,6 +138,7 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
                     candidateDescription = ""
                     candidateInfo = []
                     candidateInfo.insert(0, candidateDescription)
+                    candidateInfo.insert(0, candidateEmail)
                     candidateInfo.insert(0, candidateLastName)
                     candidateInfo.insert(0, candidateFirstName)
                     candidates[candidateId].extend(candidateInfo)
@@ -155,7 +159,7 @@ def calculateNumberOfSkillsCandidateHas(targetCandidates):
     return candidateNumberOfSkillsTracker
 
 
-def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills):
+def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills, candidatesWithSkills):
     length = len(candidateNumberOfSkills)
 
     for i in range(length):
@@ -183,6 +187,23 @@ def filterExistingSkills(listOfSkills, curr):
             continue
 
     return existingSkills
+
+
+
+def checkSkillsOfCandidate(targetedCandidates, curr):
+    usersAndTheirSkills = defaultdict(list)
+    skills = []
+
+    for keys in targetedCandidates:
+        for candidateId in targetedCandidates[keys]:
+            curr.execute(f"""SELECT email FROM public."Personal Information" WHERE user_id={candidateId}""")
+            candidateEmail = curr.fetchone()[0]
+            skills.insert(0, keys)
+            usersAndTheirSkills[candidateEmail].append(keys)
+    
+    print(usersAndTheirSkills)
+    return usersAndTheirSkills
+
 
 
 

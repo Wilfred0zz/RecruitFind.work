@@ -55,7 +55,6 @@ from Routes.Matches.fetchCandidateMatches import fcm
 app = Flask(__name__)
 app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
 authenticationManagement = LoginManager(app)
-authenticationManagement.login_view = 'login.login'
 
 @authenticationManagement.user_loader
 def load_user(id):
