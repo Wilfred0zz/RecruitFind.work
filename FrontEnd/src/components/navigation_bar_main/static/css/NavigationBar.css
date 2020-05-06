@@ -1,12 +1,13 @@
 .navbar{
     position: fixed;
     width: 100%;
-    background: black;
-    height: 56px;
+    background: rgba(0, 0, 0, 0.9);
+    height: 60px;
     top: 0;
     margin: 0px;
     font-family: sans-serif;
-    font-weight: bold;
+    font-weight: bold; 
+    z-index: 100;
 }
 
 .navbar-options{
@@ -36,4 +37,16 @@
 .navbar-items a:hover ,
 .navbar-items a:active {
     color: steelblue;
+}
+
+#registerForm{
+    padding-top: 4%;
+    position: relative;
+    padding-left: 55%;
+}
+
+#catch-phrase{
+    padding-left: 10%;
+    padding-top: 20%;
+    float: left;
 }

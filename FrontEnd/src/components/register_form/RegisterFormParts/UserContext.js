@@ -20,6 +20,7 @@ export default props => {
       confirmPassword: "",
       acceptTerms: false,
       isRegistered: false,
+      first_time: false,
     },
     errors: {}
   });

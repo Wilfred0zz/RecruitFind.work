@@ -13,7 +13,11 @@ def updateCandidateLinks():
             data = request.get_json()
 
             token = request.cookies.get('token')
-            print("this is the token from broswer: ", token)
+            
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
 
             typeOfLink1 = data['type_of_link_1']
             link1 = data['link_1']

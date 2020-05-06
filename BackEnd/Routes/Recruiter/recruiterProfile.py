@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint, request
 import psycopg2
+import traceback
 
 rp = Blueprint('recruiterProfile', __name__)
 
@@ -8,11 +9,17 @@ def createRecruiterProfile():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
+            print(request.headers)
             cursor = database.cursor()
             response = dict()
             data = request.get_json()
 
             token = request.cookies.get('token')
+
+            if token == None:
+                error = "User Not Authenticated!"
+                response['error'] = error
+                raise Exception(response)
 
             recruiterCompany = data['recruiter_company']
             recruiterPosition = data['recruiter_position']
@@ -40,8 +47,9 @@ def createRecruiterProfile():
             error = "Connection To Database Failed!"
             response['error'] = error
             raise Exception(response)
-    except Exception:
+    except Exception as e:         
+        print(traceback.format_exc())        
         return response, 400
-        
+    
     
     return response

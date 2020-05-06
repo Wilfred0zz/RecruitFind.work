@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"raw": "{\n\t\"email\": \"mickey@gmail.com\",\n    \"password\": \"locos\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\"\n}",
+					"raw": "{\n    \"email\": \"mickey@gmail.com\",\n    \"password\": \"locos\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -94,38 +94,6 @@
 					"path": [
 						"api",
 						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "recruiterProfile",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\",\n    \"recruiter_state\": \"NY\",\n    \"is_deleted\": false\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://127.0.0.1:5000/api/recruiterProfile",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"recruiterProfile"
 					]
 				}
 			},
@@ -219,6 +187,38 @@
 			"response": []
 		},
 		{
+			"name": "recruiterProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\",\n    \"recruiter_state\": \"NY\",\n    \"is_deleted\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/recruiterProfile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"recruiterProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "candidateExperiences",
 			"request": {
 				"method": "POST",
@@ -257,7 +257,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"Aspiring Software Engineer\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": false\n}",
+					"raw": "{\n    \"candidate_school\": \"Hunter College\",\n    \"candidate_highest_level_of_education\": \"Masters\",\n    \"candidate_description\": \"\",\n    \"candidate_current_position\": \"L4 Software Engineer\",\n    \"is_candidate_profile_deleted\": false,\n    \"name_of_interest_1\": \"sky diving\",\n    \"is_deleted_1\": false,\n    \"name_of_interest_2\": \"skiing\",\n    \"is_deleted_2\": false,\n    \"name_of_interest_3\": \"dating\",\n    \"is_deleted_3\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"skill\": \"python\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"playing games\",\n\t\"is_deleted\": true\n}",
+					"raw": "{\n\t\"skill\": \"c++\",\n\t\"is_deleted\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"flask\",\n\t\"desired_skill_3\": \"python\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -736,7 +736,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"java\",\n\t\"desired_skill_4\": \"flask\",\n\t\"desired_skill_5\": \"javascript\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"angular\",\n\t\"desired_skill_8\": \"vue\",\n\t\"desired_skill_9\": \"react\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -811,6 +811,84 @@
 					"path": [
 						"api",
 						"deleteQuery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "match",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"candidate_email\": \"tombrady12@gmail.com\",\n\t\"query_id\": 46\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/match",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"match"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidateMatches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidateMatches",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidateMatches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"logout"
 					]
 				}
 			},

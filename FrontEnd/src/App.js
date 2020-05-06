@@ -20,7 +20,7 @@ function App() {
       <Switch> 
         <Route exact path="/" render={MainPageComponent}/>
         <Route exact path="/candidate_profile" render={CandidateProfileComponent}/>
-        <Route exact path="/recruiter_profile" render={RecruiterProfileComponent}/>
+        <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
       </Switch>
     </div>
   );

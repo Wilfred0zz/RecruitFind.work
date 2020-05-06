@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 //import { Link } from 'react-router-dom';
 import './static/css/MainPageCSS.css';
-import './../navigation_bar/NavigationBar';
-import NavBar from './../navigation_bar/NavigationBar';
+import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
-import Center from 'react-center';
+import officeImg from './static/images/office.jpeg';
 
 class MainPage extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       isLoggedIn: false,
       email: '',
@@ -23,7 +21,30 @@ class MainPage extends Component {
     })
   } 
 
-  confirmLogIn = async (event) =>{
+  handleLogOut = async (event) => {
+    try{
+      const response = await fetch('/api/logout', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT'
+      });
+
+      const status = response.status;
+      const result = await response.json();
+
+      if (status === 400 || status === 500) {
+        alert(result.error);
+      } else {
+        console.log("Successfully logged out");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  confirmLogIn = async (event) => {
     event.preventDefault();
     const user = {
       "email": this.state.email, 
@@ -55,7 +76,7 @@ class MainPage extends Component {
   render() {
     return (
       <div className = 'home'> 
-        <NavBar/>
+        <MainNavBar/>
         <main style={{marginTop:'64px'}}>
         <div className = 'main-page' id = 'main'>
           <h1 className='header' id='catch-phrase'>Don't be a slob, get a job</h1>  
@@ -69,15 +90,14 @@ class MainPage extends Component {
                 <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>
               <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
+              <button className='log-in-button' onClick={this.handleLogOut}>Log Out</button>
             </form>
             <h3 className='OR-option'>================== OR ==================</h3>
           </div>
-          <h2 id='log-in' className="sign-up">Sign Up</h2>
-          <Center>
-              <RegisterForm confirmLogIn={this.confirmLogIn}/>
-          </Center>
+            <div id = 'registerForm'> <RegisterForm/> </div>
         </div>
         </main>
+        <img src={officeImg} alt="officeImg"/>
       </div>
     )
   }

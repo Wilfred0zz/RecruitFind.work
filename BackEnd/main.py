@@ -6,6 +6,7 @@ from Routes.Connections.connection import connect
 #Authentication Routes
 from Routes.Authentication.register import reg
 from Routes.Authentication.login import log
+from Routes.Authentication.logout import logout
 
 #Recruiter Routes
 from Routes.Recruiter.recruiterProfile import rp
@@ -45,6 +46,10 @@ from Routes.Queries.computeQuery import cptQry
 from Routes.Queries.fetchQueries import fqrys
 from Routes.Queries.deleteQuery import dQry
 
+#Match Routes
+from Routes.Matches.match import mat
+from Routes.Matches.fetchCandidateMatches import fcm
+
 app = Flask(__name__)
 
 #Connection Blueprint
@@ -53,6 +58,7 @@ app.register_blueprint(connect)
 ##Authentication BluePrints
 app.register_blueprint(reg)
 app.register_blueprint(log)
+app.register_blueprint(logout)
 
 #Recruiter Blueprints
 app.register_blueprint(rp)
@@ -91,6 +97,10 @@ app.register_blueprint(qry)
 app.register_blueprint(cptQry)
 app.register_blueprint(fqrys)
 app.register_blueprint(dQry)
+
+#Match Blueprints
+app.register_blueprint(mat)
+app.register_blueprint(fcm)
 
 
 if __name__ == '__main__':

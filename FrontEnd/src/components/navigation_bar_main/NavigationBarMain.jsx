@@ -1,7 +1,7 @@
 import React  from 'react';
 import './static/css/NavigationBar.css';
 
-const NavBar = props => (
+const MainNavBar = props => (
     <header className='navbar'>
         <nav className='navbar-options'>
             <div></div>
@@ -16,4 +16,4 @@ const NavBar = props => (
     </header>
 );
 
-export default NavBar;
+export default MainNavBar;

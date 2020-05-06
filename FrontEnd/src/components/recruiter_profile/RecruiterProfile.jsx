@@ -63,18 +63,18 @@ class RecruiterProfile extends Component{
     try{
       const response = await fetch('/api/recruiterProfile', {
         headers:{
-          'Accept': 'application/json',
+          // 'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         method: 'POST',
-        data: JSON.stringify(data)
+        body: JSON.stringify(data)
       });
-
+      // console.log(response);
       const status = response.status;
       const result = await response.json();
 
       if (status === 400 || status === 500) {
-        console.log("this is the result, ", response, "and the state is: ", data)
+        console.log("this is the result, ", data)
       } else { // gather other information about the canddiate and update state to render it
         this.setState({
           recruiter_company_updated: true
