@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import './static/css/MainPageCSS.css';
 import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
-import Center from 'react-center';
 import officeImg from './static/images/office.jpeg';
 
 class MainPage extends Component {
@@ -59,7 +58,7 @@ class MainPage extends Component {
         <main style={{marginTop:'64px'}}>
         <div className = 'main-page' id = 'main'>
           <h1 className='header' id='catch-phrase'>Don't be a slob, get a job</h1>  
-          {/*<div className='log-in'>
+          <div className='log-in'>
             <h2 className="login-header">Log In</h2>
             <form className='log-in-form'>
               <div className='email-password'>
@@ -71,7 +70,7 @@ class MainPage extends Component {
               <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
             </form>
             <h3 className='OR-option'>================== OR ==================</h3>
-          </div>*/}
+          </div>
             <div id = 'registerForm'> <RegisterForm/> </div>
         </div>
         </main>

@@ -126,7 +126,7 @@ export default props => {
       } else {
         console.log(result.status_info);
         // get the user logged in if registration is a success
-        await handleLogin();
+        // await handleLogin();
         // update state in order to lead to profile page on redirect
         const temp = JSON.parse(JSON.stringify(state));
         temp.user.isRegistered = true;
