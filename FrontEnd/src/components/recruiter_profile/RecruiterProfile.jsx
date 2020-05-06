@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Autocomplete from 'react-google-autocomplete';
+import NavigationBarRecruiter from './navigation_bar_recruiter/NavigationBarRecruiter';
 
 class RecruiterProfile extends Component{
   constructor(props){
@@ -69,7 +70,7 @@ class RecruiterProfile extends Component{
 
       if (status === 400 || status === 500) {
         // If I dont get an error it means user isn't logged in
-        if(!result.error) {
+        if(!result.error || result.error === 'User Not Authenticated!') {
           console.log("User doesn't exist or isn't logged in and should be redirected to login");
           this.setState({
             is_logged_in: false
@@ -114,8 +115,6 @@ class RecruiterProfile extends Component{
         method: 'PUT',
         body: JSON.stringify(data)
       });
-
-      console.log(response);
       
       const status = response.status;
       const result = response.result;
@@ -133,6 +132,19 @@ class RecruiterProfile extends Component{
     }
   }
 
+  handleCancel = (event) => {
+    event.preventDefault();
+    this.setState({
+      recruiter_company_update: false
+    })
+  }
+
+  updateLogout = () => {
+    this.setState({
+      is_logged_in: false
+    })
+  }
+
   componentDidMount = async () => {
     await this.fetchRecruiterCompanyInfo();
   }
@@ -145,14 +157,15 @@ class RecruiterProfile extends Component{
           ? <Redirect to='/'/>
           : null
         }
+        <NavigationBarRecruiter updateLogout = {this.updateLogout}/>
         {this.state.recruiter_company_update ? 
           <div className='create_recruiter_profile'>
             <form className='recruiter_company_info'>
               <label> Company </label>
-              <input name='recruiter_company' onChange={this.handleChange}/>
+              <input name='recruiter_company' onChange={this.handleChange} value={this.state.recruiter_company}/>
               
               <label> Position </label>
-              <input name='recruiter_position' onChange={this.handleChange}/>
+              <input name='recruiter_position' onChange={this.handleChange} value={this.state.recruiter_position}/>
 
               <label> Location </label>
               <Autocomplete
@@ -165,6 +178,7 @@ class RecruiterProfile extends Component{
                 types={['geocode', 'establishment']}
                 componentRestrictions={{country: "us"}}
               /> 
+              <button onClick={this.handleCancel}>Cancel</button>
               <button onClick={this.handleSubmit}>Submit</button> 
             </form>
           </div> 
