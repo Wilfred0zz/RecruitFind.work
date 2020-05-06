@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Autocomplete from 'react-google-autocomplete';
+import RecruiterExistsProfile from './RecruiterExistsProfile';
 
 class RecruiterProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
-      first_time_login: false,
+      first_time_login: true,
       is_logged_in: true,
       recruiter_company_updated: false,
       // Add personal information like location they live at, gender, and more if they wanna change
@@ -26,25 +27,27 @@ class RecruiterProfile extends Component{
     }, ()=> console.log(this.state))
   } 
 
-  handleGoogleChange = () =>{
+  handleGoogleChange = (event) =>{
     if(!event.formatted_address || event.formatted_address.split(',').length <= 3) {
       alert('please enter a specific location');
       return;
     }
     let [ address, city, state_zip, country ] = event.formatted_address.split(',');
+    city = city.substr(1);
+    country = country.substr(1);
     state_zip = state_zip.substr(1);
     let [ state, code ] = state_zip.split(" ");
-    code = parseInt(code);
+    // code = parseInt(code);
     this.setState({
-      recruiter_company_street_address = address,
-      recruiter_state = state,
-      recruiter_city = city,
-      recruiter_postal = code,
-      recruiter_country = country
+      recruiter_company_street_address: address,
+      recruiter_state: state,
+      recruiter_city: city,
+      recruiter_postal: code,
+      recruiter_country: country
     })
   } 
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
       "recruiter_company": this.state.recruiter_company,
@@ -71,7 +74,7 @@ class RecruiterProfile extends Component{
       const result = await response.json();
 
       if (status === 400 || status === 500) {
-        console.log("this is the result, ", result)
+        console.log("this is the result, ", response, "and the state is: ", data)
       } else { // gather other information about the canddiate and update state to render it
         this.setState({
           recruiter_company_updated: true
@@ -107,12 +110,7 @@ class RecruiterProfile extends Component{
       if (status === 400 || status === 500) {
         // alert(result.error);
         // If I get an error I need to check the error message
-        if(result.error){
-          this.setState({
-            first_time_login: true,
-          })
-        }
-        else {
+        if(!result.error) {
           console.log("User doesn't exist or isn't logged in and should be redirected to login");
           this.setState({
             is_logged_in: false
@@ -124,12 +122,11 @@ class RecruiterProfile extends Component{
           recruiter_city: recruiter_city,
           recruiter_company: recruiter_company,
           recruiter_company_street_address: recruiter_company_street_address,
-          recruiter_company_updated:  recruiter_company_updated,
           recruiter_country: recruiter_country,
           recruiter_position: recruiter_position,
           recruiter_postal: recruiter_postal,
           recruiter_state: recruiter_state
-        })
+        }, () => console.log(this.state))
       }
     } catch (error) {
       console.log(error);
@@ -146,7 +143,7 @@ class RecruiterProfile extends Component{
         }
         <h1>Welcome Recruiter{/** Need to add name, API doesn't exist yet*/}</h1>
         {/* Check if the user registered for the first time */}
-        {this.state.first_time_login ? 
+        {!this.state.recruiter_company_updated ? 
           <div className='create_recruiter_profile'>
             <form className='recruiter_company_info'>
               <label> Company </label>
@@ -161,7 +158,7 @@ class RecruiterProfile extends Component{
                 style={{width:'50%'}}
                 onPlaceSelected={(place) => {
                   console.log(place);
-                  handleGoogleChange(place);
+                  this.handleGoogleChange(place);
                 }}
                 types={['geocode', 'establishment']}
                 componentRestrictions={{country: "us"}}
@@ -171,7 +168,7 @@ class RecruiterProfile extends Component{
           </div> 
         :
           <div>
-            User View  
+            <RecruiterExistsProfile/>
           </div>
         
         }
