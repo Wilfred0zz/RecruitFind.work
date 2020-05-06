@@ -23,7 +23,7 @@ function Register(props) {
   const classes = useStyles();
   return (
     <UserContextProvider className={classes.content}>
-      <Box container className={classes.root}>
+      <Box container='true' className={classes.root}>
         <RegisterForm/>
       </Box>
     </UserContextProvider>
