@@ -21,7 +21,30 @@ class MainPage extends Component {
     })
   } 
 
-  confirmLogIn = async (event) =>{
+  handleLogOut = async (event) => {
+    try{
+      const response = await fetch('/api/logout', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT'
+      });
+
+      const status = response.status;
+      const result = await response.json();
+
+      if (status === 400 || status === 500) {
+        alert(result.error);
+      } else {
+        console.log("Successfully logged out");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  confirmLogIn = async (event) => {
     event.preventDefault();
     const user = {
       "email": this.state.email, 
@@ -67,6 +90,7 @@ class MainPage extends Component {
                 <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
               </div>
               <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
+              <button className='log-in-button' onClick={this.handleLogOut}>Log Out</button>
             </form>
             <h3 className='OR-option'>================== OR ==================</h3>
           </div>

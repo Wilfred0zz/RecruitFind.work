@@ -20,9 +20,9 @@ class DisplayPastQueries extends Component{
             const status = response.status;   
             const result = await response.json();
             if (status === 400 || status === 500) {
-              document.write(result.error);
+              console.log("reached error")
             } else {
-              console.log(result, "fetching queries");
+              console.log(result);
               UserPastQueries => {
                   this.setState({PastQueries : UserPastQueries})
               }
