@@ -45,6 +45,8 @@ def computeQueryResult():
                 skills.insert(0, desiredSkill2)
                 skills.insert(0, desiredSkill1)
 
+                skills = filterExistingSkills(skills, cursor)
+
                 currentUserId = current_user.get_id()
 
                 if currentUserId:
@@ -65,7 +67,9 @@ def computeQueryResult():
                             queryResult = cursor.fetchall()
                             
                             extractedUsers = extractUsersFromQueryResult(queryResult)
+                            print("this is the extracted users: ", extractedUsers)
                             candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
+                            print("these are the candidates with desired skills: ", candidatesWithDesiredSkills)
                         
                         
                         allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
@@ -165,6 +169,20 @@ def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills):
 
 
 
+def filterExistingSkills(listOfSkills, curr):
+    existingSkills = []
+    listOfSkills = listOfSkills[::-1]
+
+    for i in range(len(listOfSkills)):
+        curr.execute(f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{listOfSkills[i]}')""")
+        skillID = curr.fetchone()
+
+        if skillID != None:
+            existingSkills.insert(0, listOfSkills[i])
+        else: 
+            continue
+
+    return existingSkills
 
 
 

@@ -14,6 +14,8 @@ def storeQuery():
             response = dict()
             data = request.get_json()
             skills = []
+            skillIdTracker = []
+            nonExistentSkillsTracker = []
 
             if current_user.is_authenticated:
             
@@ -58,16 +60,21 @@ def storeQuery():
                         skillID = cursor.fetchone()
                         if skillID != None:
                             skillID = skillID[0]
+                            skillIdTracker.insert(0, skillID)
                             cursor.execute(f"""INSERT INTO public."Query Skills" (query_id, skill_id, is_deleted) VALUES ({queryID}, {skillID}, {False})""")
                             database.commit()
                         else:
+                            if i == 0:
+                                continue
                             nonExistentSkill = skills[i] 
-                            if nonExistentSkill == "":
+                            nonExistentSkillsTracker.insert(0, nonExistentSkill)
+                            if nonExistentSkill == "" or len(skillIdTracker) != 0:
                                 continue
                             error = "No User With " + nonExistentSkill + " Skills Exists Within Our Database!"
                             response['error'] = error
                             raise Exception(response)
 
+                    print(nonExistentSkillsTracker)
                     response['status'] = True
                     response['status_info'] = 'Query Stored Successfully!'
         else:
@@ -78,3 +85,7 @@ def storeQuery():
     except Exception:
         return response, 400
     return response
+
+
+
+    
