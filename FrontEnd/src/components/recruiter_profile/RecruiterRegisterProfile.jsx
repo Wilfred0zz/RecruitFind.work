@@ -8,7 +8,7 @@ class RecruiterRegisterProfile extends Component{
     this.state = { 
       // first_time_login: true,
       is_logged_in: true,
-      recruiter_company_updated: false,
+      recruiter_company_update: false,
       // Add personal information like location they live at, gender, and more if they wanna change
       recruiter_city: "",
       recruiter_company: "",
@@ -76,7 +76,7 @@ class RecruiterRegisterProfile extends Component{
         alert(result.error);
       } else { // gather other information about the canddiate and update state to render it
         this.setState({
-          recruiter_company_updated: true
+          recruiter_company_update: true
         });
       }
     } catch (error) {
@@ -110,7 +110,7 @@ class RecruiterRegisterProfile extends Component{
       } else { // user already has info so not the first time they are registering, so redirect them
         // const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
         this.setState({
-          recruiter_company_updated: true
+          recruiter_company_update: true
         }, () => console.log(this.state))
       }
     } catch (error) {
@@ -134,7 +134,7 @@ class RecruiterRegisterProfile extends Component{
         }
         <h1>Welcome Recruiter{/** Need to add name, API doesn't exist yet*/}</h1>
         {/* Check if the user registered for the first time by looking at update state*/}
-        {!this.state.recruiter_company_updated ? 
+        {!this.state.recruiter_company_update ? 
           <div className='create_recruiter_profile'>
             <form className='recruiter_company_info'>
               <label> Company </label>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import Autocomplete from 'react-google-autocomplete';
 
 class RecruiterProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
-      first_time_login: true,
       is_logged_in: true,
-      recruiter_company_updated: false,
+      recruiter_company_update: false,
       // Add personal information like location they live at, gender, and more if they wanna change
       company_edit: false,
       recruiter_city: "",
@@ -44,11 +45,144 @@ class RecruiterProfile extends Component{
       recruiter_country: country
     })
   } 
+
+  handleEdit = () => {
+    this.setState({
+      recruiter_company_update: true 
+    })
+  }
+
+  // Fetch All Data, and see if any information exists
+  // if it does set company_update tot rue cause it already exists
+  fetchRecruiterCompanyInfo = async () => {
+    try{
+      const response = await fetch('/api/fetchRecruiterProfileInfo', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET',
+      });
+
+      const status = response.status;
+      const result = await response.json();
+
+      if (status === 400 || status === 500) {
+        // If I dont get an error it means user isn't logged in
+        if(!result.error) {
+          console.log("User doesn't exist or isn't logged in and should be redirected to login");
+          this.setState({
+            is_logged_in: false
+          })
+        }
+      } else { // user already has info so not the first time they are registering, so redirect them
+        const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
+        this.setState({
+          recruiter_city: recruiter_city,
+          recruiter_company: recruiter_company,
+          recruiter_company_street_address: recruiter_company_street_address,
+          recruiter_country: recruiter_country,
+          recruiter_position: recruiter_position,
+          recruiter_postal: recruiter_postal,
+          recruiter_state: recruiter_state
+        }, () => console.log(this.state))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = {
+      "recruiter_company": this.state.recruiter_company,
+      "recruiter_position": this.state.recruiter_position,
+      "recruiter_company_street_address": this.state.recruiter_company_street_address,
+      "recruiter_city": this.state.recruiter_city,
+      "recruiter_postal": this.state.recruiter_postal,
+      "recruiter_country": this.state.recruiter_country,
+      "recruiter_state": this.state.recruiter_state,
+      "is_deleted": false
+    }
+
+    try {
+      const response = await fetch('/api/updateRecruiterProfileInfo',{
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(data)
+      });
+
+      console.log(response);
+      
+      const status = response.status;
+      const result = response.result;
+
+      if(status === 400 || status === 500){
+        console.log(result)
+      }
+      else{
+        this.setState({
+          recruiter_company_update: false
+        })
+      }
+    } catch (error) {
+       console.log(error);
+    }
+  }
+
+  componentDidMount = async () => {
+    await this.fetchRecruiterCompanyInfo();
+  }
+
   render() {
     return (
       <div className='recruiter-profile'>
+        { // Redirect them to main page to log in, if they aren't logged in
+          !this.state.is_logged_in 
+          ? <Redirect to='/'/>
+          : null
+        }
+        {this.state.recruiter_company_update ? 
+          <div className='create_recruiter_profile'>
+            <form className='recruiter_company_info'>
+              <label> Company </label>
+              <input name='recruiter_company' onChange={this.handleChange}/>
+              
+              <label> Position </label>
+              <input name='recruiter_position' onChange={this.handleChange}/>
 
-        Hello World
+              <label> Location </label>
+              <Autocomplete
+                required
+                style={{width:'50%'}}
+                onPlaceSelected={(place) => {
+                  console.log(place);
+                  this.handleGoogleChange(place);
+                }}
+                types={['geocode', 'establishment']}
+                componentRestrictions={{country: "us"}}
+              /> 
+              <button onClick={this.handleSubmit}>Submit</button> 
+            </form>
+          </div> 
+        :
+        <div className='create_recruiter_profile'>
+          <form className='recruiter_company_info'>
+            <label> Company </label>
+            <p>{this.state.recruiter_company}</p>
+            
+            <label> Position </label>
+            <p>{this.state.recruiter_position}</p>
+
+            <label> Location </label>
+              <p>{this.state.recruiter_company_street_address}, {this.state.recruiter_city}, {this.state.recruiter_state} {this.state.recruiter_postal} {this.state.recruiter_country}</p>
+            <button onClick={this.handleEdit}>Edit</button> 
+          </form>
+        </div> 
+        }
       </div>
     )
   }
