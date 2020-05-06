@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 //import { Link } from 'react-router-dom';
 import './static/css/MainPageCSS.css';
-import './../navigation_bar/NavigationBar';
-import NavBar from './../navigation_bar/NavigationBar';
+import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
 import Center from 'react-center';
+import officeImg from './static/images/office.jpeg';
 
 class MainPage extends Component {
   constructor(props){
@@ -55,11 +55,11 @@ class MainPage extends Component {
   render() {
     return (
       <div className = 'home'> 
-        <NavBar/>
+        <MainNavBar/>
         <main style={{marginTop:'64px'}}>
         <div className = 'main-page' id = 'main'>
           <h1 className='header' id='catch-phrase'>Don't be a slob, get a job</h1>  
-          <div className='log-in'>
+          {/*<div className='log-in'>
             <h2 className="login-header">Log In</h2>
             <form className='log-in-form'>
               <div className='email-password'>
@@ -71,13 +71,11 @@ class MainPage extends Component {
               <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
             </form>
             <h3 className='OR-option'>================== OR ==================</h3>
-          </div>
-          <h2 id='log-in' className="sign-up">Sign Up</h2>
-          <Center>
-              <RegisterForm confirmLogIn={this.confirmLogIn}/>
-          </Center>
+          </div>*/}
+            <div id = 'registerForm'> <RegisterForm/> </div>
         </div>
         </main>
+        <img src={officeImg} alt="officeImg"/>
       </div>
     )
   }
