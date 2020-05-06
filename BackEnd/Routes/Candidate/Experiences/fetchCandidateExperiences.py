@@ -22,7 +22,6 @@ def fetchCandidateExperiences():
                     queryResult = cursor.fetchall()
 
                     if len(queryResult) != 0:
-                        print("in hiay!")
                         if len(queryResult) == 1:
                             experienceId1 = queryResult[0][0]
                             cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE experience_id={experienceId1}""")
