@@ -2,7 +2,6 @@ from flask import Flask, Blueprint, request
 import psycopg2
 import traceback
 from flask_login import current_user, login_user, logout_user, login_required
-#from Routes.Authentication.login import User
 
 cs = Blueprint('candidateSkills', __name__)
 
@@ -12,15 +11,12 @@ def storeCandidateSkills():
     print("ntkbnjtnktnkbtnk")
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
-        #print("bgkmbgkb")
+    
         if database:
             cursor = database.cursor()
             response = dict()
             data = request.get_json()
-            #print("im up here!")
-
-            #print("this is the current dufus: ", current_user)
-            print("this is the email: ", current_user.is_authenticated)
+            
             if current_user.is_authenticated:
 
                 skill = data['skill']
@@ -38,15 +34,10 @@ def storeCandidateSkills():
                         cursor.execute(query)
 
                         if cursor.fetchone() != None:
-                            print("jrnvjrnjnrn")
                             cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
                             skillId = cursor.fetchone()[0]
-                            print("this is the skill id: ", skillId)
-                            print("this is the candidate id: ", currentUserId)
                             cursor.execute(f"""SELECT user_id FROM public."Candidate Skills" WHERE skill_id={skillId} AND user_id={currentUserId}""")
-                            print("this is th ejoker!")
                             alreadyExistingSkillForCandidate = cursor.fetchone()
-                            print(alreadyExistingSkillForCandidate)
             
                             if alreadyExistingSkillForCandidate == None:
 
@@ -77,7 +68,6 @@ def storeCandidateSkills():
             response['error'] = error
             raise Exception(response)
     except Exception:
-        print("tnbtjbjtnjtb")
         print(traceback.format_exc())
         return response, 400
     

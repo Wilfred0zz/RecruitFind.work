@@ -45,8 +45,8 @@ def fetchAllQueriesForAUser():
 
 
 def constructResponse(rspObj, currQuery, itemId):
-    queryIdStr = str(currQuery[0])
-    queryInfo =  [{'queryTite': currQuery[1], 'queryDescription': currQuery[2], 'queryPayment': currQuery[3], 'queryDate': currQuery[4]} for x in range(1)]
-    rspObj[queryIdStr].extend(queryInfo)
+    itemIdStr = str(itemId+1)
+    queryInfo =  [{'query_id': currQuery[0], 'queryTitle': currQuery[1], 'queryDescription': currQuery[2], 'queryPayment': currQuery[3], 'queryDate': currQuery[4]} for x in range(1)]
+    rspObj['query_' + itemIdStr + '_info'].extend(queryInfo)
 
 
