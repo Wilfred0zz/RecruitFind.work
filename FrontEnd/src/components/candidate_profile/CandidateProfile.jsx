@@ -65,7 +65,7 @@ class CandidateProfile extends Component{
       if (status === 400 || status === 500) {
         // alert(result.error);
         // If I get an error I need to check the error message
-        if(result.errors){
+        if(result.error){
           this.setState({
             first_time_login: true,
           })
@@ -121,8 +121,8 @@ class CandidateProfile extends Component{
               <input name='name_of_interest_2' onChange={this.handleChange}/>
               <input name='name_of_interest_3' onChange={this.handleChange}/>
             </div>
-            <div className="">
-
+            <div className="candidate_links">
+              
             </div>
 
           </div> 
