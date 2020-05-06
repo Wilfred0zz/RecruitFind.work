@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Autocomplete from 'react-google-autocomplete';
 
-class CandidateProfile extends Component{
+class RecruiterProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
@@ -36,18 +36,50 @@ class CandidateProfile extends Component{
     let [ state, code ] = state_zip.split(" ");
     code = parseInt(code);
     this.setState({
-      personal_street_address = address,
-      personal_state = state,
-      personal_city = city,
-      personal_postal = code,
-      personal_country = country
+      recruiter_company_street_address = address,
+      recruiter_state = state,
+      recruiter_city = city,
+      recruiter_postal = code,
+      recruiter_country = country
     })
   } 
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const data = {
+      "recruiter_company": this.state.recruiter_company,
+      "recruiter_position": this.state.recruiter_position,
+      "recruiter_company_street_address": this.state.recruiter_company_street_address,
+      "recruiter_city": this.state.recruiter_city,
+      "recruiter_postal": this.state.recruiter_postal,
+      "recruiter_country": this.state.recruiter_country,
+      "recruiter_state": this.state.recruiter_state,
+      "is_deleted": false
+    }
 
+    try{
+      const response = await fetch('/api/recruiterProfile', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        data: JSON.stringify(data)
+      });
 
+      const status = response.status;
+      const result = await response.json();
+
+      if (status === 400 || status === 500) {
+        console.log("this is the result, ", result)
+      } else { // gather other information about the canddiate and update state to render it
+        this.setState({
+          recruiter_company_updated: true
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   fetchRecruiterCompanyInfo = async (event) => {
@@ -61,7 +93,7 @@ class CandidateProfile extends Component{
   // else set edit to false, and just render view
   componentDidMount = async () => {
     try{
-      const response = await fetch('/api/fetchCandidateProfileInfo', {
+      const response = await fetch('/api/fetchRecruiterProfileInfo', {
         headers:{
           'Accept': 'application/json',
           'Content-Type': 'application/json'
@@ -86,8 +118,18 @@ class CandidateProfile extends Component{
             is_logged_in: false
           })
         }
-      } else { // gather other information about the canddiate and update state to render it
-        console.log("Please get rest of the information");
+      } else { // update state
+        const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
+        this.setState({
+          recruiter_city: recruiter_city,
+          recruiter_company: recruiter_company,
+          recruiter_company_street_address: recruiter_company_street_address,
+          recruiter_company_updated:  recruiter_company_updated,
+          recruiter_country: recruiter_country,
+          recruiter_position: recruiter_position,
+          recruiter_postal: recruiter_postal,
+          recruiter_state: recruiter_state
+        })
       }
     } catch (error) {
       console.log(error);
@@ -138,4 +180,4 @@ class CandidateProfile extends Component{
   }
 }
 
-export default CandidateProfile;
+export default RecruiterProfile;
