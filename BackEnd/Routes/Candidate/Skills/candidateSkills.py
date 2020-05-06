@@ -31,10 +31,21 @@ def storeCandidateSkills():
                     if cursor.fetchone() != None:
                         cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{lcSkill}'""")
                         skillId = cursor.fetchone()[0]
-                        cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
-                        database.commit()
-                        response['status'] = True
-                        response['status_info'] = 'Skill Already Exists! Skill Stored For Candidate Successfully'
+                        print(currentUserId)
+                        cursor.execute(f"""SELECT skill_id FROM public."Candidate Skills" WHERE EXISTS (SELECT skill, user_id FROM public."Skills" WHERE skill='{lcSkill}' AND user_id={currentUserId})""")
+                        alreadyExistingSkillForCandidate = cursor.fetchone()
+                        print(alreadyExistingSkillForCandidate)
+                        if alreadyExistingSkillForCandidate == None:
+
+                            cursor.execute(f"""INSERT INTO public."Candidate Skills" (user_id, skill_id, is_deleted) VALUES ({currentUserId}, {skillId}, {False})""")
+                            database.commit()
+                            response['status'] = True
+                            response['status_info'] = 'Skill Already Exists! Skill Stored For Candidate Successfully'
+                        else:
+                            error = "Candidate Already Has That Skill!"
+                            response['error'] = error
+                            raise Exception(response)
+
                     else:
                         print(cursor.fetchone())
                         cursor.execute(f"""INSERT INTO public."Skills" (skill) VALUES ('{lcSkill}')""")
