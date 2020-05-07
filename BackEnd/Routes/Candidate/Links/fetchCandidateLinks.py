@@ -18,7 +18,7 @@ def fetchCandidateLinks():
                 currentUserId = current_user.get_id()
 
                 if currentUserId:
-                    cursor.execute(f"""SELECT link_id, link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                    cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={False}""")
                     queryResult = cursor.fetchall()
                     print("this is query result: ", queryResult)
 
@@ -27,6 +27,7 @@ def fetchCandidateLinks():
                             linkId1 = queryResult[0][0]
                             cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE link_id={linkId1}""")
                             queryResultFromLinkId = cursor.fetchall()
+                            print(queryResultFromLinkId)
                             constructLinksResponse(response, queryResultFromLinkId[0], '1')
 
                             cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={True}""")
