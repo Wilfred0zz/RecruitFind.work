@@ -52,6 +52,7 @@ class CandidateRegisterProfile extends Component{
   }
 
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
+  experiences = [1,2,3,4,5];
 
   handleChange = (event) => {
     this.setState({
@@ -124,6 +125,29 @@ class CandidateRegisterProfile extends Component{
     }
   }
 
+  renderEndDate = (number) => {
+    let end_date= `end_date_${number}`;
+    let present= `present_${number}`;
+    if(this.state[present]){
+      return (
+        <div>
+          <input type='checkbox' name={present} checked onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
+    else{
+      return (
+        <div className='unchecked'>
+          <input type='date' name={end_date} onChange={this.handleChange}/>
+          <br/>
+          <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div className='candidate_profile'>
@@ -185,34 +209,26 @@ class CandidateRegisterProfile extends Component{
             </div>
               <br/>
             <div className='Candidate Experiences'>
-              <p>Experience 1</p>
-              <label>Position</label>
-              <input type='text' name='role_title_1' onChange={this.handleChange}/>
-                <br/>
-              <label>Decription</label>
-              <input type='text' name='description_1' onChange={this.handleChange}/>
-                <br/>
-              <label>Start Date</label>
-              <input type='date' name='start_date_1' onChange={this.handleChange}/>
-                <br/>
-              <label>End Date</label>
               {
-                this.state.present_1 
-                ? <div>
-                    <input type='checkbox' name='present_1' onClick={this.handleCheckBox}/>
-                    <label>Enter a Custom Date</label>
-                  </div>
-                : <div className='unchecked'>
-                    <input type='date' name='end_date_1' onChange={this.handleChange}/>
-                    <br/>
-                    <input type='checkbox' name='present_1' onClick={this.handleCheckBox}/>
-                    <label>Present</label>
-                  </div>
+                this.experiences.map((experienceNumber)=>{
+                  return (
+                    <div key={experienceNumber}>
+                      <p>Experience {experienceNumber}</p>
+                      <label>Position</label>
+                      <input type='text' name={`role_title_${experienceNumber}`} onChange={this.handleChange}/>
+                        <br/>
+                      <label>Decription</label>
+                      <input type='text' name={`description_${experienceNumber}`} onChange={this.handleChange}/>
+                        <br/>
+                      <label>Start Date</label>
+                      <input type='date' name={`start_date_${experienceNumber}`} onChange={this.handleChange}/>
+                        <br/>
+                      <label>End Date</label>
+                      {this.renderEndDate(experienceNumber)}
+                    </div>
+                  )  
+                })
               }
-              
-                <br/>
-              
-
             </div>
               <br/>
             <div className='skills'>
