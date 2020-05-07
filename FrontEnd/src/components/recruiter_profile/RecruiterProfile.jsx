@@ -86,7 +86,7 @@ class RecruiterProfile extends Component{
           recruiter_position: recruiter_position,
           recruiter_postal: recruiter_postal,
           recruiter_state: recruiter_state
-        }, () => console.log(this.state))
+        })
       }
     } catch (error) {
       console.log(error);
