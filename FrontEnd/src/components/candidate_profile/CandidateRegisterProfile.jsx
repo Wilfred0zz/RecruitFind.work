@@ -15,7 +15,9 @@ class CandidateRegisterProfile extends Component{
       name_of_interst_1: "",
       name_of_interst_2: "",
       name_of_interst_3: "",
+      interest_count: 1,
 
+      link_count: 1,
       link_1: "",
       link_2: "",
       link_3: "",
@@ -52,8 +54,11 @@ class CandidateRegisterProfile extends Component{
     }
   }
 
+  // in order to dynamizally creatae fields and options
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
   experiences = [1];
+  profileLinks = [1];
+  profileInterests=[1];
 
   handleChange = (event) => {
     this.setState({
@@ -137,12 +142,10 @@ class CandidateRegisterProfile extends Component{
       this.experiences.push(1);
       this.setState({
         count: this.state.count + 1
-      })
+      });
     }
     else {
-      return(
-        alert("bleg")
-      )
+      return(alert("No more than 5 allowed"));
     }
   }
 
@@ -189,6 +192,33 @@ class CandidateRegisterProfile extends Component{
 
   }
 
+  increaseLinks = (event) => {
+    event.preventDefault();
+    if(this.profileLinks.length <= 3){
+      this.profileLinks.push(1);
+      this.setState({
+        link_count: this.state.link_count + 1
+      });
+    }
+    else{
+      return (alert("No more then 3 links allowed"));
+    }
+  }
+
+  deleteRecentLink = (event) => {
+    event.preventDefault();
+    const size = this.profileLinks.length;
+    const link =`link_${size}`;
+    const type_of_link = `type_of_link_${size}`;
+
+    this.profileLinks.pop();
+
+    this.setState({
+      [link]: '',
+      [type_of_link]: '',
+      link_count: this.state.link_count-1
+    });
+  }
   // need a fetch for candidate name, and description, etc.
 
   // Fetch All Data, and see if any information exists
@@ -267,10 +297,35 @@ class CandidateRegisterProfile extends Component{
               <input name='name_of_interest_3' onChange={this.handleChange}/>
             </div>
               <br/>
+            
             <div className="candidate_links">
-              <p> Links: (Up to 3 allowed, not required) </p>
-
-              <label>Type of Link </label>
+              <p> Links: </p>
+                {
+                  this.profileLinks.map((link, index) => {
+                    return (
+                      <div key ={index}>
+                        <label>Type of Link </label>
+                        <input name={`type_of_link_${index+1}`} onChange={this.handleChange}/>
+                        <br/>
+                        <label>Link </label>
+                        <input name={`link_${index+1}`} onChange={this.handleChange}/>
+                      </div>
+                    )
+                  })
+                }
+                {/* Button to add another experience */}
+                {
+                  (this.profileLinks.length < 3)
+                  ? <button onClick={this.increaseLinks}>+</button>
+                  : null
+                }
+                {/* Button to delete most recent experience */}
+                {
+                  (this.profileLinks.length > 1)
+                  ? <button onClick={this.deleteRecentLink}>-</button>
+                  : null
+                }
+              {/* <label>Type of Link </label>
               <input name='type_of_link_1' onChange={this.handleChange}/>
               <br/>
               <label>Link </label>
@@ -286,9 +341,10 @@ class CandidateRegisterProfile extends Component{
               <input name='type_of_link_3' onChange={this.handleChange}/>
               <br/>
               <label>Link </label>
-              <input name='link_3' onChange={this.handleChange}/>
+              <input name='link_3' onChange={this.handleChange}/> */}
             </div>
               <br/>
+            
             <div className='Candidate Experiences'>
               {
                 this.experiences.map((experienceNumber, index)=>{
@@ -323,6 +379,7 @@ class CandidateRegisterProfile extends Component{
                 : null
               }
             </div>
+
               <br/>
             <div className='skills'>
                 Skills
