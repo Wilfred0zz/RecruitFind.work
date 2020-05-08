@@ -32,8 +32,7 @@ def fetchCandidateSkills():
                                 else:
                                     key = 'is_deleted_' + str(i+1)
                                     response[key] = queryResult[i][j]
-                        response['status'] = True
-                        response['status_info'] = 'Candidate Skills Fetched Successfully'
+                        
 
                     else:
                         response['status'] = True

@@ -51,8 +51,7 @@ def fetchCandidateLinks():
                             constructLinksResponse(response, queryResult[0], '1')
                             constructLinksResponse(response, queryResult[1], '2')
                             constructLinksResponse(response, queryResult[2], '3')
-                        response['status'] = True
-                        response['status_info'] = 'Candidate Links Fetched Successfully'
+                        
                     else:
                         error = "Links No Longer Exist!"
                         response['error'] = error
