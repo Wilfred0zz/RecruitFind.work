@@ -24,7 +24,7 @@ class DisplayPastQueries extends Component{
             } else {
               console.log(result);
                 this.setState({
-                    PastQueries : result
+                    PastQueries : result.queries
                 })
             }
           } catch (error) {
@@ -34,22 +34,14 @@ class DisplayPastQueries extends Component{
 
     componentDidMount() {
         this.fetchQueries();
-        this.timer = setInterval(() => this.fetchQueries(), 5000);
+        //this.timer = setInterval(() => this.fetchQueries(), 5000);
     }
     
-    componentWillUnmount() {
-        clearInterval(this.timer);
-        this.timer = null;
-    }
     
     renderRedirect = false;
 
     render(){
         console.log(this.state.PastQueries)
-        if(this.fetchQueries() == '')
-        {
-            document.write('There are no past queries')
-        }else
         return(
 
             <div>
@@ -58,15 +50,16 @@ class DisplayPastQueries extends Component{
                     hello
                     <button onClick={this.renderRedirect= true}>New Query?</button>
                     <ul> 
-                    {this.state.PastQueries.map((query) => (
-                            <li key = {"".id}>
+                        {this.state.PastQueries.map((query) => (
+                            <li key = {query.id}>
                                 {query.queryDate}
                                 {query.queryDescription}
                                 {query.queryPayment}
                                 {query.queryTitle}
                                 {query.query_id}
                              </li>
-                        ))}
+                         ))
+                        }   
                     </ul>
                 </div>
             </div>
