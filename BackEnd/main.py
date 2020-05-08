@@ -54,6 +54,7 @@ from Routes.Queries.deleteQuery import dQry
 from Routes.Matches.match import mat
 from Routes.Matches.fetchCandidateMatches import fcm
 from Routes.Matches.fetchRecruiterMatches import frm
+from Routes.Matches.acceptMatch import acm
 
 app = Flask(__name__)
 app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
@@ -111,6 +112,7 @@ app.register_blueprint(dQry)
 app.register_blueprint(mat)
 app.register_blueprint(fcm)
 app.register_blueprint(frm)
+app.register_blueprint(acm)
 
 
 if __name__ == '__main__':

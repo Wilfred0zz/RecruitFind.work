@@ -8,7 +8,7 @@ frm = Blueprint('fetchRecruiterMatches', __name__)
 
 @frm.route("/api/fetchRecruiterMatches", methods=["GET"])
 @login_required
-def storeQuery():
+def fetchRecruiterMatches():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
@@ -16,12 +16,13 @@ def storeQuery():
             response = defaultdict(list)
             
             skills = []
+            matches = []
 
             if current_user.is_authenticated:
                 recruiterId = current_user.get_id()
 
                 if recruiterId:
-                    cursor.execute(f"""SELECT candidate_id, query_id FROM public."Matches" WHERE status='PENDING' AND is_recruiter_deleted={False} AND recruiter_id={recruiterId}""")
+                    cursor.execute(f"""SELECT candidate_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' AND status='ACCEPTED' AND is_recruiter_deleted={False} AND recruiter_id={recruiterId}""")
                     queryResult = cursor.fetchall()
                     
                     for i in range(len(queryResult)):
@@ -29,6 +30,9 @@ def storeQuery():
                         candidateId = currentMatch[0]
                         queryId = currentMatch[1]
                         queryId = 72
+                        matchId = currentMatch[2]
+                        status = currentMatch[3]
+                        matches.append(matchId)
 
                         cursor.execute(f"""SELECT email, first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
                         candidateInfo = cursor.fetchone()
@@ -44,7 +48,8 @@ def storeQuery():
                             skill = cursor.fetchone()[0]
                             skills.insert(0, skill)
 
-                        constructReponse(response, candidateInfo, queryInfo, skills)
+                        for i in range(len(matches)):
+                            constructReponse(response, candidateInfo, queryInfo, skills, matches[i], status)
                 
         else:
             error = "Connection To Database Failed!"
@@ -57,7 +62,7 @@ def storeQuery():
     return response
 
 
-def constructReponse(respObj, candidate, query, skills):
+def constructReponse(respObj, candidate, query, skills, match, status):
     candidateInfo = []
     queryInfo = []
     candidate = candidate[::-1]
@@ -69,4 +74,4 @@ def constructReponse(respObj, candidate, query, skills):
     for item in query:
         queryInfo.insert(0, item)
 
-    respObj['match'] = [{'candidate_info': candidateInfo, 'query_info': queryInfo, 'skills': skills} for x in range(1)]
+    respObj['match'] = [{'candidate_info': candidateInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status} for x in range(1)]
