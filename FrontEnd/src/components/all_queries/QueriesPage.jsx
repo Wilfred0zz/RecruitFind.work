@@ -11,7 +11,7 @@ class DisplayPastQueries extends Component{
         PastQueries : []
         };
     }
-    fetchQueries = async (e) => {
+    fetchQueries = async (event) => {
         try {
             let response = await fetch('/api/fetchQueries', {
                 method: 'GET',
@@ -23,9 +23,9 @@ class DisplayPastQueries extends Component{
               console.log("reached error")
             } else {
               console.log(result);
-              UserPastQueries => {
-                  this.setState({PastQueries : UserPastQueries})
-              }
+                this.setState({
+                    PastQueries : result
+                })
             }
           } catch (error) {
             console.log(error);
@@ -45,33 +45,35 @@ class DisplayPastQueries extends Component{
     renderRedirect = false;
 
     render(){
-        if(cookie= ''){
-            throw new Error('Error no cookie id token')
-        }else if(this.fetchQueries() == '')
+        console.log(this.state.PastQueries)
+        if(this.fetchQueries() == '')
         {
             document.write('There are no past queries')
         }else
         return(
+
             <div>
                 <div>
+                    
+                    hello
                     <button onClick={this.renderRedirect= true}>New Query?</button>
                     <ul> 
-                        {this.state.PastQueries.map((query) => (
-                            <li key = {query_info.id}>
+                    {this.state.PastQueries.map((query) => (
+                            <li key = {"".id}>
                                 {query.queryDate}
                                 {query.queryDescription}
                                 {query.queryPayment}
                                 {query.queryTitle}
-                                {query.id}
-                            </li>
+                                {query.query_id}
+                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
         )
-        if(this.state.renderRedirect== true){
-            <Redirect to ='/NewQueriesPage'/>
-        }
+        //if(this.state.renderRedirect== true){
+          //  <Redirect to ='/NewQueriesPage'/>
+        //}
     }
 }
 export default DisplayPastQueries;

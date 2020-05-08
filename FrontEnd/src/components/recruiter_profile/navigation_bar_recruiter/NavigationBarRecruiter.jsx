@@ -35,7 +35,7 @@ class NavigationBarRecruiter extends Component {
         <div className='navbar-items'>
           <ul>
             <li><a href='/recruiter_profile'> Profile </a></li>
-            <li><a href='/'> Searches </a></li>
+            <li><a href='/all_queries'> Searches </a></li>
             <li><a href='/'> Matches </a></li>
             <li><button onClick={this.handleLogOut}>Log Out</button></li>
           </ul>
