@@ -19,8 +19,8 @@ class DisplayPastQueries extends Component{
                 method: 'GET',
               });
           
-            const status = response.status;   
-            const result = await response.json();
+            const status = response.status;  
+            const result = await response.json(); console.log(response);
             if (status === 400 || status === 500) {
               console.log("reached error")
             } else {
