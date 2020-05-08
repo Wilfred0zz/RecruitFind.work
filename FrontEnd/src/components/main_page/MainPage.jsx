@@ -6,7 +6,7 @@ import RegisterForm from './../register_form/Register';
 import officeImg from './static/images/office.jpeg';
 //import DisplayPastQueries from './../all_queries/QueriesPage';
 //import MatchInfoModal from './../match_info_modal/MatchInfoModal';
-import RecruiterQueryResults from './../recruiter_query_results/RecruiterQueryResults';
+import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
 
 class MainPage extends Component {
   constructor(props){
