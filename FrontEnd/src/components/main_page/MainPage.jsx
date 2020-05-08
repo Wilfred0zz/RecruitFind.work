@@ -4,6 +4,8 @@ import './static/css/MainPageCSS.css';
 import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
 import officeImg from './static/images/office.jpeg';
+import DisplayPastQueries from './../AllQueries/QueriesPage';
+import MatchInfoModal from './../match_info_modal/MatchInfoModal';
 
 class MainPage extends Component {
   constructor(props){
@@ -95,6 +97,7 @@ class MainPage extends Component {
             <h3 className='OR-option'>================== OR ==================</h3>
           </div>
             <div id = 'registerForm'> <RegisterForm/> </div>
+          <MatchInfoModal/>
         </div>
         </main>
         <img src={officeImg} alt="officeImg"/>
