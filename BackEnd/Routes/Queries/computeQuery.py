@@ -78,8 +78,7 @@ def computeQueryResult():
                         constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas, candidatesAndTheirSkills)
 
                         response['query_id'] = queryID
-                        response['status'] = True
-                        response['status_info'] = 'Query Result Computed Successfully!'
+                        
 
                     else:
                         error = "Query Doesn't Exist! Make Sure Query Was Created Successfully!"
