@@ -22,7 +22,7 @@ def fetchRecruiterMatches():
                 recruiterId = current_user.get_id()
 
                 if recruiterId:
-                    cursor.execute(f"""SELECT candidate_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' AND status='ACCEPTED' AND is_recruiter_deleted={False} AND recruiter_id={recruiterId}""")
+                    cursor.execute(f"""SELECT candidate_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_recruiter_deleted={False} AND recruiter_id={recruiterId}""")
                     queryResult = cursor.fetchall()
                     
                     for i in range(len(queryResult)):
