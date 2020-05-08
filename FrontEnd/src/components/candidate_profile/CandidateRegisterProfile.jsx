@@ -12,9 +12,9 @@ class CandidateRegisterProfile extends Component{
       candidate_description: "",
       candidate_highest_level_of_education: "",
       candidate_school: "",
-      name_of_interst_1: "",
-      name_of_interst_2: "",
-      name_of_interst_3: "",
+      name_of_interest_1: "",
+      name_of_interest_2: "",
+      name_of_interest_3: "",
       interest_count: 1,
 
       link_count: 1,
@@ -104,11 +104,11 @@ class CandidateRegisterProfile extends Component{
       "candidate_description": this.state.candidate_description,
       "candidate_current_position": this.state.candidate_current_position,
       "is_candidate_profile_deleted": false,
-      "name_of_interst_1": this.name_of_interst_1,
+      "name_of_interest_1": this.name_of_interest_1,
       "is_deleted_1": false,
-      "name_of_interst_2": this.name_of_interst_2,
+      "name_of_interest_2": this.name_of_interest_2,
       "is_deleted_2": false,
-      "name_of_interst_3": this.name_of_interst_3,
+      "name_of_interest_3": this.name_of_interest_3,
       "is_deleted_3": false,
     }
 
@@ -181,11 +181,11 @@ class CandidateRegisterProfile extends Component{
       "candidate_description": this.state.candidate_description,
       "candidate_current_position": this.state.candidate_current_position,
       "is_candidate_profile_deleted": false,
-      "name_of_interst_1": this.name_of_interst_1,
+      "name_of_interest_1": this.name_of_interest_1,
       "is_deleted_1": false,
-      "name_of_interst_2": this.name_of_interst_2,
+      "name_of_interest_2": this.name_of_interest_2,
       "is_deleted_2": false,
-      "name_of_interst_3": this.name_of_interst_3,
+      "name_of_interest_3": this.name_of_interest_3,
       "is_deleted_3": false,
     }
 
@@ -216,7 +216,34 @@ class CandidateRegisterProfile extends Component{
     this.setState({
       [link]: '',
       [type_of_link]: '',
-      link_count: this.state.link_count-1
+      link_count: this.state.link_count - 1
+    });
+  }
+
+  increaseInterests = (event) => {
+    event.preventDefault();
+    if(this.profileInterests.length <= 3) {
+      this.profileInterests.push(1);
+      this.setState({
+        interest_count: this.state.interest_count + 1
+      });
+    }
+    else{
+      return (alert("No more then 3 interests allowed"));
+    }
+  }
+
+  deleteRecentInterest = (event) => {
+    event.preventDefault();
+    const size = this.profileInterests.length;
+    const interest = `name_of_interest_${size}`;
+    const type = `type_of_link_${size}`;
+
+    this.profileInterests.pop();
+
+    this.setState({
+      [interest]: '',
+      interest_count: this.state.interest_count - 1
     });
   }
   // need a fetch for candidate name, and description, etc.
@@ -274,7 +301,6 @@ class CandidateRegisterProfile extends Component{
             <div className='candidate_profile_info'>
               <label> School </label>
               <input name='candidate_school' onChange={this.handleChange}/>
-              
               <select name='candidate_highest_level_of_education' onChange={this.handleChange}>
                 <option value="none" hidden>Select your education level</option> 
                 {this.educationLevels.map((educationLevel) => {
@@ -292,56 +318,57 @@ class CandidateRegisterProfile extends Component{
               <input name='candidate_current_position' onChange={this.handleChange}/>
                 <br/>
               <label> Interests (Note not all of them have to be filled)</label>
-              <input name='name_of_interest_1' onChange={this.handleChange}/>
-              <input name='name_of_interest_2' onChange={this.handleChange}/>
-              <input name='name_of_interest_3' onChange={this.handleChange}/>
+              <div>
+                {
+                  this.profileInterests.map((interest, index) => {
+                    return (
+                      <input name={`name_of_interest_${index+1}`} onChange={this.handleChange}/>
+                      )
+                  })
+                }
+              </div>
+              {/* Button to add another link */}
+              {
+                (this.profileInterests.length < 3)
+                ? <button onClick={this.increaseInterests}>+</button>
+                : null
+              }
+              {/* Button to delete most recent link */}
+              {
+                (this.profileInterests.length > 1)
+                ? <button onClick={this.deleteRecentInterest}>-</button>
+                : null
+              }
             </div>
               <br/>
             
             <div className="candidate_links">
               <p> Links: </p>
-                {
-                  this.profileLinks.map((link, index) => {
-                    return (
-                      <div key ={index}>
-                        <label>Type of Link </label>
-                        <input name={`type_of_link_${index+1}`} onChange={this.handleChange}/>
-                        <br/>
-                        <label>Link </label>
-                        <input name={`link_${index+1}`} onChange={this.handleChange}/>
-                      </div>
-                    )
-                  })
-                }
-                {/* Button to add another experience */}
-                {
-                  (this.profileLinks.length < 3)
-                  ? <button onClick={this.increaseLinks}>+</button>
-                  : null
-                }
-                {/* Button to delete most recent experience */}
-                {
-                  (this.profileLinks.length > 1)
-                  ? <button onClick={this.deleteRecentLink}>-</button>
-                  : null
-                }
-              {/* <label>Type of Link </label>
-              <input name='type_of_link_1' onChange={this.handleChange}/>
-              <br/>
-              <label>Link </label>
-              <input name='link_1' onChange={this.handleChange}/>
-              <br/>
-              <label>Type of Link </label>
-              <input name='type_of_link_2' onChange={this.handleChange}/>
-              <br/>
-              <label>Link </label>
-              <input name='link_2' onChange={this.handleChange}/>
-              <br/>
-              <label>Type of Link </label>
-              <input name='type_of_link_3' onChange={this.handleChange}/>
-              <br/>
-              <label>Link </label>
-              <input name='link_3' onChange={this.handleChange}/> */}
+              {
+                this.profileLinks.map((link, index) => {
+                  return (
+                    <div key ={index}>
+                      <label>Type of Link </label>
+                      <input name={`type_of_link_${index+1}`} onChange={this.handleChange}/>
+                      <br/>
+                      <label>Link </label>
+                      <input name={`link_${index+1}`} onChange={this.handleChange}/>
+                    </div>
+                  )
+                })
+              }
+              {/* Button to add another link */}
+              {
+                (this.profileLinks.length < 3)
+                ? <button onClick={this.increaseLinks}>+</button>
+                : null
+              }
+              {/* Button to delete most recent link */}
+              {
+                (this.profileLinks.length > 1)
+                ? <button onClick={this.deleteRecentLink}>-</button>
+                : null
+              }
             </div>
               <br/>
             
@@ -391,29 +418,6 @@ class CandidateRegisterProfile extends Component{
           </div>
         
         }
-        {/* <form className='candidate_profile'>
-          <div className='candidate_information' id='candidate_information'>
-            <div className="register-inputs">
-              <label className='candidate_school'> School: </label>
-              <input type='text' name='candidate_school' placeholder='School' onChange={handleChange}/>
-              <p>What is your highest level of education</p>
-              <select name='candidate_highest_level_of_education' onChange={handleChange}>
-                <option value="none" hidden>Select your education level</option> 
-                {educationLevels.map((educationLevel) => {
-                  return (
-                    <option key={educationLevel} value={educationLevel}> {educationLevel}</option>
-                  )
-                })}
-                <option value='other'>Other</option>
-              </select>
-
-              <label className='candidate_description'> About: </label> <br></br>
-              <input type='text' name='candidate_description' placeholder='Tell us more about you ...' onChange={handleChange}/>
-              <label className='candidate_current_position'> Current Role: </label>
-              <input type='text' name='candidate_current_position' placeholder='e.g: student or tutor ...' onChange={handleChange}/>
-            </div>
-          </div>
-        </form> */}
       </div>
     )
   }
