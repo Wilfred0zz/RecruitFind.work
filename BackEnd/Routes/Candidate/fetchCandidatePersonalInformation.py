@@ -18,7 +18,7 @@ def fetchCandidatePersonalInformation():
                 currentUserId = current_user.get_id()
 
                 if currentUserId:
-                    cursor.execute(f"""SELECT first_name, last_name, email, phone_number, personal_street_address, personal_state, personal_city, personal_postal, personal_country, gender, status FROM public."Personal Information" WHERE user_id={currentUserId}""")
+                    cursor.execute(f"""SELECT first_name, last_name, email, phone_number, personal_street_address, personal_state, personal_city, personal_postal, personal_country, gender, status FROM public."Personal Information" WHERE user_id={currentUserId} AND status='candidate'""")
                     queryResult = cursor.fetchall()
 
                     if len(queryResult) != 0:
@@ -35,7 +35,7 @@ def fetchCandidatePersonalInformation():
                         response['status'] = queryResult[0][10]
 
                     else:
-                        error = "User No Longer Exists!"
+                        error = "Either User No Longer Exists Or Is Not A Candidate!"
                         response['error'] = error
                         raise Exception(response)
         else:
