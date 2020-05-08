@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
-import './FetchQueriesButton';
-import { Redirect } from 'react-router-dom';
 import './NewQueriesPage';
+import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
+import {Link} from 'react-router-dom';
+
 
 class DisplayPastQueries extends Component{
     constructor(props) {
-        super(props);
-        
-        this.state = {
-            pastQueries : []
+    super(props);
+    this.state = {
+        isfetching: false,
+        PastQueries : []
         };
     }
-
-    fetchQueries = async (e) => {
-        
+    fetchQueries = async (event) => {
         try {
             let response = await fetch('/api/fetchQueries', {
                 method: 'GET',
               });
           
-            const status = response.status;  
-            const result = await response.json(); console.log(response);
+            const status = response.status; console.log(response);
+            const result = await response.json(); console.log(result);
             if (status === 400 || status === 500) {
               console.log("reached error")
             } else {
-                console.log(result);
-                this.setState({pastQueries : result})
+              console.log(result);
+                this.setState({
+                    PastQueries : result.queries
+                })
             }
           } catch (error) {
             console.log(error);
@@ -36,25 +37,32 @@ class DisplayPastQueries extends Component{
         this.fetchQueries();
     }
     
-    renderRedirect = false;
-
     render(){
+        console.log(this.state.PastQueries)
         return(
             <div>
+                <NavigationBarRecruiter/>
                 <div>
-                    <ul> 
-                        {this.state.pastQueries.map((query) => (
-                            <li key = {query.id}>
-                                {query.queryDate}
-                                {query.queryDescription}
-                                {query.queryPayment}
-                                {query.queryTitle}
-                            </li>
-                        ))}
-                    </ul>
+                    <Link to = "/new_query_page"><button>New Query?</button></Link>
+                    <div>
+                        <ul> 
+                            {this.state.PastQueries.map((query) => (
+                                <li key = {query.query_id}>
+                                    {query.queryDate}
+                                    {query.queryDescription}
+                                    {query.queryPayment}
+                                    {query.queryTitle}
+                                </li>
+                            ))}   
+                        </ul>
+                    </div>
                 </div>
             </div>
         )
     }
 }
+
+
+
 export default DisplayPastQueries;
+

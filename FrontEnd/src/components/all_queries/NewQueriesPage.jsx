@@ -10,3 +10,4 @@ class NewQueries extends Component{
         )
     }
 }
+export default NewQueries;
