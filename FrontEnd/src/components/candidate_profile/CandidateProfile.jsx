@@ -8,6 +8,22 @@ class CandidateProfile extends Component {
         }
     }
 
+    fetchCandidateInfo = () => {
+
+    }
+  
+    fetchCandidateExperiences = () => {
+  
+    }
+  
+    fetchCandidateSkills = () => {
+  
+    }
+  
+    fetchCandidateLinks = () => {
+  
+    }
+
     render() {
         return(
             <div>

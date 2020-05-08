@@ -23,6 +23,7 @@ class CandidateRegisterProfile extends Component{
       type_of_link_2: "",
       type_of_link_3: "",
 
+      count: 1,
       description_1: "",
       description_2: "",
       description_3: "",
@@ -52,7 +53,7 @@ class CandidateRegisterProfile extends Component{
   }
 
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
-  experiences = [1,2,3,4,5];
+  experiences = [1];
 
   handleChange = (event) => {
     this.setState({
@@ -67,21 +68,124 @@ class CandidateRegisterProfile extends Component{
       [event.target.name]: !this.state[event.target.name]
     }, () => console.log('I have touched the box: ', this.state))
   }
-
-
-  fetchCandidateInfo = () => {
-
+  
+  renderEndDate = (number) => {
+    let end_date= `end_date_${number}`;
+    let present= `present_${number}`;
+    if(this.state[present]){
+      return (
+        <div>
+          <input type='checkbox' name={present} checked onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
+    else{
+      return (
+        <div className='unchecked'>
+          <input type='date' name={end_date} onChange={this.handleChange}/>
+          <br/>
+          <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
   }
 
-  fetchCandidateExperiences = () => {
+  handleCandidateProfileSubmission = async () => {
+    const candidateProfile = {
+      "candidate_school": this.state.candidate_school,
+      "candidate_highest_level_of_education": this.state.candidate_highest_level_of_education,
+      "candidate_description": this.state.candidate_description,
+      "candidate_current_position": this.state.candidate_current_position,
+      "is_candidate_profile_deleted": false,
+      "name_of_interst_1": this.name_of_interst_1,
+      "is_deleted_1": false,
+      "name_of_interst_2": this.name_of_interst_2,
+      "is_deleted_2": false,
+      "name_of_interst_3": this.name_of_interst_3,
+      "is_deleted_3": false,
+    }
 
+    try {
+      const response = fetch('/api/candidateProfile', {
+        headers: {
+          'Accept': 'application/JSON',
+          'Content-Type': 'application/JSON'
+        },
+        method: 'POST',
+        body: JSON.stringify(candidateProfile)
+      })
+
+      const status = response.status;
+      const result = response.result;
+
+      if(status === 400 || 500){
+
+      }
+      else { 
+        console.log('Candidate Profile Created')
+      }
+    } catch(error){
+        console.log(error);
+    }
   }
 
-  fetchCandidateSkills = () => {
-
+  increaseNumberOfExperiences = (event) => {
+    event.preventDefault();
+    if(this.experiences.length <5 ){
+      this.experiences.push(1);
+      this.setState({
+        count: this.state.count + 1
+      })
+    }
+    else {
+      return(
+        alert("bleg")
+      )
+    }
   }
 
-  fetchCandidateLinks = () => {
+  deleteRecentExperience = (event) => {
+    event.preventDefault();
+    const size = this.experiences.length;
+    const description = `description_${size}`;
+    const title = `role_title_${size}`;
+    const start_date = `start_date_${size}`;
+    const end_date = `end_date_${size}`;
+    const present = `present_${size}`;
+
+    // to change disply and delete one experience field
+    this.experiences.pop();
+
+    this.setState({
+      [description]: '',
+      [title]: '',
+      [start_date]: '',
+      [end_date]: '',
+      [present]: '',
+      count: this.state.count -1
+    })
+    
+  }
+
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    // submission for candidate profile
+    const candidateProfile = {
+      "candidate_school": this.state.candidate_school,
+      "candidate_highest_level_of_education": this.state.candidate_highest_level_of_education,
+      "candidate_description": this.state.candidate_description,
+      "candidate_current_position": this.state.candidate_current_position,
+      "is_candidate_profile_deleted": false,
+      "name_of_interst_1": this.name_of_interst_1,
+      "is_deleted_1": false,
+      "name_of_interst_2": this.name_of_interst_2,
+      "is_deleted_2": false,
+      "name_of_interst_3": this.name_of_interst_3,
+      "is_deleted_3": false,
+    }
+
 
   }
 
@@ -122,29 +226,6 @@ class CandidateRegisterProfile extends Component{
       }
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  renderEndDate = (number) => {
-    let end_date= `end_date_${number}`;
-    let present= `present_${number}`;
-    if(this.state[present]){
-      return (
-        <div>
-          <input type='checkbox' name={present} checked onClick={this.handleCheckBox}/>
-          <label>Present</label>
-        </div>
-      )
-    }
-    else{
-      return (
-        <div className='unchecked'>
-          <input type='date' name={end_date} onChange={this.handleChange}/>
-          <br/>
-          <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
-          <label>Present</label>
-        </div>
-      )
     }
   }
 
@@ -210,24 +291,36 @@ class CandidateRegisterProfile extends Component{
               <br/>
             <div className='Candidate Experiences'>
               {
-                this.experiences.map((experienceNumber)=>{
+                this.experiences.map((experienceNumber, index)=>{
                   return (
-                    <div key={experienceNumber}>
-                      <p>Experience {experienceNumber}</p>
+                    <div key={index+1}>
+                      <p>Experience {index+1}</p>
                       <label>Position</label>
-                      <input type='text' name={`role_title_${experienceNumber}`} onChange={this.handleChange}/>
+                      <input type='text' name={`role_title_${index+1}`} onChange={this.handleChange}/>
                         <br/>
                       <label>Decription</label>
-                      <input type='text' name={`description_${experienceNumber}`} onChange={this.handleChange}/>
+                      <input type='text' name={`description_${index+1}`} onChange={this.handleChange}/>
                         <br/>
                       <label>Start Date</label>
-                      <input type='date' name={`start_date_${experienceNumber}`} onChange={this.handleChange}/>
+                      <input type='date' name={`start_date_${index+1}`} onChange={this.handleChange}/>
                         <br/>
                       <label>End Date</label>
-                      {this.renderEndDate(experienceNumber)}
+                      {this.renderEndDate(index+1)}
                     </div>
                   )  
                 })
+              }
+              {/* Button to add another experience */}
+              {
+                (this.experiences.length < 5)
+                ? <button onClick={this.increaseNumberOfExperiences}>+</button>
+                : null
+              }
+              {/* Button to delete most recent experience */}
+              {
+                (this.experiences.length > 1)
+                ? <button onClick={this.deleteRecentExperience}>-</button>
+                : null
               }
             </div>
               <br/>
