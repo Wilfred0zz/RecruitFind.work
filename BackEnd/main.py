@@ -15,6 +15,7 @@ from Routes.Recruiter.recruiterProfile import rp
 from Routes.Recruiter.fetchRecruiterProfile import frp
 from Routes.Recruiter.updateRecruiterProfileInfo import urp
 from Routes.Recruiter.deleteRecruiterProfileInfo import drp
+from Routes.Recruiter.fetchRecruiterPersonalInformation import frpi
 
 #Candidate Routes
 
@@ -24,6 +25,7 @@ from Routes.Candidate.updateCandidateProfileInfo import ucp
 from Routes.Candidate.fetchCandidateProfileInfo import fcp
 from Routes.Candidate.deleteCandidateProfile import dcp
 from Routes.Candidate.deleteCandidateInterests import dci
+from Routes.Candidate.fetchCandidatePersonalInformation import fcpi
 
 #Candidate Link Routes
 from Routes.Candidate.Links.candidateLinks import cl
@@ -69,6 +71,7 @@ app.register_blueprint(rp)
 app.register_blueprint(frp)
 app.register_blueprint(urp)
 app.register_blueprint(drp)
+app.register_blueprint(frpi)
 
 #Candidate Blueprints
 
@@ -78,6 +81,7 @@ app.register_blueprint(ucp)
 app.register_blueprint(fcp)
 app.register_blueprint(dci)
 app.register_blueprint(dcp)
+app.register_blueprint(fcpi)
 
 #Candidate Link Blueprints
 app.register_blueprint(cl)
