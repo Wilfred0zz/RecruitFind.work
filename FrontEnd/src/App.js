@@ -7,6 +7,7 @@ import CandidateProfile from './components/candidate_profile/CandidateProfile';
 import RecruiterRegisterProfile from './components/recruiter_profile/RecruiterRegisterProfile';
 import RecruiterProfile from './components/recruiter_profile/RecruiterProfile';
 import QueriesPage from './components/all_queries/QueriesPage';
+import NewQueriesPage from './components/all_queries/NewQueriesPage';
 // import CandidateRegister from './components/';
 //import RecruiterRegister from './components/register_recruiter/RegisterRecruiter';
 
@@ -16,6 +17,8 @@ function App() {
   const RecruiterRegisterProfileComponent = () => <RecruiterRegisterProfile/>
   const RecruiterProfileComponent = () => <RecruiterProfile/>
   const QueriesPageComponent = () => <QueriesPage/>
+  const NewQueriesPageComponent = () => <NewQueriesPage/>
+
   return (
     <div className="App">
       <header className="App-header">
@@ -27,6 +30,7 @@ function App() {
         <Route exact path='/recruiter_register_profile' render={RecruiterRegisterProfileComponent}/>
         <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
         <Route exact path= '/all_queries' render={QueriesPageComponent}/>
+        <Route exact path= '/new_query_page' render={NewQueriesPageComponent}/>
       </Switch>
     </div>
   );

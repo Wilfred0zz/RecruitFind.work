@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './FetchQueriesButton';
-import { Redirect } from 'react-router-dom';
 import './NewQueriesPage';
+import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
+import {Link} from 'react-router-dom';
+
 
 class DisplayPastQueries extends Component{
     constructor(props) {
@@ -34,39 +35,34 @@ class DisplayPastQueries extends Component{
 
     componentDidMount() {
         this.fetchQueries();
-        //this.timer = setInterval(() => this.fetchQueries(), 5000);
     }
     
-    
-    renderRedirect = false;
-
     render(){
         console.log(this.state.PastQueries)
         return(
-
             <div>
+                <NavigationBarRecruiter/>
                 <div>
-                    
-                    hello
-                    <button onClick={this.renderRedirect= true}>New Query?</button>
-                    <ul> 
-                        {this.state.PastQueries.map((query) => (
-                            <li key = {query.id}>
-                                {query.queryDate}
-                                {query.queryDescription}
-                                {query.queryPayment}
-                                {query.queryTitle}
-                                {query.query_id}
-                             </li>
-                         ))
-                        }   
-                    </ul>
+                    <Link to = "/new_query_page"><button>New Query?</button></Link>
+                    <div>
+                        <ul> 
+                            {this.state.PastQueries.map((query) => (
+                                <li key = {query.query_id}>
+                                    {query.queryDate}
+                                    {query.queryDescription}
+                                    {query.queryPayment}
+                                    {query.queryTitle}
+                                </li>
+                            ))}   
+                        </ul>
+                    </div>
                 </div>
             </div>
         )
-        //if(this.state.renderRedirect== true){
-          //  <Redirect to ='/NewQueriesPage'/>
-        //}
     }
 }
+
+
+
 export default DisplayPastQueries;
+
