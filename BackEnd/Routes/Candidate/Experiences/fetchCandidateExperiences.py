@@ -85,8 +85,6 @@ def fetchCandidateExperiences():
                             constructExperienceResponse(response, queryResult[3], '4')
                             constructExperienceResponse(response, queryResult[4], '5')
 
-                        response['status'] = True
-                        response['status_info'] = 'Candidate Experiences Fetched Successfully'
                     else:
                         error = "Experiences No Longer Exist!"
                         response['error'] = error

@@ -59,8 +59,7 @@ def fetchCandidateProfileInfo():
                                 constructInterests(response, queryResult[1], '2')
                                 constructInterests(response, queryResult[2], '3')
 
-                            response['status'] = True
-                            response['status_info'] = 'Candidate Profile Info Fetched Successfully'
+                            
                         else:
                             error = "Candidate Interests Do Not Exist!"
                             response['error'] = error 
