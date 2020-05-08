@@ -51,6 +51,8 @@ class CandidateRegisterProfile extends Component{
       start_date_3: "",
       start_date_4: "",
       start_date_5: "",
+
+      skill_count:1,
     }
   }
 
@@ -59,6 +61,7 @@ class CandidateRegisterProfile extends Component{
   experiences = [1];
   profileLinks = [1];
   profileInterests=[1];
+  candidateSkills=[1];
 
   handleChange = (event) => {
     this.setState({
@@ -71,7 +74,7 @@ class CandidateRegisterProfile extends Component{
     console.log([event.target.name] , !this.state[event.target.name])
     this.setState({
       [event.target.name]: !this.state[event.target.name]
-    }, () => console.log('I have touched the box: ', this.state))
+    })
   }
   
   renderEndDate = (number) => {
@@ -187,6 +190,32 @@ class CandidateRegisterProfile extends Component{
     });
   }
 
+  addSkill = async (event) => {
+    event.preventDefault();
+    const size = this.candidateSkills.length
+    if(size<=10){
+      this.candidateSkills.push(1);
+      this.setState({
+        skill_count: this.state.skill_count + 1
+      });
+    }else{
+      return (alert("No more then 10 skills allowed, please pick your best skills"))
+    }
+  }
+
+  deleteRecentSkill = async (event) => {
+    event.preventDefault();
+    const size = this.candidateSkills.length
+    const skill = `skill_${size}`;
+
+    this.candidateSkills.pop();
+
+    this.setState({
+      [skill]: '',
+      skill_count: this.state.skill_count - 1
+    });
+  }
+
   handleCandidateProfileSubmission = async () => {
     const candidateProfile = {
       "candidate_school": this.state.candidate_school,
@@ -194,34 +223,32 @@ class CandidateRegisterProfile extends Component{
       "candidate_description": this.state.candidate_description,
       "candidate_current_position": this.state.candidate_current_position,
       "is_candidate_profile_deleted": false,
-      "name_of_interest_1": this.name_of_interest_1,
+      "name_of_interest_1": this.state.name_of_interest_1,
       "is_deleted_1": false,
-      "name_of_interest_2": this.name_of_interest_2,
-      // "is_deleted_2": false,
-      "name_of_interest_3": this.name_of_interest_3,
-      "is_deleted_3": false,
+      "name_of_interest_2": this.state.name_of_interest_2,
+      "is_deleted_2": false,
+      "name_of_interest_3": this.state.name_of_interest_3,
+      "is_deleted_3": false
     }
+    
+    const response = await fetch('/api/candidateProfile', {
+      headers: {
+        'Accept': 'application/JSON',
+        'Content-Type': 'application/JSON'
+      },
+      method: 'POST',
+      body: JSON.stringify(candidateProfile)
+    })
 
-    try {
-      const response = fetch('/api/candidateProfile', {
-        headers: {
-          'Accept': 'application/JSON',
-          'Content-Type': 'application/JSON'
-        },
-        method: 'POST',
-        body: JSON.stringify(candidateProfile)
-      })
-      const status = response.status;
-      const result = response.result;
+    const status = response.status;
+    const result = await response.json();
 
-      if(status === 400 || 500){
-        console.log(result.error)
-      }
-      else { 
-        console.log('Candidate Profile Created')
-      }
-    } catch(error){
-      console.log(error);
+    if(status === 400 || status === 500){
+      console.log(result, "this is my error")
+      throw Error("Fix your candidate profile information");
+    }
+    else { 
+      console.log('Candidate Profile Created');
     }
   }
 
@@ -248,29 +275,24 @@ class CandidateRegisterProfile extends Component{
       }
     }
 
-    try {
-      const response = await fetch('/api/candidateLinks', {
-        headers: {
-          'Accept': 'application/JSON',
-          "Content-Type": 'application/JSON'
-        },
-        method: 'POST',
-        body: JSON.stringify(links)
-      });
+    const response = await fetch('/api/candidateLinks', {
+      headers: {
+        'Accept': 'application/JSON',
+        "Content-Type": 'application/JSON'
+      },
+      method: 'POST',
+      body: JSON.stringify(links)
+    });
 
-      const status = response.status;
-      const result = response.result;
+    const status = response.status;
+    const result = await response.json();
 
-      if(status === 400 || status === 500){
-        console.log(result);
-        return false;
-      }
-      else{
-        console.log("Links have been created");
-        return true;
-      }
-    } catch(error) {
-      console.log(error);
+    if(status === 400 || status === 500){
+      console.log(result.error);
+      throw Error("Fix your links");
+    }
+    else{
+      console.log("Links have been created");
     }
   }
 
@@ -323,47 +345,51 @@ class CandidateRegisterProfile extends Component{
       }
     }
 
-    try {
-      const response = await fetch('/api/candidateExperiences', {
-        headers: {
-          'Accept': 'application/JSON',
-          "Content-Type": 'application/JSON'
-        },
-        method: 'POST',
-        body: JSON.stringify(experiencess)
-      });
+    const response = await fetch('/api/candidateExperiences', {
+      headers: {
+        'Accept': 'application/JSON',
+        "Content-Type": 'application/JSON'
+      },
+      method: 'POST',
+      body: JSON.stringify(experiencess)
+    });
 
-      const status = response.status;
-      const result = response.result;
+    const status = response.status;
+    const result = await response.json();
 
-      if(status === 400 || status === 500){
-        console.log(result);
-        return false;
-      }
-      else{
-        console.log("Experiences have been created");
-        return true;
-      }
-    } catch(error) {
-      console.log(error);
-    }   
+    if(status === 400 || status === 500){
+      console.log(result.error);
+      throw Error("Fix your Experiences bro, go get a job");
+    }
+    else{
+      console.log("Experiences have been created");
+      return true;
+    }
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
     // submission for candidate profile
+    try {
+      await this.handleCandidateProfileSubmission();
+      await this.handleLinkSubmission();
+      await this.handleExperiencesSubmission();
+      this.setState({
+        candidate_info_update: true
+      });
+    }catch(error){
+      console.log(error, "this is the error");
+    }
     // await this.handleCandidateProfileSubmission;
-    // console.log(this.state)
+    // // console.log(this.state)
     // await this.handleLinkSubmission;
-    await this.handleExperiencesSubmission;
+    // await this.handleExperiencesSubmission;
+    // console.log("poop");
     // await console.log('success');
-    // if(await this.handleCandidateProfileSubmission === true){
-    //   if(await this.handleLinkSubmission === true){
-    //     if(await this.handleExperiencesSubmission === true){
-    //       console.log("Success")
-    //       // this.setState({
-    //       //   candidate_info_update: true
-    //       // });
+    // if((await this.handleCandidateProfileSubmission()) === true){
+    //   if((await this.handleLinkSubmission()) === true){
+    //     if((await this.handleExperiencesSubmission()) === true){
+    //       console.log("Success");
     //     }
     //     else {console.log("error in Experiences Submission")}
     //   }
@@ -388,9 +414,16 @@ class CandidateRegisterProfile extends Component{
       });
 
       const status = response.status;
+      if(status === 401) {
+        this.setState({
+          is_logged_in: false
+        });
+        return
+      }
+
       const result = await response.json();
 
-      if (status === 400 || status === 500) {
+      if (status >= 400) {
         // If I get an error I need to check the error message
         if(result.error){
           // this.setState({
