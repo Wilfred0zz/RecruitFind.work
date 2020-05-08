@@ -5,7 +5,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 
 acm = Blueprint('acceptMatch', __name__)
 
-@acm.route("/api/acceptMatch", methods=["GET"])
+@acm.route("/api/acceptMatch", methods=["PUT"])
 @login_required
 def acceptMatch():
     try:
@@ -32,7 +32,7 @@ def acceptMatch():
                     database.commit()
                     
                     response['status'] = True
-                    response['status_info'] = 'Match Status Updated Successfully!'
+                    response['status_info'] = 'Match Accepted Successfully!'
                 
         else:
             error = "Connection To Database Failed!"

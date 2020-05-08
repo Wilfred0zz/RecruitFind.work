@@ -71,16 +71,21 @@ def computeQueryResult():
                             extractedUsers = extractUsersFromQueryResult(queryResult)
                             candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
                         
-                        print("these are the candidates with desired skills: ", candidatesWithDesiredSkills)
                         candidatesAndTheirSkills = checkSkillsOfCandidate(candidatesWithDesiredSkills, cursor)
                         allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
                         numberOfSkillsEachCandidateHas = calculateNumberOfSkillsCandidateHas(candidatesWithDesiredSkills)
 
                         constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas, candidatesAndTheirSkills)
 
+                        checkForMatchedUsersThatRejected(response, cursor)
+
                         response['query_id'] = queryID
                         response['status'] = True
-                        response['status_info'] = 'Query Result Computed Successfully!'
+                        
+                        if len(response) == 2:
+                            response['status_info'] = 'No Results Could Be Found For This Query! This Is Because No User With That Skill Exists Or Because Some Users Are Hidden!'
+                        else:
+                            response['status_info'] = 'Query Result Computed Successfully!'
 
                     else:
                         error = "Query Doesn't Exist! Make Sure Query Was Created Successfully!"
@@ -209,7 +214,26 @@ def checkSkillsOfCandidate(targetedCandidates, curr):
     return usersAndTheirSkills
 
 
+def checkForMatchedUsersThatRejected(resObj, curr):
+    hiddenUsers = []
 
+    for keys in resObj:
+        candidateEmail = resObj[keys][2]
+        curr.execute(f"""SELECT user_id FROM public."Personal Information" WHERE email='{candidateEmail}'""")
+        candidateId = curr.fetchone()[0]
+        curr.execute(f"""SELECT hidden FROM public."Matches" WHERE candidate_id={candidateId} AND query_id={72} AND hidden={True}""")
+        hidden = curr.fetchone()
+        
+        if hidden != None:
+            hiddenUsers.insert(0, keys)
+        else:
+            continue
+        
+    
+    hiddenUsers = hiddenUsers[::-1]
+
+    for i in range(len(hiddenUsers)):
+        del resObj[hiddenUsers[i]]
 
 
 
