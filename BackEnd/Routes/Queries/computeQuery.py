@@ -6,7 +6,7 @@ import traceback
 
 cptQry = Blueprint('computeQuery', __name__)
 
-@cptQry.route("/api/computeQuery", methods=["GET"])
+@cptQry.route("/api/computeQuery", methods=["POST"])
 @login_required
 def computeQueryResult():
     try:
