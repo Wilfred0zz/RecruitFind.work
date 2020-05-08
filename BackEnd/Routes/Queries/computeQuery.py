@@ -80,7 +80,6 @@ def computeQueryResult():
                         checkForMatchedUsersThatRejected(response, cursor)
 
                         response['query_id'] = queryID
-                        response['status'] = True
                         
                         if len(response) == 2:
                             response['status_info'] = 'No Results Could Be Found For This Query! This Is Because No User With That Skill Exists Or Because Some Users Are Hidden!'
