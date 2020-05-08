@@ -1,11 +1,13 @@
 from flask import Flask, Blueprint
+import psycopg2
+from flask_login import current_user, login_user, logout_user, login_required, LoginManager
 
 #Connection Route
 from Routes.Connections.connection import connect
 
 #Authentication Routes
 from Routes.Authentication.register import reg
-from Routes.Authentication.login import log
+from Routes.Authentication.login import log, User
 from Routes.Authentication.logout import logout
 
 #Recruiter Routes
@@ -13,6 +15,7 @@ from Routes.Recruiter.recruiterProfile import rp
 from Routes.Recruiter.fetchRecruiterProfile import frp
 from Routes.Recruiter.updateRecruiterProfileInfo import urp
 from Routes.Recruiter.deleteRecruiterProfileInfo import drp
+from Routes.Recruiter.fetchRecruiterPersonalInformation import frpi
 
 #Candidate Routes
 
@@ -22,6 +25,7 @@ from Routes.Candidate.updateCandidateProfileInfo import ucp
 from Routes.Candidate.fetchCandidateProfileInfo import fcp
 from Routes.Candidate.deleteCandidateProfile import dcp
 from Routes.Candidate.deleteCandidateInterests import dci
+from Routes.Candidate.fetchCandidatePersonalInformation import fcpi
 
 #Candidate Link Routes
 from Routes.Candidate.Links.candidateLinks import cl
@@ -51,6 +55,8 @@ from Routes.Matches.match import mat
 from Routes.Matches.fetchCandidateMatches import fcm
 
 app = Flask(__name__)
+app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
+authenticationManager = LoginManager(app)
 
 #Connection Blueprint
 app.register_blueprint(connect)
@@ -65,6 +71,7 @@ app.register_blueprint(rp)
 app.register_blueprint(frp)
 app.register_blueprint(urp)
 app.register_blueprint(drp)
+app.register_blueprint(frpi)
 
 #Candidate Blueprints
 
@@ -74,6 +81,7 @@ app.register_blueprint(ucp)
 app.register_blueprint(fcp)
 app.register_blueprint(dci)
 app.register_blueprint(dcp)
+app.register_blueprint(fcpi)
 
 #Candidate Link Blueprints
 app.register_blueprint(cl)
@@ -105,3 +113,24 @@ app.register_blueprint(fcm)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+@authenticationManager.user_loader
+def load_user(id):
+    try:
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        if database:
+            response = dict()
+            cursor = database.cursor()
+            cursor.execute(f"""SELECT user_id from public."Personal Information" WHERE email='{id}'""")
+            result = cursor.fetchone()
+            
+            if result == None:
+                return None
+            else:
+                return User(result[0])
+        else:
+            error = "Connection To Database Failed!"
+            response['error'] = error
+            raise Exception(response)
+    except Exception:
+        return response, 400

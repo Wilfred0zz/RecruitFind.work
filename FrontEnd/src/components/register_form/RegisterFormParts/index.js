@@ -92,7 +92,7 @@ export default props => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCompleted();
-    console.log(state.user);
+    
     const PersonalInfo = {
       "email": state.user.email, 
       "password": state.user.password, 
@@ -126,7 +126,7 @@ export default props => {
       } else {
         console.log(result.status_info);
         // get the user logged in if registration is a success
-        // await handleLogin();
+        await handleLogin();
         // update state in order to lead to profile page on redirect
         const temp = JSON.parse(JSON.stringify(state));
         temp.user.isRegistered = true;
@@ -188,13 +188,13 @@ export default props => {
     {/* put into component for easier reading later
       This is to either redirect user on login to either candidate profile
       or recruiter profile
-      needed to add key because it was giving a warner of list children having keys
+      needed to add key because it was giving a warning of list children having keys
       */}
     { state.user.isRegistered === true ? 
     [(
         state.user.status === 'candidate' ? 
         <Redirect key="candidate" push to='/candidate_profile' state={ state.user.first_time = 'true' } /> :
-        <Redirect key="recruiter" push to='/recruiter_profile'/> 
+        <Redirect key="recruiter" push to='/recruiter_register_profile'/> 
     )]: null }
 
     <Fragment>

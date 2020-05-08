@@ -1,6 +1,8 @@
 from flask import Flask, Blueprint, request, make_response
 import psycopg2
 from collections import defaultdict
+from flask_login import current_user, login_user, logout_user, login_required
+import traceback
 
 cptQry = Blueprint('computeQuery', __name__)
 
@@ -15,89 +17,81 @@ def computeQueryResult():
             skills = []
             candidatesWithDesiredSkills = defaultdict(list)
 
-            token = request.cookies.get('token')
+            if current_user.is_authenticated:
 
-            if token == None:
-                error = "User Not Authenticated!"
-                response['error'] = error
-                raise Exception(response)
-
-            queryTitle = data['query_title']
-            queryDescription = data['query_description']
-            queryPayment = data['query_payment']
-            queryDate = data['query_date']
-            
-            desiredSkill1 = data['desired_skill_1']
-            desiredSkill2 = data['desired_skill_2']
-            desiredSkill3 = data['desired_skill_3']
-            desiredSkill4 = data['desired_skill_4']
-            desiredSkill5 = data['desired_skill_5']
-            desiredSkill6 = data['desired_skill_6']
-            desiredSkill7 = data['desired_skill_7']
-            desiredSkill8 = data['desired_skill_8']
-            desiredSkill9 = data['desired_skill_9']
-            desiredSkill10 = data['desired_skill_10']
-
-            skills.insert(0, desiredSkill10)
-            skills.insert(0, desiredSkill9)
-            skills.insert(0, desiredSkill8)
-            skills.insert(0, desiredSkill7)
-            skills.insert(0, desiredSkill6)
-            skills.insert(0, desiredSkill5)
-            skills.insert(0, desiredSkill4)
-            skills.insert(0, desiredSkill3)
-            skills.insert(0, desiredSkill2)
-            skills.insert(0, desiredSkill1)
-
-            cursor.execute(f"""SELECT user_id FROM public."Personal Information" WHERE token='{token}'""")
-
-            currentUserId = cursor.fetchone()[0]
-
-            if currentUserId:
-                cursor.execute(f"""SELECT query_id FROM public."Queries" WHERE user_id={currentUserId} AND query_title='{queryTitle}' AND query_description='{queryDescription}' AND query_payment='{queryPayment}' AND query_date='{queryDate}'""")
-                queryID = cursor.fetchone()[0]
+                queryTitle = data['query_title']
+                queryDescription = data['query_description']
+                queryPayment = data['query_payment']
+                queryDate = data['query_date']
                 
-                if queryID:
+                desiredSkill1 = data['desired_skill_1']
+                desiredSkill2 = data['desired_skill_2']
+                desiredSkill3 = data['desired_skill_3']
+                desiredSkill4 = data['desired_skill_4']
+                desiredSkill5 = data['desired_skill_5']
+                desiredSkill6 = data['desired_skill_6']
+                desiredSkill7 = data['desired_skill_7']
+                desiredSkill8 = data['desired_skill_8']
+                desiredSkill9 = data['desired_skill_9']
+                desiredSkill10 = data['desired_skill_10']
 
-                    for i in range(len(skills)):
-                        
-                        if skills[i] == "":
-                            continue
-                       
-                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
-                        skillID = cursor.fetchone()[0]
-                       
-                        cursor.execute(f"""SELECT user_id FROM public."Candidate Skills" WHERE skill_id={skillID}""")
-                        queryResult = cursor.fetchall()
-                        
-                        extractedUsers = extractUsersFromQueryResult(queryResult)
-                        candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
-                       
+                skills.insert(0, desiredSkill10)
+                skills.insert(0, desiredSkill9)
+                skills.insert(0, desiredSkill8)
+                skills.insert(0, desiredSkill7)
+                skills.insert(0, desiredSkill6)
+                skills.insert(0, desiredSkill5)
+                skills.insert(0, desiredSkill4)
+                skills.insert(0, desiredSkill3)
+                skills.insert(0, desiredSkill2)
+                skills.insert(0, desiredSkill1)
+
+                skills = filterExistingSkills(skills, cursor)
+
+                currentUserId = current_user.get_id()
+
+                if currentUserId:
+                    cursor.execute(f"""SELECT query_id FROM public."Queries" WHERE user_id={currentUserId} AND query_title='{queryTitle}' AND query_description='{queryDescription}' AND query_payment='{queryPayment}' AND query_date='{queryDate}'""")
+                    queryID = cursor.fetchone()[0]
                     
-                    allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
-                    numberOfSkillsEachCandidateHas = calculateNumberOfSkillsCandidateHas(candidatesWithDesiredSkills)
+                    if queryID:
 
-                    constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas)
+                        for i in range(len(skills)):
+                            
+                            if skills[i] == "":
+                                continue
+                        
+                            cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
+                            skillID = cursor.fetchone()[0]
+                        
+                            cursor.execute(f"""SELECT user_id FROM public."Candidate Skills" WHERE skill_id={skillID}""")
+                            queryResult = cursor.fetchall()
+                            
+                            extractedUsers = extractUsersFromQueryResult(queryResult)
+                            candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
+                        
+                        print("these are the candidates with desired skills: ", candidatesWithDesiredSkills)
+                        candidatesAndTheirSkills = checkSkillsOfCandidate(candidatesWithDesiredSkills, cursor)
+                        allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
+                        numberOfSkillsEachCandidateHas = calculateNumberOfSkillsCandidateHas(candidatesWithDesiredSkills)
 
-                    response['query_id'] = queryID
-                    response['status'] = True
-                    response['status_info'] = 'Query Result Computed Successfully!'
+                        constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas, candidatesAndTheirSkills)
 
-                else:
-                    error = "Query Doesn't Exist! Make Sure Query Was Created Successfully!"
-                    response['error'] = error
-                    raise Exception(response)
+                        response['query_id'] = queryID
+                        response['status'] = True
+                        response['status_info'] = 'Query Result Computed Successfully!'
 
-            else:
-                error = "Invalid Token!"
-                response['error'] = error
-                raise Exception(response)
+                    else:
+                        error = "Query Doesn't Exist! Make Sure Query Was Created Successfully!"
+                        response['error'] = error
+                        raise Exception(response)
         else:
             error = "Connection To Database Failed!"
             response['error'] = error
             raise Exception(response)
 
     except Exception:
+        print(traceback.format_exc())
         return response, 400
 
     return response
@@ -123,10 +117,11 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
         for candidateId in targetCandidates[keys]:
             if candidateId not in candidates:
                 
-                db_cursor.execute(f"""SELECT first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
+                db_cursor.execute(f"""SELECT first_name, last_name, email FROM public."Personal Information" WHERE user_id={candidateId}""")
                 queryResult = db_cursor.fetchall()[0]
                 candidateFirstName = queryResult[0]
                 candidateLastName = queryResult[1]
+                candidateEmail = queryResult[2]
 
                 db_cursor.execute(f"""SELECT candidate_description FROM public."Candidate Information" WHERE user_id={candidateId}""")
                 candidateDescription = db_cursor.fetchone()
@@ -135,6 +130,7 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
                     candidateDescription = candidateDescription[0]
                     candidateInfo = []
                     candidateInfo.insert(0, candidateDescription)
+                    candidateInfo.insert(0, candidateEmail)
                     candidateInfo.insert(0, candidateLastName)
                     candidateInfo.insert(0, candidateFirstName)
                     candidates[candidateId].extend(candidateInfo)
@@ -142,6 +138,7 @@ def getUserInformationFromUserId(targetCandidates, db_cursor):
                     candidateDescription = ""
                     candidateInfo = []
                     candidateInfo.insert(0, candidateDescription)
+                    candidateInfo.insert(0, candidateEmail)
                     candidateInfo.insert(0, candidateLastName)
                     candidateInfo.insert(0, candidateFirstName)
                     candidates[candidateId].extend(candidateInfo)
@@ -162,7 +159,7 @@ def calculateNumberOfSkillsCandidateHas(targetCandidates):
     return candidateNumberOfSkillsTracker
 
 
-def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills):
+def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills, candidatesWithSkills):
     length = len(candidateNumberOfSkills)
 
     for i in range(length):
@@ -171,10 +168,44 @@ def constructResponse(rspObj, candidateInfos, candidateNumberOfSkills):
         candidateWithMostSkills = k[v.index(max(v))]
 
         priorityOfCandidate = str(i+1)
+        candidateEmail = candidateInfos[candidateWithMostSkills][2]
+        if candidateEmail in candidateInfos[candidateWithMostSkills]:
+            candidateInfos[candidateWithMostSkills].append(candidatesWithSkills[candidateEmail])
         rspObj[priorityOfCandidate].extend(candidateInfos[candidateWithMostSkills])
         del candidateNumberOfSkills[candidateWithMostSkills]
 
 
+
+def filterExistingSkills(listOfSkills, curr):
+    existingSkills = []
+    listOfSkills = listOfSkills[::-1]
+
+    for i in range(len(listOfSkills)):
+        curr.execute(f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{listOfSkills[i]}')""")
+        skillID = curr.fetchone()
+
+        if skillID != None:
+            existingSkills.insert(0, listOfSkills[i])
+        else: 
+            continue
+
+    return existingSkills
+
+
+
+def checkSkillsOfCandidate(targetedCandidates, curr):
+    usersAndTheirSkills = defaultdict(list)
+    skills = []
+
+    for keys in targetedCandidates:
+        for candidateId in targetedCandidates[keys]:
+            curr.execute(f"""SELECT email FROM public."Personal Information" WHERE user_id={candidateId}""")
+            candidateEmail = curr.fetchone()[0]
+            skills.insert(0, keys)
+            usersAndTheirSkills[candidateEmail].append(keys)
+    
+    print(usersAndTheirSkills)
+    return usersAndTheirSkills
 
 
 

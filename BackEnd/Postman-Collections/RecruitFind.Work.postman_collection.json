@@ -100,38 +100,6 @@
 			"response": []
 		},
 		{
-			"name": "recruiterProfile",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\",\n    \"recruiter_state\": \"NY\",\n    \"is_deleted\": false\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://127.0.0.1:5000/api/recruiterProfile",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"recruiterProfile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "fetchRecruiterProfileInfo",
 			"request": {
 				"method": "GET",
@@ -213,6 +181,38 @@
 					"path": [
 						"api",
 						"candidateProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recruiterProfile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recruiter_company\": \"Google\",\n    \"recruiter_position\": \"L5 Software Engineer\",\n    \"recruiter_company_street_address\": \"111 Eight Avenue\",\n    \"recruiter_city\": \"New York\",\n    \"recruiter_postal\": \"11234\",\n    \"recruiter_country\": \"America\",\n    \"recruiter_state\": \"NY\",\n    \"is_deleted\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/recruiterProfile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"recruiterProfile"
 					]
 				}
 			},
@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"skill\": \"diving\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"playing games\",\n\t\"is_deleted\": true\n}",
+					"raw": "{\n\t\"skill\": \"c++\",\n\t\"is_deleted\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"flask\",\n\t\"desired_skill_3\": \"python\",\n\t\"desired_skill_4\": \"diving\",\n\t\"desired_skill_5\": \"dancing\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -736,7 +736,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"flask\",\n\t\"desired_skill_3\": \"python\",\n\t\"desired_skill_4\": \"diving\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"

@@ -13,7 +13,8 @@ class MainPage extends Component {
     this.state = {
       isLoggedIn: false,
       email: '',
-      password: ''
+      password: '',
+      status: ''
     };
   }
 
@@ -69,6 +70,9 @@ class MainPage extends Component {
         alert(result.error);
       } else {
         console.log("Successfully logged in");
+        this.setState({
+          isLoggedIn: true
+        })
       }
     } catch (error) {
       console.log(error);
@@ -78,6 +82,11 @@ class MainPage extends Component {
   render() {
     return (
       <div className = 'home'> 
+      {/* {
+        this.state.isLoggedIn === true 
+        ? <Redirect 
+        :
+      } */}
         <MainNavBar/>
         <main style={{marginTop:'64px'}}>
         <div className = 'main-page' id = 'main'>

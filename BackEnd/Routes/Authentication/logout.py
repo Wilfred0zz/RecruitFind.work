@@ -5,6 +5,7 @@ import bcrypt
 import secrets
 from validate_email import validate_email
 import json
+from flask_login import logout_user
 
 logout = Blueprint('logout', __name__)
 
@@ -13,23 +14,13 @@ def signUserOut():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
         if database:
-            cursor = database.cursor()
+
             response = dict()
 
-            token = request.cookies.get('token')
-
-            if token:
-                cursor.execute(f"""UPDATE public."Personal Information" SET token=null WHERE token='{token}'""")
-                database.commit()
-
-                response = make_response(json.dumps({
-                            'status_info': 'User Logged Out!'
-                        }))
-                response.set_cookie('token', '', expires=0)
-            else:
-                error = "Invalid Token!"
-                response['error'] = error
-                raise Exception(response)
+            logout_user()
+            response = make_response(json.dumps({
+                'status_info': 'User Logged Out!'
+            }))
         else:
             error = "Connection to database failed!"
             response['error'] = error
