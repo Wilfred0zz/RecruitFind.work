@@ -18,23 +18,25 @@ def fetchCandidateSkills():
                 currentUserId = current_user.get_id()
 
                 if currentUserId:
-                    cursor.execute(f"""SELECT skill_id, is_deleted FROM public."Candidate Skills" WHERE user_id={currentUserId}""")
+                    cursor.execute(f"""SELECT skill_id, is_deleted FROM public."Candidate Skills" WHERE user_id={currentUserId} AND is_deleted={False}""")
                     queryResult = cursor.fetchall()
 
-                    for i in range(len(queryResult)):
-                        for j in range(len(queryResult[i])):
-                            if j % 2 == 0:
-                                query = (f"""SELECT skill FROM public."Skills" WHERE skill_id='{queryResult[i][j]}'""")
-                                cursor.execute(query)
-                                key = 'skill_' + str(i+1)
-                                response[key] = cursor.fetchone()[0]
-                            else:
-                                key = 'is_deleted_' + str(i+1)
-                                response[key] = queryResult[i][j]
+                    if len(queryResult) != 0:
+                        for i in range(len(queryResult)):
+                            for j in range(len(queryResult[i])):
+                                if j % 2 == 0:
+                                    query = (f"""SELECT skill FROM public."Skills" WHERE skill_id='{queryResult[i][j]}'""")
+                                    cursor.execute(query)
+                                    key = 'skill_' + str(i+1)
+                                    response[key] = cursor.fetchone()[0]
+                                else:
+                                    key = 'is_deleted_' + str(i+1)
+                                    response[key] = queryResult[i][j]
+                        
 
-
-                    response['status'] = True
-                    response['status_info'] = 'Candidate Skills Fetched Successfully'
+                    else:
+                        response['status'] = True
+                        response['status_info'] = 'User Has No Skills!'
         else:
             error = "Connection To Database Failed!"
             response['error'] = error

@@ -28,8 +28,7 @@ def fetchAllQueriesForAUser():
                         for i in range(length):
                             constructResponse(response, queryResult[i], i)
 
-                        response['status'] = True
-                        response['status_info'] = 'Queries Fetched Successfully!'
+                        
                     else:
                         error = "User Has No Queries!"
                         response['error'] = error

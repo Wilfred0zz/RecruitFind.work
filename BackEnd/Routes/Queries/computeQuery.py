@@ -7,6 +7,7 @@ import traceback
 cptQry = Blueprint('computeQuery', __name__)
 
 @cptQry.route("/api/computeQuery", methods=["GET"])
+@login_required
 def computeQueryResult():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
@@ -70,15 +71,22 @@ def computeQueryResult():
                             extractedUsers = extractUsersFromQueryResult(queryResult)
                             candidatesWithDesiredSkills[skills[i]].extend(extractedUsers)
                         
-                        print("these are the candidates with desired skills: ", candidatesWithDesiredSkills)
                         candidatesAndTheirSkills = checkSkillsOfCandidate(candidatesWithDesiredSkills, cursor)
                         allDesiredCandidatesInfo = getUserInformationFromUserId(candidatesWithDesiredSkills, cursor)
                         numberOfSkillsEachCandidateHas = calculateNumberOfSkillsCandidateHas(candidatesWithDesiredSkills)
 
                         constructResponse(response, allDesiredCandidatesInfo, numberOfSkillsEachCandidateHas, candidatesAndTheirSkills)
 
+                        checkForMatchedUsersThatRejected(response, cursor)
+
                         response['query_id'] = queryID
+                        response['status'] = True
                         
+                        if len(response) == 2:
+                            response['status_info'] = 'No Results Could Be Found For This Query! This Is Because No User With That Skill Exists Or Because Some Users Are Hidden!'
+                        else:
+                            print("")
+
 
                     else:
                         error = "Query Doesn't Exist! Make Sure Query Was Created Successfully!"
@@ -207,7 +215,26 @@ def checkSkillsOfCandidate(targetedCandidates, curr):
     return usersAndTheirSkills
 
 
+def checkForMatchedUsersThatRejected(resObj, curr):
+    hiddenUsers = []
 
+    for keys in resObj:
+        candidateEmail = resObj[keys][2]
+        curr.execute(f"""SELECT user_id FROM public."Personal Information" WHERE email='{candidateEmail}'""")
+        candidateId = curr.fetchone()[0]
+        curr.execute(f"""SELECT hidden FROM public."Matches" WHERE candidate_id={candidateId} AND query_id={72} AND hidden={True}""")
+        hidden = curr.fetchone()
+        
+        if hidden != None:
+            hiddenUsers.insert(0, keys)
+        else:
+            continue
+        
+    
+    hiddenUsers = hiddenUsers[::-1]
+
+    for i in range(len(hiddenUsers)):
+        del resObj[hiddenUsers[i]]
 
 
 

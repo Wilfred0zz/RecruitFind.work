@@ -29,8 +29,7 @@ def fetchRecruiterProfileInfo():
                         response['recruiter_country'] = queryResult[0][5]
                         response['recruiter_state'] = queryResult[0][6]
                         response['is_deleted'] = queryResult[0][7]
-                        response['status'] = True
-                        response['status_info'] = 'Recruiter Profile Info Fetched Successfully'
+                        
                     else:
                         error = "Recruiter Profile No Longer Exists!"
                         response['error'] = error
