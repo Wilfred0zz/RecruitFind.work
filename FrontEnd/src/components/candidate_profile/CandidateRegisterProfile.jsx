@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import CandidateProfile from './CandidateProfile';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 class CandidateRegisterProfile extends Component{
   constructor(props){
@@ -52,7 +53,19 @@ class CandidateRegisterProfile extends Component{
       start_date_4: "",
       start_date_5: "",
 
-      skill_count:1,
+      skill_count:0,
+      skills: [],
+      skill_1: "",
+      skill_2: "",
+      skill_3: "",
+      skill_4: "",
+      skill_5: "",
+      skill_6: "",
+      skill_7: "",
+      skill_8: "",
+      skill_9: "",
+      skill_10: "",
+      skill_options: [],
     }
   }
 
@@ -61,7 +74,6 @@ class CandidateRegisterProfile extends Component{
   experiences = [1];
   profileLinks = [1];
   profileInterests=[1];
-  candidateSkills=[1];
 
   handleChange = (event) => {
     this.setState({
@@ -122,7 +134,7 @@ class CandidateRegisterProfile extends Component{
     const end_date = `end_date_${size}`;
     const present = `present_${size}`;
 
-    // to change disply and delete one experience field
+    // to change display and delete one experience field
     this.experiences.pop();
 
     this.setState({
@@ -216,6 +228,68 @@ class CandidateRegisterProfile extends Component{
     });
   }
 
+  handleSkill = async (event, value) => {
+    // console.log("Im in the network", event.target.value)
+    // if(this.state.skills.length >= 9){
+    //   event.target.value='';
+    //   return alert('Too Many Skills')
+    // }
+    if(!event.target.value){
+      this.setState({
+        skills: value
+      })
+      return;
+    } else if(event.target.value.length < 3 || event.target.value===0){
+      return;
+    }
+    try {
+      const response = await fetch(`http://api.dataatwork.org/v1/skills/autocomplete?contains=${event.target.value}`,{
+        headers: {
+          "Accept": 'application/json',
+        }
+      });
+
+      const status = response.status;
+      const result = await response.json();
+      console.log("This is the result", result)
+      if(status >= 400){
+        console.log(result.error);
+      }
+      else{
+        this.setState({
+          skill_options: result.map(skill => skill.normalized_skill_name)
+        })
+      }
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  // To decrease count or increase count based on skill added
+  modifySkill = (event, value, type) => {
+    console.log("this is val: ", value)
+    if(type === 'remove-option'){
+      this.setState({ 
+        skill_count: this.state.skill_count - 1,
+        skills: value
+      })
+    } else if(this.state.skills.length >= 10){
+      // event.target.value='';
+      return alert('Only 10 allowed')
+    } else if((type === 'create-option' || type === 'select-option') && this.state.skills.length < 10){
+      this.setState({ 
+        skill_count: this.state.skill_count + 1,
+        skills: [...this.state.skills, value[value.length-1]]
+      }, () => console.log(this.state.skills))
+    } else {
+      return;
+    }
+    this.setState({
+      skill_options: []
+    })    
+  }
+  
   handleCandidateProfileSubmission = async () => {
     const candidateProfile = {
       "candidate_school": this.state.candidate_school,
@@ -233,8 +307,8 @@ class CandidateRegisterProfile extends Component{
     
     const response = await fetch('/api/candidateProfile', {
       headers: {
-        'Accept': 'application/JSON',
-        'Content-Type': 'application/JSON'
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
       method: 'POST',
       body: JSON.stringify(candidateProfile)
@@ -277,8 +351,8 @@ class CandidateRegisterProfile extends Component{
 
     const response = await fetch('/api/candidateLinks', {
       headers: {
-        'Accept': 'application/JSON',
-        "Content-Type": 'application/JSON'
+        'Accept': 'application/json',
+        "Content-Type": 'application/json'
       },
       method: 'POST',
       body: JSON.stringify(links)
@@ -347,8 +421,8 @@ class CandidateRegisterProfile extends Component{
 
     const response = await fetch('/api/candidateExperiences', {
       headers: {
-        'Accept': 'application/JSON',
-        "Content-Type": 'application/JSON'
+        'Accept': 'application/json',
+        "Content-Type": 'application/json'
       },
       method: 'POST',
       body: JSON.stringify(experiencess)
@@ -367,9 +441,34 @@ class CandidateRegisterProfile extends Component{
     }
   }
 
+  handleSkillSubmission = async () => {
+    this.state.skills.map((skill, index) => {
+      this.setState({
+        [`skill_${index}`]: skill,
+      })
+      return;
+    })
+
+    for(let i = 0; i < this.state.skills.length; i++){
+      const skill = {
+        "skill": this.state[`skill_${i}`],
+        "is_deleted": false
+      }
+      const response = await fetch('/api/candidateSkills',{
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(skill)
+      })
+    
+    }
+    
+  }
+
   handleSubmit = async (event) => {
     event.preventDefault();
-    // submission for candidate profile
     try {
       await this.handleCandidateProfileSubmission();
       await this.handleLinkSubmission();
@@ -380,22 +479,6 @@ class CandidateRegisterProfile extends Component{
     }catch(error){
       console.log(error, "this is the error");
     }
-    // await this.handleCandidateProfileSubmission;
-    // // console.log(this.state)
-    // await this.handleLinkSubmission;
-    // await this.handleExperiencesSubmission;
-    // console.log("poop");
-    // await console.log('success');
-    // if((await this.handleCandidateProfileSubmission()) === true){
-    //   if((await this.handleLinkSubmission()) === true){
-    //     if((await this.handleExperiencesSubmission()) === true){
-    //       console.log("Success");
-    //     }
-    //     else {console.log("error in Experiences Submission")}
-    //   }
-    //   else{console.log("error in Links Submission")}
-    // }
-    // else{console.log("error in Candidate Profile Submission")}
   }
 
   // need a fetch for candidate name, and description, etc.
@@ -570,15 +653,47 @@ class CandidateRegisterProfile extends Component{
 
               <br/>
             <div className='skills'>
-                Skills
+              Skills
+              <Autocomplete
+                multiple
+                limitTags={10}
+                freeSolo
+                value={this.state.skills}
+                id="multiple-limit-tags"
+                options={this.state.skill_options}
+                onInputChange={this.handleSkill}
+                getOptionLabel={option => option}
+                onChange={this.modifySkill}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="skills"
+                    placeholder="Please Enter a Skill"
+                  />
+                )}
+              />
+              <div>
+                {/* Button to add another experience
+                {
+                  (this.candidateSkills.length < 10)
+                  ? <button onClick={this.addSkill}>+</button>
+                  : null
+                }
+                { Button to delete most recent experience }
+                {
+                  (this.candidateSkills.length > 1)
+                  ? <button onClick={this.deleteRecentSkill}>-</button>
+                  : null
+                } */}
+              </div>
             </div>
             <button onClick={this.handleSubmit}>Submit</button>
           </div> 
         :
           <div>
-            <CandidateProfile/> 
+            <Redirect to='/candidate_profile'/>
           </div>
-        
         }
       </div>
     )
