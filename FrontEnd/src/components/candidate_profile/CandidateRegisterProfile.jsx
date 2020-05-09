@@ -7,6 +7,8 @@ class CandidateRegisterProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
+      submit_pushed: false,
+
       candidate_info_update: false,
       is_logged_in: true,
       candidate_current_position: "",
@@ -78,7 +80,7 @@ class CandidateRegisterProfile extends Component{
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
-    }, ()=> console.log(this.state))
+    })
   } 
 
   handleCheckBox = (event) => {
@@ -354,7 +356,7 @@ class CandidateRegisterProfile extends Component{
     for(let i = 1; i <= 3; i++){
       if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
         if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
-          return alert('Please fill in both fields for your first link');
+          throw Error(alert('Please fill in both fields for your links'));
         }
       }
     }
@@ -424,7 +426,7 @@ class CandidateRegisterProfile extends Component{
           continue;
         }  
         else {
-          return alert(`Please fill out all the fields in Experience ${i}`);
+          throw Error(alert(`Please fill out all the fields in Experience ${i}`));
         }
       }
     }
@@ -452,14 +454,6 @@ class CandidateRegisterProfile extends Component{
   }
 
   handleSkillSubmission = async () => {
-    // not needed, but am using to update individual skills
-    // this.state.skills.map((skill, index) => {
-    //   this.setState({
-    //     [`skill_${index+1}`]: skill,
-    //   }, () => console.log(this.state))
-    //   return true;
-    // })
-
     // console.log(this.state)
     if(!this.state.skills || this.state.skills.length < 1){
       // return(alert("Please enter atleast one skill"));
@@ -473,12 +467,12 @@ class CandidateRegisterProfile extends Component{
         "is_deleted": false
       }
       // console.log
-      const response = await fetch('/api/candidateSkills',{
+      const response = await fetch('/api/deleteCandidateSkill',{
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        method: 'POST',
+        method: 'PUT',
         body: JSON.stringify(skill)
       })
       
@@ -497,25 +491,30 @@ class CandidateRegisterProfile extends Component{
   }
 
   handleSubmit = async (event) => {
+    this.setState({
+      submit_pushed: true,
+    })
     event.preventDefault();
     try {
+      await this.handleSkillSubmission();
       await this.handleLinkSubmission();
       await this.handleExperiencesSubmission();
-      await this.handleSkillSubmission();
       await this.handleCandidateProfileSubmission();
       this.setState({
         candidate_info_update: true
       });
     }catch(error){
-      console.log("There was an error please make sure atleast one skill is entered");
+      this.setState({
+        submit_pushed: false
+      }, () =>  console.log("Please be sure all inputs are appropraitely entered"));
     }
   }
 
   // need a fetch for candidate name, and description, etc.
 
   // Fetch All Data, and see if any information exists
-  // if it doesnt, then set edit to true, with input values
-  // else set edit to false, and just render view
+  // if it doesnt, then set update to false, with input values
+  // else set update to true, and just render view via redirect
   componentDidMount = async () => {
     try{
       const response = await fetch('/api/fetchCandidateProfileInfo', {
@@ -704,6 +703,11 @@ class CandidateRegisterProfile extends Component{
                 )}
               />
             </div>
+            {
+              this.state.submit_pushed 
+              ? <p>Please wait while we double check all the information</p>
+              : null
+            }
             <button onClick={this.handleSubmit}>Submit</button>
           </div> 
         :
