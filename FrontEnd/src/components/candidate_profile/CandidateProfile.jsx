@@ -68,7 +68,9 @@ class CandidateProfile extends Component {
   // in order to dynamizally create fields and options
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
   profileInterests=[1];
+  experiences = [1];
 
+  // CANDIDATE PROFILE INFO ––––––––––––––––––
   fetchCandidateInfo = async () => {
     const response = await fetch('/api/fetchCandidateProfileInfo')
     const status = response.status;
@@ -106,12 +108,40 @@ class CandidateProfile extends Component {
     }
   }
 
-  fetchCandidateExperiences = () => {
-      
+  // CANDIDATE EXPERIENCES –––––––––––––––––––
+  fetchCandidateExperiences = async () => {
+    const response = await fetch('/api/fetchCandidateExperiences');
+    const status = response.status;
+
+    if(status >= 400) {
+      throw Error(alert('There is an error in getting candidate experiences information'))
+    } else {
+      const result = await response.json();
+      for(let i = 1; i <= 5; i++){
+        this.setState({
+          [`description_${i}`]: result[`description_${i}`],
+          [`end_date_${i}`]: result[`end_date_${i}`],
+          [`present_${i}`]: result[`present_${i}`],
+          [`role_title_${i}`]: result[`role_title_${i}`],
+          [`start_date_${i}`]: result[`start_date_${i}`]
+        })
+      }
+      console.log(this.state);
+      this.checkNumberOfExperiences();
+      console.log("Number of experiences is: ", this.experiences.length);
+    }
   }
 
-  fetchCandidateSkills = () => {
+  checkNumberOfExperiences = async () => {
+    for(let i = 2; i < 6; i++) {
+      if(this.state[`description_${i}`].length > 0){
+        this.experiences.push(1);
+      }
+    }
+  }
 
+  fetchCandidateSkills = async () => {
+    const response = await fetch ('')
   }
 
   fetchCandidateLinks = () => {
@@ -121,6 +151,7 @@ class CandidateProfile extends Component {
   componentDidMount = async () => {
     try {
       await this.fetchCandidateInfo();
+      await this.fetchCandidateExperiences();
     } catch(error) {
       console.log(error)
     }

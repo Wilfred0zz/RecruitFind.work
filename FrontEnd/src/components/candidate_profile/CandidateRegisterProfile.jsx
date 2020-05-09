@@ -439,12 +439,12 @@ class CandidateRegisterProfile extends Component{
         "is_deleted": false
       }
       // console.log
-      const response = await fetch('/api/deleteCandidateSkill',{
+      const response = await fetch('/api/candidateSkills',{
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        method: 'PUT',
+        method: 'POST',
         body: JSON.stringify(skill)
       })
       
@@ -452,8 +452,10 @@ class CandidateRegisterProfile extends Component{
       const result = await response.json();
 
       if(status >= 400) {
-        console.log(result);
-        throw Error(`error in skill_${i}`);
+        if(!result.status_info === 'Candidate Already Has That Skill!'){
+          console.log(result);
+          throw Error(`error in skill_${i}`);
+        }
       }
       else{
         console.log(`Successfully added skill_${i}`);
