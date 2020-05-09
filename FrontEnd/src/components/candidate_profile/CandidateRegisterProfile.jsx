@@ -65,7 +65,7 @@ class CandidateRegisterProfile extends Component{
       skill_8: "",
       skill_9: "",
       skill_10: "",
-      skill_options: [],
+      // skill_options: [],
     }
   }
 
@@ -228,66 +228,76 @@ class CandidateRegisterProfile extends Component{
     });
   }
 
+  // for future use when wanna use api
   handleSkill = async (event, value) => {
     // console.log("Im in the network", event.target.value)
     // if(this.state.skills.length >= 9){
     //   event.target.value='';
     //   return alert('Too Many Skills')
     // }
+    console.log( "the value at this moment is ", value)
     if(!event.target.value){
       this.setState({
-        skills: value
-      })
-      return;
+        skills: value || []
+      });
     } else if(event.target.value.length < 3 || event.target.value===0){
       return;
-    }
-    try {
-      const response = await fetch(`http://api.dataatwork.org/v1/skills/autocomplete?contains=${event.target.value}`,{
-        headers: {
-          "Accept": 'application/json',
+    } else if(event.target.value.length >= 3){
+      try {
+        const response = await fetch(`http://api.dataatwork.org/v1/skills/autocomplete?contains=${event.target.value}`,{
+          headers: {
+            "Accept": 'application/json',
+          }
+        });
+  
+        const status = response.status;
+        const result = await response.json();
+        console.log("This is the result", result)
+        if(status >= 400){
+          console.log(result.error);
         }
-      });
-
-      const status = response.status;
-      const result = await response.json();
-      console.log("This is the result", result)
-      if(status >= 400){
-        console.log(result.error);
+        else{
+          this.setState({
+            skill_options: result.map(skill => skill.normalized_skill_name)
+          })
+        }
+  
+      }catch(error){
+        console.log(error);
       }
-      else{
-        this.setState({
-          skill_options: result.map(skill => skill.normalized_skill_name)
-        })
-      }
-
-    }catch(error){
-      console.log(error);
     }
   }
 
   // To decrease count or increase count based on skill added
   modifySkill = (event, value, type) => {
-    console.log("this is val: ", value)
+    // value contains the selected inputs over time
     if(type === 'remove-option'){
       this.setState({ 
-        skill_count: this.state.skill_count - 1,
-        skills: value
-      })
+        // skill_count: this.state.skill_count - 1,
+        skills: value,
+        // skill_options: []
+      });
     } else if(this.state.skills.length >= 10){
       // event.target.value='';
-      return alert('Only 10 allowed')
-    } else if((type === 'create-option' || type === 'select-option') && this.state.skills.length < 10){
+      return alert('Only 10 allowed');
+    } else if((type === 'create-option') && this.state.skills.length < 10){
+      var data = event.target.value.toLowerCase();
+      if(this.state.skills && (this.state.skills.filter(currentValue=>data===currentValue).length > 0)){
+        return;
+      }
       this.setState({ 
-        skill_count: this.state.skill_count + 1,
-        skills: [...this.state.skills, value[value.length-1]]
-      }, () => console.log(this.state.skills))
+        // skill_count: this.state.skill_count + 1,
+        skills: [...this.state.skills, value[value.length-1].toLowerCase()],
+        // skill_options: []
+      });
     } else {
       return;
     }
-    this.setState({
-      skill_options: []
-    })    
+
+    // delete previous optins so they dont appear again
+    // this.setState({
+    //   skill_options: []
+    // })    
   }
   
   handleCandidateProfileSubmission = async () => {
@@ -442,18 +452,27 @@ class CandidateRegisterProfile extends Component{
   }
 
   handleSkillSubmission = async () => {
-    this.state.skills.map((skill, index) => {
-      this.setState({
-        [`skill_${index}`]: skill,
-      })
-      return;
-    })
+    // not needed, but am using to update individual skills
+    // this.state.skills.map((skill, index) => {
+    //   this.setState({
+    //     [`skill_${index+1}`]: skill,
+    //   }, () => console.log(this.state))
+    //   return true;
+    // })
+
+    // console.log(this.state)
+    if(!this.state.skills || this.state.skills.length < 1){
+      // return(alert("Please enter atleast one skill"));
+      throw(Error(alert("Please enter atleast one skill")));
+    }
 
     for(let i = 0; i < this.state.skills.length; i++){
+      // console.log("length: ", this.state.skills.length)
       const skill = {
-        "skill": this.state[`skill_${i}`],
+        "skill": this.state.skills[i].toLowerCase(),
         "is_deleted": false
       }
+      // console.log
       const response = await fetch('/api/candidateSkills',{
         headers: {
           'Accept': 'application/json',
@@ -462,7 +481,17 @@ class CandidateRegisterProfile extends Component{
         method: 'POST',
         body: JSON.stringify(skill)
       })
-    
+      
+      const status = response.status;
+      const result = await response.json();
+
+      if(status >= 400) {
+        console.log(result);
+        throw Error(`error in skill_${i}`);
+      }
+      else{
+        console.log(`Successfully added skill_${i}`);
+      }
     }
     
   }
@@ -470,14 +499,15 @@ class CandidateRegisterProfile extends Component{
   handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await this.handleCandidateProfileSubmission();
       await this.handleLinkSubmission();
       await this.handleExperiencesSubmission();
+      await this.handleSkillSubmission();
+      await this.handleCandidateProfileSubmission();
       this.setState({
         candidate_info_update: true
       });
     }catch(error){
-      console.log(error, "this is the error");
+      console.log("There was an error please make sure atleast one skill is entered");
     }
   }
 
@@ -655,38 +685,24 @@ class CandidateRegisterProfile extends Component{
             <div className='skills'>
               Skills
               <Autocomplete
-                multiple
-                limitTags={10}
-                freeSolo
-                value={this.state.skills}
-                id="multiple-limit-tags"
-                options={this.state.skill_options}
-                onInputChange={this.handleSkill}
-                getOptionLabel={option => option}
-                onChange={this.modifySkill}
-                renderInput={params => (
+                multiple // allows multiple entries
+                limitTags={10} // only 10 displayed in input box
+                freeSolo // add entries not in provided options
+                disableClearable={true} // remove delete all option
+                value={this.state.skills} // make sure that the extra inputs more than 10 dont show
+                size='small' // dispaly small
+                id="multiple-limit-tags" // id for this component
+                options={[]} // provide no options
+                onChange={this.modifySkill} // when a user presses enter this function occurs
+                renderInput={params => ( //display for all entered inputs
                   <TextField
                     {...params}
                     variant="outlined"
                     label="skills"
-                    placeholder="Please Enter a Skill"
+                    placeholder="skill"
                   />
                 )}
               />
-              <div>
-                {/* Button to add another experience
-                {
-                  (this.candidateSkills.length < 10)
-                  ? <button onClick={this.addSkill}>+</button>
-                  : null
-                }
-                { Button to delete most recent experience }
-                {
-                  (this.candidateSkills.length > 1)
-                  ? <button onClick={this.deleteRecentSkill}>-</button>
-                  : null
-                } */}
-              </div>
             </div>
             <button onClick={this.handleSubmit}>Submit</button>
           </div> 
