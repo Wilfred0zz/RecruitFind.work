@@ -5,7 +5,7 @@ connect = Blueprint('connection', __name__)
 
 @connect.route("/api/connection")
 def connection():
-    database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+    database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= '172.17.0.1', port = "5432", database = "recruitfindwork")
     #checks whether connection to database was successful or not
     if(not database):
         return f'''Connection to database failed'''
