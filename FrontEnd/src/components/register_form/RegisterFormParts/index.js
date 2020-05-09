@@ -193,7 +193,7 @@ export default props => {
     { state.user.isRegistered === true ? 
     [(
         state.user.status === 'candidate' ? 
-        <Redirect key="candidate" push to='/candidate_profile' state={ state.user.first_time = 'true' } /> :
+        <Redirect key="candidate" push to='/candidate_register_profile' state={ state.user.first_time = 'true' } /> :
         <Redirect key="recruiter" push to='/recruiter_register_profile'/> 
     )]: null }
 
