@@ -67,11 +67,10 @@ class CandidateRegisterProfile extends Component{
       skill_8: "",
       skill_9: "",
       skill_10: "",
-      // skill_options: [],
     }
   }
 
-  // in order to dynamizally creatae fields and options
+  // in order to dynamizally create fields and options
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
   experiences = [1];
   profileLinks = [1];
@@ -84,7 +83,6 @@ class CandidateRegisterProfile extends Component{
   } 
 
   handleCheckBox = (event) => {
-    // event.preventDefault();
     console.log([event.target.name] , !this.state[event.target.name])
     this.setState({
       [event.target.name]: !this.state[event.target.name]
@@ -201,32 +199,6 @@ class CandidateRegisterProfile extends Component{
     this.setState({
       [interest]: '',
       interest_count: this.state.interest_count - 1
-    });
-  }
-
-  addSkill = async (event) => {
-    event.preventDefault();
-    const size = this.candidateSkills.length
-    if(size<=10){
-      this.candidateSkills.push(1);
-      this.setState({
-        skill_count: this.state.skill_count + 1
-      });
-    }else{
-      return (alert("No more then 10 skills allowed, please pick your best skills"))
-    }
-  }
-
-  deleteRecentSkill = async (event) => {
-    event.preventDefault();
-    const size = this.candidateSkills.length
-    const skill = `skill_${size}`;
-
-    this.candidateSkills.pop();
-
-    this.setState({
-      [skill]: '',
-      skill_count: this.state.skill_count - 1
     });
   }
 
@@ -510,8 +482,6 @@ class CandidateRegisterProfile extends Component{
     }
   }
 
-  // need a fetch for candidate name, and description, etc.
-
   // Fetch All Data, and see if any information exists
   // if it doesnt, then set update to false, with input values
   // else set update to true, and just render view via redirect
@@ -538,9 +508,6 @@ class CandidateRegisterProfile extends Component{
       if (status >= 400) {
         // If I get an error I need to check the error message
         if(result.error){
-          // this.setState({
-          //   is_logged_in: false,
-          // })t
           console.log(result.error);
         }
         else {
