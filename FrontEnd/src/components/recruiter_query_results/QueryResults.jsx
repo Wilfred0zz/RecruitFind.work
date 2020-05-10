@@ -9,6 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import { withStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
 
 const styles = theme => ({
   gridContainer: {
@@ -25,7 +26,7 @@ class RecruiterQueryResults extends Component{
         };
     }
 
-  componentDidMount = async () => {
+  componentWillMount = async () => {
   
     const queryInfo = {
       "query_title": "Software Engineer",
@@ -42,7 +43,7 @@ class RecruiterQueryResults extends Component{
       "desired_skill_8": "",
       "desired_skill_9": "",	
       "desired_skill_10": "diving",
-      "is_deleted": false 
+      "is_deleted": false
     }
 
     try {
@@ -79,6 +80,7 @@ class RecruiterQueryResults extends Component{
           
           const value = Object.values(result);
           value.pop();
+          value.pop();
           console.log("Value " , value);
           //pop end
 
@@ -108,11 +110,12 @@ class RecruiterQueryResults extends Component{
   
   render(){
     const { classes } = this.props;
-    if(this.qualifiedCandidates !== undefined){
       return (
-        <Grid container spacing={4} className={classes.gridContainer} justify="center">
+        <div>
+          <NavigationBarRecruiter/>
+          <Grid container spacing={4} className={classes.gridContainer} justify="center">
             {this.state.qualifiedCandidates.map((candidate, i) => (
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={3} key={this.state.qualifiedCandidates[3] + i}>
             <Card>
             <CardContent>
               <AccountCircleIcon className={classes.svg_icons}/>
@@ -137,14 +140,8 @@ class RecruiterQueryResults extends Component{
           )
           )}
         </Grid>
-        );
-    } else {
-      return(
-        <Typography > {'There are no matching candidates'} </Typography>
-      );
-    }
-    
-
+        </div>
+        );  
   }
 }
 

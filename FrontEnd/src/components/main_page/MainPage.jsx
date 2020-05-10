@@ -107,7 +107,9 @@ class MainPage extends Component {
             <h3 className='OR-option'>================== OR ==================</h3>
           </div>
             <div id = 'registerForm'> <RegisterForm/> </div>
-            <div> <Link to="/query_results_page"> Click to login</Link> </div>
+            <div> <Link to="/query_results_page"> QUERY RESULTS PAGE </Link> </div>
+            <div> <Link to="/all_queries"> ALL QUERIES </Link> </div>
+            <div> <Link to="/new_query_page"> NEW QUERIES </Link> </div>
         </div>
         </main>
         <img src={officeImg} alt="officeImg"/>
