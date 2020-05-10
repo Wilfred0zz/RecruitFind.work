@@ -21,7 +21,7 @@ class DisplayPastQueries extends Component{
             const status = response.status; console.log(response);
             const result = await response.json(); console.log(result);
             if (status === 400 || status === 500) {
-              console.log("reached error")
+              console.log(result.error)
             } else {
               console.log(result);
                 this.setState({
@@ -38,30 +38,32 @@ class DisplayPastQueries extends Component{
     }
     
     render(){
-        console.log(this.state.PastQueries)
         return(
             <div>
                 <NavigationBarRecruiter/>
                 <div>
-                    <Link to = "/new_query_page"><button>New Query?</button></Link>
+                <Link to = "/new_query_page"><button>New Query?</button></Link>
+                    {this.state.PastQueries.length > 0 ? 
                     <div>
+                        <div>
                         <ul> 
                             {this.state.PastQueries.map((query) => (
                                 <li key = {query.query_id}>
-                                    {query.queryDate}
-                                    {query.queryDescription}
-                                    {query.queryPayment}
+                                    {query.queryDate} {" "}
+                                    {query.queryDescription} {" "}
+                                    {query.queryPayment}{" "}
                                     {query.queryTitle}
                                 </li>
                             ))}   
                         </ul>
+                        </div>
                     </div>
+                    : <p>No Past Queries</p>}
                 </div>
             </div>
         )
     }
 }
-
 
 
 export default DisplayPastQueries;
