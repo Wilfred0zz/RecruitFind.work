@@ -122,7 +122,7 @@ export default props => {
       const result = await response.json();
 
       if (status === 400 || status === 500) {
-        alert(result.error);
+        throw Error(alert(result.error));
       } else {
         console.log(result.status_info);
         // get the user logged in if registration is a success

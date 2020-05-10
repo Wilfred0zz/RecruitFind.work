@@ -426,19 +426,15 @@ class CandidateRegisterProfile extends Component{
   }
 
   handleSkillSubmission = async () => {
-    // console.log(this.state)
     if(!this.state.skills || this.state.skills.length < 1){
-      // return(alert("Please enter atleast one skill"));
       throw(Error(alert("Please enter atleast one skill")));
     }
 
     for(let i = 0; i < this.state.skills.length; i++){
-      // console.log("length: ", this.state.skills.length)
       const skill = {
         "skill": this.state.skills[i].toLowerCase(),
         "is_deleted": false
       }
-      // console.log
       const response = await fetch('/api/candidateSkills',{
         headers: {
           'Accept': 'application/json',
@@ -471,8 +467,8 @@ class CandidateRegisterProfile extends Component{
     event.preventDefault();
     try {
       await this.handleSkillSubmission();
-      await this.handleLinkSubmission();
       await this.handleExperiencesSubmission();
+      await this.handleLinkSubmission();
       await this.handleCandidateProfileSubmission();
       this.setState({
         candidate_info_update: true

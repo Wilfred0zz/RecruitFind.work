@@ -69,6 +69,7 @@ class CandidateProfile extends Component {
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
   profileInterests=[1];
   experiences = [1];
+  profileLinks = [1];
 
   // CANDIDATE PROFILE INFO ––––––––––––––––––
   fetchCandidateInfo = async () => {
@@ -132,7 +133,7 @@ class CandidateProfile extends Component {
     }
   }
 
-  checkNumberOfExperiences = async () => {
+  checkNumberOfExperiences =  () => {
     for(let i = 2; i < 6; i++) {
       if(this.state[`description_${i}`].length > 0){
         this.experiences.push(1);
@@ -141,17 +142,62 @@ class CandidateProfile extends Component {
   }
 
   fetchCandidateSkills = async () => {
-    const response = await fetch ('')
+    const response = await fetch ('/api/fetchCandidateSkills')
+    const status = response.status;
+
+    if(status >= 400){
+      throw Error(alert('There is an error in getting candidate experiences information'));
+    }
+    else {
+      const result = await response.json();
+      if(result.status_info === 'User Has No Skills!'){
+        alert(result.status_info);
+      }
+      const values = Object.values(result);
+      for(let i=1; i <= values.length/2; i++){
+        this.setState({
+          skills: [...this.state.skills, result[`skill_${i}`]]
+        })
+      }
+      console.log(this.state);
+      console.log("the number of skills is: ", this.state.skills.length);
+    }
   }
 
-  fetchCandidateLinks = () => {
+  fetchCandidateLinks = async () => {
+    const response = await fetch('/api/fetchCandidateLinks');
+    const status = response.status;
+    const result = await response.json();
 
+    if(status >= 400){
+      throw Error(alert(result.error));
+    } else {
+      for(let i = 1; i < 4; i++){
+        this.setState({
+          [`link_${i}`]: result[`link_${i}`],
+          [`type_of_link_${i}`]: result[`type_of_link_${i}`],
+        })
+      }
+      console.log(this.state);
+      this.checkNumberOfLinks();
+      console.log("The number of links are: ", this.profileLinks.length)
+    }
+  }
+
+  checkNumberOfLinks = () =>{
+    for(let i = 2; i < 4; i++) {
+      if(this.state[`link_${i}`].length > 0){
+        this.profileLinks.push(1);
+      }
+    }
   }
 
   componentDidMount = async () => {
     try {
       await this.fetchCandidateInfo();
       await this.fetchCandidateExperiences();
+      await this.fetchCandidateLinks();
+      await this.fetchCandidateSkills();
     } catch(error) {
       console.log(error)
     }
