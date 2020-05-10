@@ -537,6 +537,12 @@ class CandidateRegisterProfile extends Component{
         {!this.state.candidate_info_update ? 
           <div className='create_candidate_profile'>
             <div className='candidate_profile_info'>
+              <label> Current Position </label>
+              <input name='candidate_current_position' onChange={this.handleChange}/>
+                <br/>
+              <label> Description </label>
+              <input name='candidate_description' onChange={this.handleChange}/>
+                <br/>
               <label> School </label>
               <input name='candidate_school' onChange={this.handleChange}/>
               <select name='candidate_highest_level_of_education' onChange={this.handleChange}>
@@ -549,12 +555,6 @@ class CandidateRegisterProfile extends Component{
                 <option value='other'>Other</option>
               </select>
               <br/>
-              <label> About </label>
-              <input name='candidate_description' onChange={this.handleChange}/>
-                <br/>
-              <label> Current Position </label>
-              <input name='candidate_current_position' onChange={this.handleChange}/>
-                <br/>
               <label> Interests (Note not all of them have to be filled)</label>
               <div>
                 {

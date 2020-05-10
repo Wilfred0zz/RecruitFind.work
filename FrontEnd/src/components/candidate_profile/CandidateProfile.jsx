@@ -62,14 +62,20 @@ class CandidateProfile extends Component {
       skill_8: "",
       skill_9: "",
       skill_10: "",
+
+      // Edits
+      skill_edit: false,
+      experiences_edit: false,
+      links_edit: false,
+      candidate_edit: false,
     }
   }
   
   // in order to dynamizally create fields and options
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
-  profileInterests=[1];
-  experiences = [1];
-  profileLinks = [1];
+  profileInterests=[];
+  experiences = [];
+  profileLinks = [];
 
   // CANDIDATE PROFILE INFO ––––––––––––––––––
   fetchCandidateInfo = async () => {
@@ -102,7 +108,7 @@ class CandidateProfile extends Component {
   }
 
   checkNumberOfInterests = () => {
-    for(let i = 2; i < 4; i++) {
+    for(let i = 1; i < 4; i++) {
       if(this.state[`name_of_interest_${i}`].length > 0){
         this.profileInterests.push(1);
       }
@@ -134,7 +140,7 @@ class CandidateProfile extends Component {
   }
 
   checkNumberOfExperiences =  () => {
-    for(let i = 2; i < 6; i++) {
+    for(let i = 1; i < 6; i++) {
       if(this.state[`description_${i}`].length > 0){
         this.experiences.push(1);
       }
@@ -185,7 +191,7 @@ class CandidateProfile extends Component {
   }
 
   checkNumberOfLinks = () =>{
-    for(let i = 2; i < 4; i++) {
+    for(let i = 1; i < 4; i++) {
       if(this.state[`link_${i}`].length > 0){
         this.profileLinks.push(1);
       }
@@ -195,18 +201,161 @@ class CandidateProfile extends Component {
   componentDidMount = async () => {
     try {
       await this.fetchCandidateInfo();
-      await this.fetchCandidateExperiences();
       await this.fetchCandidateLinks();
+      await this.fetchCandidateExperiences();
       await this.fetchCandidateSkills();
     } catch(error) {
       console.log(error)
     }
   }
 
+  // change from view to edit mode for specific section of the profile
+  handleEditClick = (event) => {
+    event.preventDefault();
+    this.setState({
+      [event.target.name]: !this.state[event.target.name],
+    })
+  }
+  // renderInterests = () => {
+  //   for(let i = 1; i <= this.profileInterests; i++){
+  //     return <p>{this.state[`name_of_interest_${i}`]}</p>
+  //   }
+  // }
+
+  renderEndDate = (number) => {
+    let end_date= `end_date_${number}`;
+    let present= `present_${number}`;
+    if(this.state[present]){
+      return (
+        <div>
+          <input type='checkbox' name={present} checked onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
+    else{
+      return (
+        <div className='unchecked'>
+          <input type='date' name={end_date} onChange={this.handleChange}/>
+          <br/>
+          <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
+  }
+
+  renderViewEndDate = (number) => {
+    let end_date= `end_date_${number}`;
+    let present= `present_${number}`;
+    if(this.state[present]){
+      return (
+        <p>Currently Working</p>
+      )
+    }
+    else{
+      return (
+        <div className='unchecked'>
+          <span> End Date: {this.state[end_date]}</span>
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
-      <div>
-        Hello Candidate
+      <div className='candidate_profile'>
+        {
+          this.state.candidate_edit
+          ? null
+          : <div className='no_edit_candidate_profile'>
+              <label>Position: </label>
+              <span>{this.state.candidate_current_position}</span>
+              <br/>
+              <label>Description: </label>
+              <span>{this.state.candidate_description}</span>
+              <br/>
+              <label>School: </label>
+              <span>{this.state.candidate_school}</span>
+              <br/>
+              <label>Interests: </label>
+              <br/>
+              {
+                this.state.name_of_interest_1.length > 1
+                ? <span>{this.state.name_of_interest_1} </span>
+                : null
+              }
+              {
+                this.state.name_of_interest_2.length > 1
+                ? <span>{this.state.name_of_interest_2} </span>
+                : null
+              }
+              {
+                this.state.name_of_interest_3.length > 1
+                ? <span>{this.state.name_of_interest_3}</span>
+                : null
+              }
+            </div>
+        }
+        <br/>
+        {
+          this.state.links_edit
+          ? null
+          : <div className='no_edit_candidate_links'>
+              <label>Links:</label>
+              {this.profileLinks.map((links, index) => {
+                return(
+                <div key={`link ${index+1}`}>
+                  <label>{this.state[`type_of_link_${index+1}`]} </label>
+                  <span>{this.state[`link_${index+1}`]}</span>
+                </div>
+              )})}
+            </div>
+        }
+        <br/>
+        {
+          this.state.experiences_edit
+          ? null
+          : <div className='no_edit_candidate_experiences'>
+              <label>Experiences: </label>
+              {this.experiences.map((experience, index) => {
+                  return (
+                    <div key={index+1}>
+                      <span>Experience {index+1}</span>
+                      <br/>
+                      <label>Position: </label>
+                      <span>{this.state[`role_title_${index+1}`]}</span> 
+                        <br/>
+                      <label>Decription</label>
+                      <span>{this.state[`description_${index+1}`]}</span>
+                        <br/>
+                      <label>Start Date: </label>
+                      <span>{this.state[`start_date_${index+1}`]}</span>
+                        <br/>
+                      {this.renderViewEndDate(index+1)}
+                    </div>
+                  ) 
+                })
+              }
+            </div>
+        }
+        <br/>
+        <label>Skills: </label>
+        {
+          this.state.skill_edit
+          ? null
+          : <span className='no_edit_candidate_skills'>
+              <span>{this.state.skills[1]}</span>
+              {this.state.skills.map((skill, index) =>{
+                if(index === 0){
+                  return null;
+                }
+                else{
+                  return <span> {this.state[`${index+1}`]}</span>
+                }
+              })}
+            </span>
+        }
       </div>
     )
   } 
