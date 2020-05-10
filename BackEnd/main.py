@@ -15,6 +15,7 @@ from Routes.Recruiter.recruiterProfile import rp
 from Routes.Recruiter.fetchRecruiterProfile import frp
 from Routes.Recruiter.updateRecruiterProfileInfo import urp
 from Routes.Recruiter.deleteRecruiterProfileInfo import drp
+from Routes.Recruiter.fetchRecruiterPersonalInformation import frpi
 
 #Candidate Routes
 
@@ -24,6 +25,7 @@ from Routes.Candidate.updateCandidateProfileInfo import ucp
 from Routes.Candidate.fetchCandidateProfileInfo import fcp
 from Routes.Candidate.deleteCandidateProfile import dcp
 from Routes.Candidate.deleteCandidateInterests import dci
+from Routes.Candidate.fetchCandidatePersonalInformation import fcpi
 
 #Candidate Link Routes
 from Routes.Candidate.Links.candidateLinks import cl
@@ -51,6 +53,9 @@ from Routes.Queries.deleteQuery import dQry
 #Match Routes
 from Routes.Matches.match import mat
 from Routes.Matches.fetchCandidateMatches import fcm
+from Routes.Matches.fetchRecruiterMatches import frm
+from Routes.Matches.acceptMatch import acm
+from Routes.Matches.rejectMatch import rm
 
 app = Flask(__name__)
 app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
@@ -69,6 +74,7 @@ app.register_blueprint(rp)
 app.register_blueprint(frp)
 app.register_blueprint(urp)
 app.register_blueprint(drp)
+app.register_blueprint(frpi)
 
 #Candidate Blueprints
 
@@ -78,6 +84,7 @@ app.register_blueprint(ucp)
 app.register_blueprint(fcp)
 app.register_blueprint(dci)
 app.register_blueprint(dcp)
+app.register_blueprint(fcpi)
 
 #Candidate Link Blueprints
 app.register_blueprint(cl)
@@ -105,6 +112,9 @@ app.register_blueprint(dQry)
 #Match Blueprints
 app.register_blueprint(mat)
 app.register_blueprint(fcm)
+app.register_blueprint(frm)
+app.register_blueprint(acm)
+app.register_blueprint(rm)
 
 
 if __name__ == '__main__':

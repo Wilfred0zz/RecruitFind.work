@@ -163,8 +163,7 @@ class NewQueries extends Component{
               <Link to = "/all_queries"><button>Cancel</button></Link>
             </div>
         </div>
-      )
-   }
+      );
+  }
 }
-
 export default NewQueries;
