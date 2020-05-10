@@ -34,8 +34,6 @@ def fetchAllQueriesForAUser():
                         } 
                         for row in queryResult ]
 
-  
-
                         
                     else:
                         error = "User Has No Queries!"
