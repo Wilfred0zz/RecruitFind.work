@@ -121,6 +121,11 @@ class CandidateRegisterProfile extends Component{
 
   increaseNumberOfExperiences = (event) => {
     event.preventDefault();
+    // ensure cant increase unless previous one is filled
+    if(this.state[`role_title_${this.experiences.length}`] === '' || this.state[`description_${this.experiences.length}`] === '' || this.state[`start_date_${this.experiences.length}`] === '' || this.state[`end_date_${this.experiences.length}`] === '' || this.state[`present_${this.experiences.length}`] === true){
+      alert(`Please fill in link ${this.profileLinks.length}`);
+      return;
+    }
     if(this.experiences.length <5 ){
       this.experiences.push(1);
       this.setState({
@@ -157,6 +162,10 @@ class CandidateRegisterProfile extends Component{
 
   increaseLinks = (event) => {
     event.preventDefault();
+    if(this.state[`link_${this.profileLinks.length}`] === '' || this.state[`type_of_link_${this.profileLinks.length}`] === '' ){
+      alert(`Please fill in link ${this.profileLinks.length}`);
+      return;
+    }
     if(this.profileLinks.length <= 3){
       this.profileLinks.push(1);
       this.setState({
@@ -185,6 +194,10 @@ class CandidateRegisterProfile extends Component{
 
   increaseInterests = (event) => {
     event.preventDefault();
+    if(this.state[`name_of_interest_${this.profileInterests.length}`] === ''){
+      alert(`Please fill in interest ${this.profileInterests.length}`);
+      return;
+    }
     if(this.profileInterests.length <= 3) {
       this.profileInterests.push(1);
       this.setState({
@@ -263,7 +276,7 @@ class CandidateRegisterProfile extends Component{
       return alert('Only 10 allowed');
     } else if((type === 'create-option') && this.state.skills.length < 10){
       var data = event.target.value.toLowerCase();
-      if(this.state.skills && (this.state.skills.filter(currentValue=>data===currentValue).length > 0)){
+      if(this.state.skills && (this.state.skills.filter(currentValue=>data===currentValue).length === '')){
         return;
       }
       this.setState({ 
@@ -342,11 +355,10 @@ class CandidateRegisterProfile extends Component{
     });
 
     const status = response.status;
-    const result = await response.json();
+    // const result = await response.json();
 
     if(status === 400 || status === 500){
-      console.log(result.error);
-      throw Error("Fix your links");
+      throw Error("Error in links");
     }
     else{
       console.log("Links have been created");
@@ -414,10 +426,6 @@ class CandidateRegisterProfile extends Component{
   }
 
   handleSkillSubmission = async () => {
-    if(!this.state.skills || this.state.skills.length < 1){
-      throw(Error(alert("Please enter atleast one skill")));
-    }
-
     for(let i = 0; i < this.state.skills.length; i++){
       const skill = {
         "skill": this.state.skills[i].toLowerCase(),
@@ -451,16 +459,16 @@ class CandidateRegisterProfile extends Component{
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    for(let i = 1; i <= 3; i++){
+    for(let i = 1; i <= this.profileLinks.length; i++){
       if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
         if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
-          (alert('Please fill in both fields for your links'));
+          (alert(`Please fill in both fields for link ${i}`));
           return;
         }
       }
     }
 
-    for(let i = 1; i <= 5; i++){
+    for(let i = 1; i <= this.experiences.length; i++){
       if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
         if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
           if(this.state[`end_date_${i}`].length > 0 && this.state[`end_date_${i}`]<this.state[`start_date_${i}`]){
@@ -474,6 +482,11 @@ class CandidateRegisterProfile extends Component{
           return;
         }
       }
+    }
+
+    if(!this.state.skills || this.state.skills.length < 1){
+      alert("Please enter atleast one skill");
+      return;
     }
 
     this.setState({

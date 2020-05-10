@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate'
+import { Redirect } from 'react-router-dom';
 
 class CandidateProfile extends Component {
   constructor(props){
@@ -349,7 +350,7 @@ class CandidateProfile extends Component {
       )
     }
   }
-  
+
   increaseNumberOfExperiences = (event) => {
     event.preventDefault();
     if(this.experiences.length <5 ){
@@ -493,21 +494,21 @@ class CandidateProfile extends Component {
       }
     }
 
-    const response = await fetch('/api/candidateLinks', {
+    const response = await fetch('/api/updateCandidateLinks', {
       headers: {
         'Accept': 'application/json',
         "Content-Type": 'application/json'
       },
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(links)
     });
 
     const status = response.status;
-    const result = await response.json();
+    // const result = await response.json();
 
     if(status === 400 || status === 500){
-      console.log(result.error);
-      throw Error("Fix your links");
+      alert("Please fix your links");
+      return;
     }
     else{
       this.setState({
@@ -555,23 +556,32 @@ class CandidateProfile extends Component {
       "is_deleted_5": false
     }
 
-    for(let i = 1; i <= 5; i++){
+    for(let i = 1; i <= this.experiences.length; i++){
       if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
         if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
+          if(this.state[`end_date_${i}`].length > 0 && this.state[`end_date_${i}`]<this.state[`start_date_${i}`]){
+            alert('End Date must be after Start Date');
+            return;
+          }
           continue;
         }  
         else {
-          throw Error(alert(`Please fill out all the fields in Experience ${i}`));
+          alert(`Please fill out all the fields in Experience ${i}`);
+          return;
         }
       }
+      if (this.state[`role_title_${i}`].length === 0 && this.state[`description_${i}`].length === 0 && this.state[`start_date_${i}`].length === 0 && (this.state[`end_date_${i}`].length === 0 || this.state[`present_${i}`] === true)){
+        alert("Please delete experience using -")
+        return;
+      }
     }
-
-    const response = await fetch('/api/candidateExperiences', {
+    console.log(experiencess);
+    const response = await fetch('/api/updateCandidateExperiences', {
       headers: {
         'Accept': 'application/json',
         "Content-Type": 'application/json'
       },
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(experiencess)
     });
 
@@ -580,7 +590,8 @@ class CandidateProfile extends Component {
 
     if(status === 400 || status === 500){
       console.log(result.error);
-      throw Error("Fix your Experiences bro, go get a job");
+      alert("Fix Experiences");
+      return;
     }
     else{
       console.log("Experiences have been created");
@@ -623,10 +634,23 @@ class CandidateProfile extends Component {
     
   }
 
+  updateLogout = () => {
+    this.setState({
+      is_logged_in: false
+    })
+  }
+
   render() {
     return (
       <div className='candidate_profile'>
-        <NavigationBarCandidate/>
+        <NavigationBarCandidate updateLogout={this.updateLogout}/>
+        {/* handle logout */}
+        {
+          this.state.is_logged_in
+          ? null
+          : <Redirect to='/'/>
+        }
+        {/* candidate data */}
         {
           this.state.candidate_edit
           ? <div className='edit_candidate_profile'>
@@ -674,6 +698,7 @@ class CandidateProfile extends Component {
               <button onClick={this.handleCandidateProfileSubmission}>Submit</button>
             </div>
           : <div className='no_edit_candidate_profile'>
+            
               <label>Position: </label>
               <span>{this.state.candidate_current_position}</span>
               <br/>
@@ -700,10 +725,12 @@ class CandidateProfile extends Component {
                 ? <span>{this.state.name_of_interest_3}</span>
                 : null
               }
+              <br/>
               <button name='candidate_edit' onClick={this.handleEditClick}>Edit</button>
             </div>
         }
         <br/>
+        {/* candidate links */}
         {
           this.state.links_edit
           ? <div className='edit_candidate_links'>
@@ -749,9 +776,46 @@ class CandidateProfile extends Component {
             </div>
         }
         <br/>
+        {/* candidate experiences */}
         {
           this.state.experiences_edit
-          ? null
+          ? <div className='edit_candidate_experiences'>
+              {
+                this.experiences.map((experience, index)=>{
+                  return (
+                    <div key={index+1}>
+                      <p>Experience {index+1}</p>
+                      <label>Position</label>
+                      <input type='text' name={`role_title_${index+1}`} onChange={this.handleChange} value={this.state[`role_title_${index+1}`]}/>
+                        <br/>
+                      <label>Decription</label>
+                      <input type='text' name={`description_${index+1}`} onChange={this.handleChange} value={this.state[`description_${index+1}`]}/>
+                        <br/>
+                      <label>Start Date</label>
+                      <input type='date' name={`start_date_${index+1}`} onChange={this.handleChange} value={this.state[`start_date_${index+1}`]}/>
+                        <br/>
+                      <label>End Date</label>
+                      {this.renderEndDate(index+1)}
+                    </div>
+                  )  
+                })
+              }
+              {/* Button to add another experience */}
+              {
+                (this.experiences.length < 5)
+                ? <button onClick={this.increaseNumberOfExperiences}>+</button>
+                : null
+              }
+              {/* Button to delete most recent experience */}
+              {
+                (this.experiences.length > 0)
+                ? <button onClick={this.deleteRecentExperience}>-</button>
+                : null
+              }
+              <br/>
+              <button name='experiences_edit' onClick={this.handleEditClick}>Cancel</button>
+              <button onClick={this.handleExperiencesSubmission}>Submit</button>
+            </div>
           : <div className='no_edit_candidate_experiences'>
               <label>Experiences: </label>
               {this.experiences.map((experience, index) => {
@@ -769,14 +833,15 @@ class CandidateProfile extends Component {
                       <span>{this.state[`start_date_${index+1}`]}</span>
                         <br/>
                       {this.renderViewEndDate(index+1)}
-                      <button name='experiences_edit' onClick={this.handleEditClick}>Edit</button>
                     </div>
                   ) 
                 })
               }
+              <button name='experiences_edit' onClick={this.handleEditClick}>Edit</button>
             </div>
         }
         <br/>
+        {/* candidate skills */}
         {
           this.state.skills_edit
           ? null
