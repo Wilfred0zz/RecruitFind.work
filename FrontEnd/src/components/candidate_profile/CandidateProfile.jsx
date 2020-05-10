@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate'
 import { Redirect } from 'react-router-dom';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 class CandidateProfile extends Component {
   constructor(props){
@@ -59,6 +61,8 @@ class CandidateProfile extends Component {
 
       skill_count:0,
       skills: [],
+      old_skills: [],
+      delete_skills: [],
       skill_1: "",
       skill_2: "",
       skill_3: "",
@@ -77,8 +81,6 @@ class CandidateProfile extends Component {
       candidate_edit: false,
     }
   }
-
-  oldState;
   
   // in order to dynamizally create fields and options
   educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associates Degree", "Bachelors Degree", "Masters Degree", "Doctoral or Professional Degree"]
@@ -100,7 +102,7 @@ class CandidateProfile extends Component {
       }, () => {(alert("There is an error in getting candidate porfile information"))});
     } else {
       const result = await response.json();
-      console.log(result);
+
       this.setState({
         candidate_current_position: result.candidate_current_position,
         candidate_description: result.candidate_description,
@@ -183,11 +185,18 @@ class CandidateProfile extends Component {
   fetchCandidateSkills = async () => {
     const response = await fetch ('/api/fetchCandidateSkills')
     const status = response.status;
-
     if(status >= 400){
       throw Error(alert('There is an error in getting candidate experiences information'));
     }
     else {
+      if(this.state.skills){
+        this.setState({
+          skills: []
+        })
+      }
+      this.setState({
+        delete_skills: []
+      })
       const result = await response.json();
       if(result.status_info === 'User Has No Skills!'){
         alert(result.status_info);
@@ -272,18 +281,10 @@ class CandidateProfile extends Component {
     } else if(event.target.name === 'candidate_edit') {
       this.fetchCandidateInfo();
     }
-    // this.setState ({
-    //   ...this.oldState
-    // })
     this.setState({
       [event.target.name]: !this.state[event.target.name],
     })
   }
-  // renderInterests = () => {
-  //   for(let i = 1; i <= this.state.profileInterests; i++){
-  //     return <p>{this.state[`name_of_interest_${i}`]}</p>
-  //   }
-  // }
 
   renderEndDate = (number) => {
     let end_date= `end_date_${number}`;
@@ -511,11 +512,13 @@ class CandidateProfile extends Component {
   modifySkill = (event, value, type) => {
     // value contains the selected inputs over time
     if(type === 'remove-option'){
+      let difference = this.state.skills.filter(x => !value.includes(x));
       this.setState({ 
+        delete_skills: [...this.state.delete_skills, difference[0]],
         // skill_count: this.state.skill_count - 1,
         skills: value,
         // skill_options: []
-      });
+      }, ()=> console.log(this.state.delete_skills));
     } else if(this.state.skills.length >= 10){
       // event.target.value='';
       return alert('Only 10 allowed');
@@ -528,7 +531,7 @@ class CandidateProfile extends Component {
         // skill_count: this.state.skill_count + 1,
         skills: [...this.state.skills, value[value.length-1].toLowerCase()],
         // skill_options: []
-      });
+      }, ()=> console.log(this.state.skills));
     } else {
       return;
     }
@@ -660,7 +663,7 @@ class CandidateProfile extends Component {
     });
 
     const status = response.status;
-    const result = await response.json();
+    // const result = await response.json();
 
     if(status === 400 || status === 500){
       alert("Fix Experiences");
@@ -676,9 +679,37 @@ class CandidateProfile extends Component {
 
   handleSkillSubmission = async () => {
     if(!this.state.skills || this.state.skills.length < 1){
-      throw(Error(alert("Please enter atleast one skill")));
+      return(alert("Please enter atleast one skill"));
     }
+    // delete skills first before updates
+    for(let i = 0; i < this.state.delete_skills.length; i++){
+      const skill = {
+        "skill": this.state.delete_skills[i].toLowerCase(),
+        "is_deleted": true
+      }
+      const response = await fetch('/api/deleteCandidateSkill',{
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'PUT',
+        body: JSON.stringify(skill)
+      })
+      
+      const status = response.status;
 
+      if(status >= 400) {
+        console.log(`Skill ${this.state.delete_skills[i]} may never have existed to delete in the first place`)
+        continue;
+      }
+      else{
+        this.setState({
+          skills_edit: false,
+        })
+        console.log(`Successfully deleted ${this.state.delete_skills[i]}`);
+      }
+    }
+    // add skills
     for(let i = 0; i < this.state.skills.length; i++){
       const skill = {
         "skill": this.state.skills[i].toLowerCase(),
@@ -699,13 +730,22 @@ class CandidateProfile extends Component {
       if(status >= 400) {
         if(!result.status_info === 'Candidate Already Has That Skill!'){
           console.log(result);
-          throw Error(`error in skill_${i}`);
+        }
+        else{
+          console.log(`Candidate already has skill ${this.state.skills[i]}`);
         }
       }
       else{
+        this.setState({
+          skills_edit: false,
+        })
         console.log(`Successfully added skill_${i}`);
       }
     }
+    //ensure no skills left to be deleted in state
+    this.setState({
+      delete_skills: []
+    })
     
   }
 
@@ -784,10 +824,6 @@ class CandidateProfile extends Component {
               <br/>
               <label>Interests: </label>
               <br/>
-              {/* {
-                this.state.profileInterests.length === 0 
-                ? <span>Add </span>
-              } */}
               {
                 this.state.name_of_interest_1.length > 1
                 ? <span>{this.state.name_of_interest_1} </span>
@@ -845,7 +881,6 @@ class CandidateProfile extends Component {
           : <div className='no_edit_candidate_links'>
               <label>Links:</label>
               {this.state.profileLinks.map((links, index) => {
-                console.log("bleh ", this.state.profileLinks.length);
                 return(
                 <div key={`link ${index+1}`}>
                   <label>{this.state[`type_of_link_${index+1}`]} - </label>
@@ -924,16 +959,35 @@ class CandidateProfile extends Component {
         {/* candidate skills */}
         {
           this.state.skills_edit
-          ? null
+          ? <div className='edit_candidate_skills'>
+              <Autocomplete
+                multiple // allows multiple entries
+                limitTags={10} // only 10 displayed in input box
+                freeSolo // add entries not in provided options
+                disableClearable={true} // remove delete all option
+                value={this.state.skills} // make sure that the extra inputs more than 10 dont show
+                size='small' // dispaly small
+                id="multiple-limit-tags" // id for this component
+                options={[]} // provide no options
+                onChange={this.modifySkill} // when a user presses enter this function occurs
+                renderInput={params => ( //display for all entered inputs
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="skills"
+                    placeholder="skill"
+                  />
+                )}
+              />
+              <button name='skills_edit' onClick={this.handleEditCancel}>Cancel</button>
+              <button onClick={this.handleSkillSubmission}>Submit</button>
+            </div>
           : <div className='no_edit_candidate_skills'>
               <label>Skills: </label>
               <span>{this.state.skills[0]}</span>
               {this.state.skills.map((skill, index) =>{
-                if(index === 0){
-                  return null;
-                }
-                else{
-                  return <span key={index + 1}> {this.state[`${index+1}`]}</span>
+                if(index !== 0){
+                  return <span key={index + 1}> {this.state.skills[`${index}`]}</span>
                 }
               })}
               <button name='skills_edit' onClick={this.handleEditClick}>Edit</button>
