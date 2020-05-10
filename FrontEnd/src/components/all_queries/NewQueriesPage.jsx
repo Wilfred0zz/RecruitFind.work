@@ -1,13 +1,4 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
-
-
-class NewQueries extends Component{
-    render(){
-        return(
-            <div>
-                hi
-=======
 import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
 import {Link} from 'react-router-dom';
 import Autocomplete from '@material-ui/lab/Autocomplete'; 
@@ -171,9 +162,9 @@ class NewQueries extends Component{
                   <button onClick={this.refreshPage}>Submit</button>
               </form>
               <Link to = "/all_queries"><button>Cancel</button></Link>
->>>>>>> 7dd8625f06536676d8a6ecb45713a27fe5892e67
             </div>
-        )
-    }
+        </div>
+      );
+  }
 }
 export default NewQueries;
