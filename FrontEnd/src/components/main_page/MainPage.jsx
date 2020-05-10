@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './static/css/MainPageCSS.css';
 import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
 import officeImg from './static/images/office.jpeg';
 //import DisplayPastQueries from './../all_queries/QueriesPage';
 //import MatchInfoModal from './../match_info_modal/MatchInfoModal';
-import RecruiterQueryResults from './../recruiter_query_results/RecruiterQueryResults';
+//import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
 
 class MainPage extends Component {
   constructor(props){
@@ -107,7 +107,9 @@ class MainPage extends Component {
             <h3 className='OR-option'>================== OR ==================</h3>
           </div>
             <div id = 'registerForm'> <RegisterForm/> </div>
-          <RecruiterQueryResults/>
+            <div> <Link to="/query_results_page"> QUERY RESULTS PAGE </Link> </div>
+            <div> <Link to="/all_queries"> ALL QUERIES </Link> </div>
+            <div> <Link to="/new_query_page"> NEW QUERIES </Link> </div>
         </div>
         </main>
         <img src={officeImg} alt="officeImg"/>
