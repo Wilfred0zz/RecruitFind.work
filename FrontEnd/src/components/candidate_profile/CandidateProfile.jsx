@@ -285,13 +285,15 @@ class CandidateProfile extends Component {
       "name_of_interest_3": this.state.name_of_interest_3,
       "is_deleted_3": false
     }
+
+    console.log("The data I am submitting is: ", candidateProfile);
     
-    const response = await fetch('/api/candidateProfile', {
+    const response = await fetch('/api/updateCandidateProfileInfo', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify(candidateProfile)
     })
 
@@ -300,7 +302,8 @@ class CandidateProfile extends Component {
 
     if(status === 400 || status === 500){
       console.log(result, "this is my error")
-      throw Error("Fix your candidate profile information");
+      alert("Fix your candidate profile information");
+      return;
     }
     else { 
       this.setState({
@@ -311,10 +314,40 @@ class CandidateProfile extends Component {
   }
 
   handleCheckBox = (event) => {
-    console.log([event.target.name] , !this.state[event.target.name])
+    const data = event.target.name;
+    const value = `end_date_${event.target.name[event.target.name.length-1]}`;
     this.setState({
       [event.target.name]: !this.state[event.target.name]
+    }, () => {
+      if(this.state[data] === true){
+        this.setState({
+          [value]: ''
+        })
+      }
     })
+  }
+  
+  renderEndDate = (number) => {
+    let end_date= `end_date_${number}`;
+    let present= `present_${number}`;
+    if(this.state[present]){
+      return (
+        <div>
+          <input type='checkbox' name={present} checked onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
+    else{
+      return (
+        <div className='unchecked'>
+          <input type='date' name={end_date} onChange={this.handleChange} value={this.state[end_date]}/>
+          <br/>
+          <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
+          <label>Present</label>
+        </div>
+      )
+    }
   }
   
   increaseNumberOfExperiences = (event) => {
@@ -450,13 +483,12 @@ class CandidateProfile extends Component {
       "link_3": this.state.link_3,
       "is_deleted_3": false
     }
-    
     // checking if the data is paired properly {link type, and link}
-
     for(let i = 1; i <= 3; i++){
       if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
         if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
-          throw Error(alert('Please fill in both fields for your links'));
+          (alert('Please fill in both fields for your links'));
+          return;
         }
       }
     }
@@ -478,6 +510,9 @@ class CandidateProfile extends Component {
       throw Error("Fix your links");
     }
     else{
+      this.setState({
+        links_edit: false,
+      })
       console.log("Links have been created");
     }
   }
@@ -671,13 +706,42 @@ class CandidateProfile extends Component {
         <br/>
         {
           this.state.links_edit
-          ? null
+          ? <div className='edit_candidate_links'>
+              <p> Links: </p>
+              {
+                this.profileLinks.map((link, index) => {
+                  return (
+                    <div key ={index + 1}>
+                      <label>Type of Link </label>
+                      <input name={`type_of_link_${index+1}`} onChange={this.handleChange} value={this.state[`type_of_link_${index+1}`]}/>
+                      <br/>
+                      <label>Link </label>
+                      <input name={`link_${index+1}`} onChange={this.handleChange} value={this.state[`link_${index+1}`]}/>
+                    </div>
+                  )
+                })
+              }
+              {/* Button to add another link */}
+              {
+                (this.profileLinks.length < 3)
+                ? <button onClick={this.increaseLinks}>+</button>
+                : null
+              }
+              {/* Button to delete most recent link */}
+              {
+                (this.profileLinks.length > 1)
+                ? <button onClick={this.deleteRecentLink}>-</button>
+                : null
+              }
+              <button name='links_edit' onClick={this.handleEditClick}>Cancel</button>
+              <button onClick={this.handleLinkSubmission}>Submit</button>
+            </div>
           : <div className='no_edit_candidate_links'>
               <label>Links:</label>
               {this.profileLinks.map((links, index) => {
                 return(
                 <div key={`link ${index+1}`}>
-                  <label>{this.state[`type_of_link_${index+1}`]} </label>
+                  <label>{this.state[`type_of_link_${index+1}`]} - </label>
                   <span>{this.state[`link_${index+1}`]}</span>
                 </div>
               )})}

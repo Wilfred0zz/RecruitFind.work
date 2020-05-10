@@ -83,9 +83,16 @@ class CandidateRegisterProfile extends Component{
   } 
 
   handleCheckBox = (event) => {
-    console.log([event.target.name] , !this.state[event.target.name])
+    const data = event.target.name;
+    const value = `end_date_${event.target.name[event.target.name.length-1]}`;
     this.setState({
       [event.target.name]: !this.state[event.target.name]
+    }, () => {
+      if(this.state[data] === true){
+        this.setState({
+          [value]: ''
+        })
+      }
     })
   }
   
@@ -103,7 +110,7 @@ class CandidateRegisterProfile extends Component{
     else{
       return (
         <div className='unchecked'>
-          <input type='date' name={end_date} onChange={this.handleChange}/>
+          <input type='date' name={end_date} onChange={this.handleChange} value={this.state[end_date]}/>
           <br/>
           <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
           <label>Present</label>
@@ -325,14 +332,6 @@ class CandidateRegisterProfile extends Component{
     
     // checking if the data is paired properly {link type, and link}
 
-    for(let i = 1; i <= 3; i++){
-      if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
-        if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
-          throw Error(alert('Please fill in both fields for your links'));
-        }
-      }
-    }
-
     const response = await fetch('/api/candidateLinks', {
       headers: {
         'Accept': 'application/json',
@@ -392,17 +391,6 @@ class CandidateRegisterProfile extends Component{
       "is_deleted_5": false
     }
 
-    for(let i = 1; i <= 5; i++){
-      if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
-        if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
-          continue;
-        }  
-        else {
-          throw Error(alert(`Please fill out all the fields in Experience ${i}`));
-        }
-      }
-    }
-
     const response = await fetch('/api/candidateExperiences', {
       headers: {
         'Accept': 'application/json',
@@ -417,7 +405,7 @@ class CandidateRegisterProfile extends Component{
 
     if(status === 400 || status === 500){
       console.log(result.error);
-      throw Error("Fix your Experiences bro, go get a job");
+      throw Error(alert("Fix your Experiences bro, go get a job"));
     }
     else{
       console.log("Experiences have been created");
@@ -461,15 +449,42 @@ class CandidateRegisterProfile extends Component{
   }
 
   handleSubmit = async (event) => {
+    event.preventDefault();
+
+    for(let i = 1; i <= 3; i++){
+      if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
+        if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
+          (alert('Please fill in both fields for your links'));
+          return;
+        }
+      }
+    }
+
+    for(let i = 1; i <= 5; i++){
+      if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
+        if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
+          if(this.state[`end_date_${i}`].length > 0 && this.state[`end_date_${i}`]<this.state[`start_date_${i}`]){
+            alert('End Date must be after Start Date');
+            return;
+          }
+          continue;
+        }  
+        else {
+          (alert(`Please fill out all the fields in Experience ${i}`));
+          return;
+        }
+      }
+    }
+
     this.setState({
       submit_pushed: true,
     })
-    event.preventDefault();
+
     try {
-      await this.handleSkillSubmission();
       await this.handleExperiencesSubmission();
       await this.handleLinkSubmission();
       await this.handleCandidateProfileSubmission();
+      await this.handleSkillSubmission();
       this.setState({
         candidate_info_update: true
       });
