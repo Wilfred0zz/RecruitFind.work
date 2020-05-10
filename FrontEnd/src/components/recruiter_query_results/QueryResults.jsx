@@ -33,7 +33,7 @@ class RecruiterQueryResults extends Component{
       "query_description": "L4 Software Engineer At Google",
       "query_payment": "100-160k",
       "query_date": "04-30-2020",
-      "desired_skill_1": "backend development",
+      "desired_skill_1": "diving",
       "desired_skill_2": "",
       "desired_skill_3": "",
       "desired_skill_4": "",
@@ -80,7 +80,7 @@ class RecruiterQueryResults extends Component{
           
           const value = Object.values(result);
           value.pop();
-          value.pop();
+          //value.pop();
           console.log("Value " , value);
           //pop end
 
@@ -94,7 +94,7 @@ class RecruiterQueryResults extends Component{
             }
           )
           console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
-          console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
+            //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
             //const temp = JSON.parse(JSON.stringify(state));
           }
         } catch (error) {
