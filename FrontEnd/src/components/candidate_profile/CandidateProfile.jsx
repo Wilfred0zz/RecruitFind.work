@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate'
 
 class CandidateProfile extends Component {
   constructor(props){
@@ -265,6 +266,7 @@ class CandidateProfile extends Component {
   render() {
     return (
       <div className='candidate_profile'>
+        <NavigationBarCandidate/>
         {
           this.state.candidate_edit
           ? null
@@ -340,11 +342,11 @@ class CandidateProfile extends Component {
             </div>
         }
         <br/>
-        <label>Skills: </label>
         {
           this.state.skill_edit
           ? null
-          : <span className='no_edit_candidate_skills'>
+          : <div className='no_edit_candidate_skills'>
+              <label>Skills: </label>
               <span>{this.state.skills[1]}</span>
               {this.state.skills.map((skill, index) =>{
                 if(index === 0){
@@ -354,7 +356,7 @@ class CandidateProfile extends Component {
                   return <span> {this.state[`${index+1}`]}</span>
                 }
               })}
-            </span>
+            </div>
         }
       </div>
     )
