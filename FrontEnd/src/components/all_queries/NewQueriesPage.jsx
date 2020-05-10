@@ -21,11 +21,15 @@ class NewQueries extends Component{
           desired_skill_7: "",
           desired_skill_8: "",
           desired_skill_9: "",	
-          desired_skill_10: ""
+          desired_skill_10: "",
         }
       }
        refreshPage() {
         window.location.reload(false);
+      }
+
+      setDate =async() =>{
+        this.setState({query_date:new Date(Date.now()).toLocaleDateString()})
       }
       
       onChange = (event) =>{
@@ -68,21 +72,19 @@ class NewQueries extends Component{
           // return(alert("Please enter atleast one skill"));
           throw(Error(alert("Please enter atleast one skill")));
         }
-
+        const body = {};
         for(let i = 0; i < this.state.skills.length; i++){
           // console.log("length: ", this.state.skills.length)
-          const skill = {
-            "skill": this.state.skills[i].toLowerCase(),
-            "is_deleted": false
-          }
+          body[`desired_skill${i}`] = this.state.skills[i];
+        }
           // console.log
-          const response = await fetch('/api/deleteCandidateSkill',{
+          const response = await fetch('/api/query',{
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
             method: 'PUT',
-            body: JSON.stringify(skill)
+            body: JSON.stringify(body)
           })
           
           const status = response.status;
@@ -90,17 +92,17 @@ class NewQueries extends Component{
 
           if(status >= 400) {
             console.log(result);
-            throw Error(`error in skill_${i}`);
+            throw Error(`error in skill_`);
           }
           else{
-            console.log(`Successfully added skill_${i}`);
+            console.log(`Successfully added skill_`);
           }
-        }
         
       }
 
       onSubmit = async(event) =>{
         event.preventDefault();
+        await this.setDate();
         try {
           const response = await fetch('/api/query', {
               headers: {
@@ -125,8 +127,7 @@ class NewQueries extends Component{
       }
       
     render(){
-      const{query_title, query_description, query_payment, query_date} =this.state
-
+      const{query_title, query_description, query_payment} =this.state
       return(
         <div className="NewQuery">
           <NavigationBarRecruiter/>
@@ -138,8 +139,6 @@ class NewQueries extends Component{
                   <input type="text" onChange={this.onChange} value={query_description} name="query_description" />
                   <label htmlFor ="query_payment">Payment </label>
                   <input type="text" onChange={this.onChange} value={query_payment} name="query_payment" />
-                  <label htmlFor ="query_date">Date </label>
-                  <input type="text" onChange={this.onChange} value={query_date} name="query_date" />
                   <Autocomplete
                     multiple // allows multiple entries                 
                     limitTags={10} // only 10 displayed in input box                 
