@@ -2,6 +2,20 @@ import React, { Component } from "react";
 
 //CONTEXT
 import Button from '@material-ui/core/Button';
+import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import { withStyles } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
+const styles = theme => ({
+  gridContainer: {
+    paddingLeft: "40px",
+    paddingRight: "40px"
+  }
+});
 
 class RecruiterQueryResults extends Component{
   constructor(props) {
@@ -11,7 +25,7 @@ class RecruiterQueryResults extends Component{
         };
     }
 
-  handleClickOpen = async () => {
+  componentDidMount = async () => {
   
     const queryInfo = {
       "query_title": "Software Engineer",
@@ -62,9 +76,11 @@ class RecruiterQueryResults extends Component{
         
           const status = computeQueryResponse.status;   
           const result = await computeQueryResponse.json();
-    
+          
           const value = Object.values(result);
+          value.pop();
           console.log("Value " , value);
+          //pop end
 
           if (status === 400 || status === 500) {
           alert("Problem with computing: ")
@@ -76,7 +92,7 @@ class RecruiterQueryResults extends Component{
             }
           )
           console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
-          console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[1][0])
+          console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[1][2])
             //const temp = JSON.parse(JSON.stringify(state));
           }
         } catch (error) {
@@ -91,26 +107,45 @@ class RecruiterQueryResults extends Component{
   };
   
   render(){
-    return (
-      <div>
-        <Button onClick={this.handleClickOpen}> Matches more info modal </Button>
-         <ul> 
-            {this.state.qualifiedCandidates.map((candidate, i) => {
-              if(i > 4){
-                return null;
-              }else{
-                return(
-                  <li key = {candidate+i}>
-                    {candidate }
-                    {candidate[0]}
-                  </li>
-                )
-              }
-            })}
-            </ul>
-      </div>
-  );
+    const { classes } = this.props;
+    if(this.qualifiedCandidates !== undefined){
+      return (
+        <Grid container spacing={4} className={classes.gridContainer} justify="center">
+            {this.state.qualifiedCandidates.map((candidate, i) => (
+            <Grid item xs={12} sm={6} md={3}>
+            <Card>
+            <CardContent>
+              <AccountCircleIcon className={classes.svg_icons}/>
+              <br/>
+              <Typography > {'First Name: '}{candidate[0]} </Typography>
+              <br />
+              <Typography > {'Last Name: '}{candidate[1]} </Typography>
+              <br />
+              <Typography > {'Email: '} {candidate[2]} </Typography>
+              <br />
+              <Typography > {'Relavent Skills: '} 
+                {candidate[3]} {candidate[4]}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Accept</Button>
+              <Button size="small">Reject</Button>
+              <Button size="small">More</Button>
+            </CardActions>
+            </Card>
+            </Grid>
+          )
+          )}
+        </Grid>
+        );
+    } else {
+      return(
+        <Typography > {'There are no matching candidates'} </Typography>
+      );
+    }
+    
+
   }
 }
 
-export default RecruiterQueryResults;
+export default withStyles(styles)(RecruiterQueryResults);
