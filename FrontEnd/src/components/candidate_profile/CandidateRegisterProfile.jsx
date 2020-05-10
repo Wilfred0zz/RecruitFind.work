@@ -565,13 +565,13 @@ class CandidateRegisterProfile extends Component{
                   })
                 }
               </div>
-              {/* Button to add another link */}
+              {/* Button to add another interest */}
               {
                 (this.profileInterests.length < 3)
                 ? <button onClick={this.increaseInterests}>+</button>
                 : null
               }
-              {/* Button to delete most recent link */}
+              {/* Button to delete most recent interest */}
               {
                 (this.profileInterests.length > 1)
                 ? <button onClick={this.deleteRecentInterest}>-</button>

@@ -65,7 +65,7 @@ class CandidateProfile extends Component {
       skill_10: "",
 
       // Edits
-      skill_edit: false,
+      skills_edit: false,
       experiences_edit: false,
       links_edit: false,
       candidate_edit: false,
@@ -77,6 +77,12 @@ class CandidateProfile extends Component {
   profileInterests=[];
   experiences = [];
   profileLinks = [];
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  } 
 
   // CANDIDATE PROFILE INFO ––––––––––––––––––
   fetchCandidateInfo = async () => {
@@ -148,6 +154,7 @@ class CandidateProfile extends Component {
     }
   }
 
+  // Candidate Skills ––––––––––––––––––––––––
   fetchCandidateSkills = async () => {
     const response = await fetch ('/api/fetchCandidateSkills')
     const status = response.status;
@@ -171,6 +178,7 @@ class CandidateProfile extends Component {
     }
   }
 
+  // Candidate Links –––––––––––––––––––––––––
   fetchCandidateLinks = async () => {
     const response = await fetch('/api/fetchCandidateLinks');
     const status = response.status;
@@ -262,6 +270,323 @@ class CandidateProfile extends Component {
       )
     }
   }
+  
+  handleCandidateProfileSubmission = async () => {
+    const candidateProfile = {
+      "candidate_school": this.state.candidate_school,
+      "candidate_highest_level_of_education": this.state.candidate_highest_level_of_education,
+      "candidate_description": this.state.candidate_description,
+      "candidate_current_position": this.state.candidate_current_position,
+      "is_candidate_profile_deleted": false,
+      "name_of_interest_1": this.state.name_of_interest_1,
+      "is_deleted_1": false,
+      "name_of_interest_2": this.state.name_of_interest_2,
+      "is_deleted_2": false,
+      "name_of_interest_3": this.state.name_of_interest_3,
+      "is_deleted_3": false
+    }
+    
+    const response = await fetch('/api/candidateProfile', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(candidateProfile)
+    })
+
+    const status = response.status;
+    const result = await response.json();
+
+    if(status === 400 || status === 500){
+      console.log(result, "this is my error")
+      throw Error("Fix your candidate profile information");
+    }
+    else { 
+      this.setState({
+        candidate_edit: !this.state.candidate_edit
+      })
+      console.log('Candidate Profile Created');
+    }
+  }
+
+  handleCheckBox = (event) => {
+    console.log([event.target.name] , !this.state[event.target.name])
+    this.setState({
+      [event.target.name]: !this.state[event.target.name]
+    })
+  }
+  
+  increaseNumberOfExperiences = (event) => {
+    event.preventDefault();
+    if(this.experiences.length <5 ){
+      this.experiences.push(1);
+      this.setState({
+        count: this.state.count + 1
+      });
+    }
+    else {
+      return(alert("No more than 5 allowed"));
+    }
+  }
+
+  deleteRecentExperience = (event) => {
+    event.preventDefault();
+    const size = this.experiences.length;
+    const description = `description_${size}`;
+    const title = `role_title_${size}`;
+    const start_date = `start_date_${size}`;
+    const end_date = `end_date_${size}`;
+    const present = `present_${size}`;
+
+    // to change display and delete one experience field
+    this.experiences.pop();
+
+    this.setState({
+      [description]: '',
+      [title]: '',
+      [start_date]: '',
+      [end_date]: '',
+      [present]: '',
+      count: this.state.count -1
+    })
+    
+  }
+
+  increaseLinks = (event) => {
+    event.preventDefault();
+    if(this.profileLinks.length <= 3){
+      this.profileLinks.push(1);
+      this.setState({
+        link_count: this.state.link_count + 1
+      });
+    }
+    else{
+      return (alert("No more then 3 links allowed"));
+    }
+  }
+
+  deleteRecentLink = (event) => {
+    event.preventDefault();
+    const size = this.profileLinks.length;
+    const link =`link_${size}`;
+    const type_of_link = `type_of_link_${size}`;
+
+    this.profileLinks.pop();
+
+    this.setState({
+      [link]: '',
+      [type_of_link]: '',
+      link_count: this.state.link_count - 1
+    });
+  }
+
+  increaseInterests = (event) => {
+    event.preventDefault();
+    if(this.profileInterests.length <= 3) {
+      this.profileInterests.push(1);
+      this.setState({
+        interest_count: this.state.interest_count + 1
+      });
+    }
+    else{
+      return (alert("No more then 3 interests allowed"));
+    }
+  }
+
+  deleteRecentInterest = (event) => {
+    event.preventDefault();
+    const size = this.profileInterests.length;
+    const interest = `name_of_interest_${size}`;
+
+    this.profileInterests.pop();
+
+    this.setState({
+      [interest]: '',
+      interest_count: this.state.interest_count - 1
+    });
+  }
+
+  modifySkill = (event, value, type) => {
+    // value contains the selected inputs over time
+    if(type === 'remove-option'){
+      this.setState({ 
+        // skill_count: this.state.skill_count - 1,
+        skills: value,
+        // skill_options: []
+      });
+    } else if(this.state.skills.length >= 10){
+      // event.target.value='';
+      return alert('Only 10 allowed');
+    } else if((type === 'create-option') && this.state.skills.length < 10){
+      var data = event.target.value.toLowerCase();
+      if(this.state.skills && (this.state.skills.filter(currentValue=>data===currentValue).length > 0)){
+        return;
+      }
+      this.setState({ 
+        // skill_count: this.state.skill_count + 1,
+        skills: [...this.state.skills, value[value.length-1].toLowerCase()],
+        // skill_options: []
+      });
+    } else {
+      return;
+    }
+
+    // delete previous optins so they dont appear again
+    // this.setState({
+    //   skill_options: []
+    // })    
+  }
+  
+  handleLinkSubmission = async () => {
+    const links = {
+      "type_of_link_1": this.state.type_of_link_1,
+      "link_1": this.state.link_1,
+      "is_deleted_1": false,
+      "type_of_link_2": this.state.type_of_link_2,
+      "link_2": this.state.link_2,
+      "is_deleted_2": false,
+      "type_of_link_3": this.state.type_of_link_3,
+      "link_3": this.state.link_3,
+      "is_deleted_3": false
+    }
+    
+    // checking if the data is paired properly {link type, and link}
+
+    for(let i = 1; i <= 3; i++){
+      if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
+        if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
+          throw Error(alert('Please fill in both fields for your links'));
+        }
+      }
+    }
+
+    const response = await fetch('/api/candidateLinks', {
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(links)
+    });
+
+    const status = response.status;
+    const result = await response.json();
+
+    if(status === 400 || status === 500){
+      console.log(result.error);
+      throw Error("Fix your links");
+    }
+    else{
+      console.log("Links have been created");
+    }
+  }
+
+  handleExperiencesSubmission = async () => {
+    const experiencess = {
+      "role_title_1": this.state.role_title_1,
+      "description_1": this.state.description_1,
+      "start_date_1": this.state.start_date_1,
+      "end_date_1": this.state.end_date_1,
+      "present_1": this.state.present_1,
+      "is_deleted_1": false,
+      
+      "role_title_2": this.state.role_title_2,
+      "description_2": this.state.description_2,
+      "start_date_2": this.state.start_date_2,
+      "end_date_2": this.state.end_date_2,
+      "present_2": this.state.present_2,
+      "is_deleted_2": false,
+      
+      "role_title_3": this.state.role_title_3,
+      "description_3": this.state.description_3,
+      "start_date_3": this.state.start_date_3,
+      "end_date_3": this.state.end_date_3,
+      "present_3": this.state.present_3,
+      "is_deleted_3": false,
+      
+      "role_title_4": this.state.role_title_4,
+      "description_4": this.state.description_4,
+      "start_date_4": this.state.start_date_4,
+      "end_date_4": this.state.end_date_4,
+      "present_4": this.state.present_4,
+      "is_deleted_4": false,
+      
+      "role_title_5": this.state.role_title_5,
+      "description_5": this.state.description_5,
+      "start_date_5": this.state.start_date_5,
+      "end_date_5": this.state.end_date_5,
+      "present_5": this.state.present_5,
+      "is_deleted_5": false
+    }
+
+    for(let i = 1; i <= 5; i++){
+      if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
+        if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
+          continue;
+        }  
+        else {
+          throw Error(alert(`Please fill out all the fields in Experience ${i}`));
+        }
+      }
+    }
+
+    const response = await fetch('/api/candidateExperiences', {
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(experiencess)
+    });
+
+    const status = response.status;
+    const result = await response.json();
+
+    if(status === 400 || status === 500){
+      console.log(result.error);
+      throw Error("Fix your Experiences bro, go get a job");
+    }
+    else{
+      console.log("Experiences have been created");
+      return true;
+    }
+  }
+
+  handleSkillSubmission = async () => {
+    if(!this.state.skills || this.state.skills.length < 1){
+      throw(Error(alert("Please enter atleast one skill")));
+    }
+
+    for(let i = 0; i < this.state.skills.length; i++){
+      const skill = {
+        "skill": this.state.skills[i].toLowerCase(),
+        "is_deleted": false
+      }
+      const response = await fetch('/api/candidateSkills',{
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(skill)
+      })
+      
+      const status = response.status;
+      const result = await response.json();
+
+      if(status >= 400) {
+        if(!result.status_info === 'Candidate Already Has That Skill!'){
+          console.log(result);
+          throw Error(`error in skill_${i}`);
+        }
+      }
+      else{
+        console.log(`Successfully added skill_${i}`);
+      }
+    }
+    
+  }
 
   render() {
     return (
@@ -269,7 +594,50 @@ class CandidateProfile extends Component {
         <NavigationBarCandidate/>
         {
           this.state.candidate_edit
-          ? null
+          ? <div className='edit_candidate_profile'>
+              <label> Current Position </label>
+              <input name='candidate_current_position' onChange={this.handleChange} value={this.state.candidate_current_position}/>
+                <br/>
+              <label> Description </label>
+              <input name='candidate_description' onChange={this.handleChange} value={this.state.candidate_description}/>
+                <br/>
+              <label> School </label>
+              <input name='candidate_school' onChange={this.handleChange} value={this.state.candidate_school}/>
+              <select name='candidate_highest_level_of_education' onChange={this.handleChange}>
+                <option value="none" hidden>Select your education level</option> 
+                {this.educationLevels.map((educationLevel) => {
+                  return (
+                    <option key={educationLevel} value={educationLevel}> {educationLevel}</option>
+                  )
+                })}
+                <option value='other'>Other</option>
+              </select>
+              <label> Interests (Note not all of them have to be filled)</label>
+              <div>
+                {
+                  this.profileInterests.map((interest, index) => {
+                    return (
+                      <input key={index+1} name={`name_of_interest_${index+1}`} onChange={this.handleChange} value={this.state[`name_of_interest_${index+1}`]}/>
+                      )
+                  })
+                }
+              </div>
+              {/* Button to add another interest */}
+              {
+                (this.profileInterests.length < 3)
+                ? <button onClick={this.increaseInterests}>+</button>
+                : null
+              }
+              {/* Button to delete most recent interest */}
+              {
+                (this.profileInterests.length > 1)
+                ? <button onClick={this.deleteRecentInterest}>-</button>
+                : null
+              }
+              <br/>
+              <button name='candidate_edit' onClick={this.handleEditClick}>Cancel</button>
+              <button onClick={this.handleCandidateProfileSubmission}>Submit</button>
+            </div>
           : <div className='no_edit_candidate_profile'>
               <label>Position: </label>
               <span>{this.state.candidate_current_position}</span>
@@ -297,6 +665,7 @@ class CandidateProfile extends Component {
                 ? <span>{this.state.name_of_interest_3}</span>
                 : null
               }
+              <button name='candidate_edit' onClick={this.handleEditClick}>Edit</button>
             </div>
         }
         <br/>
@@ -312,6 +681,7 @@ class CandidateProfile extends Component {
                   <span>{this.state[`link_${index+1}`]}</span>
                 </div>
               )})}
+              <button name='links_edit' onClick={this.handleEditClick}>Edit</button>
             </div>
         }
         <br/>
@@ -335,6 +705,7 @@ class CandidateProfile extends Component {
                       <span>{this.state[`start_date_${index+1}`]}</span>
                         <br/>
                       {this.renderViewEndDate(index+1)}
+                      <button name='experiences_edit' onClick={this.handleEditClick}>Edit</button>
                     </div>
                   ) 
                 })
@@ -343,7 +714,7 @@ class CandidateProfile extends Component {
         }
         <br/>
         {
-          this.state.skill_edit
+          this.state.skills_edit
           ? null
           : <div className='no_edit_candidate_skills'>
               <label>Skills: </label>
@@ -353,9 +724,10 @@ class CandidateProfile extends Component {
                   return null;
                 }
                 else{
-                  return <span> {this.state[`${index+1}`]}</span>
+                  return <span key={index + 1}> {this.state[`${index+1}`]}</span>
                 }
               })}
+              <button name='skills_edit' onClick={this.handleEditClick}>Edit</button>
             </div>
         }
       </div>
