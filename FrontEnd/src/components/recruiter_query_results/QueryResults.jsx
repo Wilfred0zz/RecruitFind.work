@@ -26,25 +26,10 @@ class RecruiterQueryResults extends Component{
         };
     }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
   
-    const queryInfo = {
-      "query_title": "Software Engineer",
-      "query_description": "L4 Software Engineer At Google",
-      "query_payment": "100-160k",
-      "query_date": "04-30-2020",
-      "desired_skill_1": "diving",
-      "desired_skill_2": "",
-      "desired_skill_3": "",
-      "desired_skill_4": "",
-      "desired_skill_5": "",
-      "desired_skill_6": "",
-      "desired_skill_7": "",
-      "desired_skill_8": "",
-      "desired_skill_9": "",	
-      "desired_skill_10": "",
-      "is_deleted": false
-    }
+    const queryInfo = {...this.props.state, query_date : new Date(Date.now()).toLocaleDateString()};
+    console.log(queryInfo);
 
     try {
       const queryResponse =  await fetch('/api/query', {
@@ -79,7 +64,7 @@ class RecruiterQueryResults extends Component{
           const result = await computeQueryResponse.json();
           
           const value = Object.values(result);
-          value.pop();
+          
           //value.pop();
           console.log("Value " , value);
           //pop end

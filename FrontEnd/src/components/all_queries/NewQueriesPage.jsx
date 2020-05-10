@@ -7,35 +7,26 @@ import TextField from '@material-ui/core/TextField';
 class NewQueries extends Component{
     constructor(props){
         super(props);
-        this.state = { query_title: "",
-          query_description: "",
-          query_payment: "",
-          query_date: "",
-          skills: [],
-          desired_skill_1: "",
-          desired_skill_2: "",
-          desired_skill_3: "",
-          desired_skill_4: "",
-          desired_skill_5: "",
-          desired_skill_6: "",
-          desired_skill_7: "",
-          desired_skill_8: "",
-          desired_skill_9: "",	
-          desired_skill_10: "",
-        }
-      }
-       refreshPage() {
-        window.location.reload(false);
+        this.state = {
+          skills : []
+        } 
       }
 
-      setDate =async() =>{
-        this.setState({query_date:new Date(Date.now()).toLocaleDateString()})
-      }
       
       onChange = (event) =>{
-        this.setState({
+        this.props.updateState({
           [event.target.name]: event.target.value
-        },  console.log(this.state))
+        })
+      }
+
+      parseSkills = () =>{
+        const body = {};
+        for(let i = 0; i < 10; i++){
+          // console.log("length: ", this.state.skills.length)
+          body[`desired_skill_${i+1}`] = this.state.skills[i] || '';
+          
+        }
+        this.props.updateState({...body});
       }
       
           // To decrease count or increase count based on skill added
@@ -46,7 +37,7 @@ class NewQueries extends Component{
             // skill_count: this.state.skill_count - 1,
             skills: value,
             // skill_options: []
-          });
+          }, this.parseSkills);
         } else if(this.state.skills.length >= 10){
           // event.target.value='';
           return alert('Only 10 allowed');
@@ -59,72 +50,18 @@ class NewQueries extends Component{
             // skill_count: this.state.skill_count + 1,
             skills: [...this.state.skills, value[value.length-1].toLowerCase()],
             // skill_options: []
-          });
+          },this.parseSkills);
         } else {
           return;
         }
       }
 
 
-      handleSkillSubmission = async () => {
-        // console.log(this.state)
-        if(!this.state.skills || this.state.skills.length < 1){
-          // return(alert("Please enter atleast one skill"));
-          throw(Error(alert("Please enter atleast one skill")));
-        }
-        const body = {};
-        for(let i = 0; i < this.state.skills.length; i++){
-          // console.log("length: ", this.state.skills.length)
-          body[`desired_skill${i}`] = this.state.skills[i];
-        }
-          // console.log
-          const response = await fetch('/api/query',{
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            method: 'PUT',
-            body: JSON.stringify(body)
-          })
-          
-          const status = response.status;
-          const result = await response.json();
-
-          if(status >= 400) {
-            console.log(result);
-            throw Error(`error in skill_`);
-          }
-          else{
-            console.log(`Successfully added skill_`);
-          }
-        
-      }
 
       onSubmit = async(event) =>{
-        event.preventDefault();
-        await this.setDate();
-        try {
-          const response = await fetch('/api/query', {
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              method: 'POST',
-              body: JSON.stringify(this.state)
-            });
-        
-          const status = response.status;   
-          const result = await response.json();
-    
-          if (status === 400 || status === 500) {
-            alert(result.error);
-          } else {
-            console.log(result.status_info);
-          }
-        } catch (error) {
-          console.log(error);
-        }
+        event.preventDefault() 
       }
+       
       
     render(){
       const{query_title, query_description, query_payment} =this.state
@@ -158,7 +95,7 @@ class NewQueries extends Component{
                       />                 
                     )}               
                   />
-                  <button onClick={this.refreshPage}>Submit</button>
+                 <Link to = "/query_results_page"> <button>Submit</button> </Link>
               </form>
               <Link to = "/all_queries"><button>Cancel</button></Link>
             </div>
