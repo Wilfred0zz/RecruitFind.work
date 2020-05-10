@@ -71,7 +71,7 @@ class CandidateRegisterProfile extends Component{
   }
 
   // in order to dynamizally create fields and options
-  educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
+  educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associates Degree", "Bachelors Degree", "Masters Degree", "Doctoral or Professional Degree"]
   experiences = [1];
   profileLinks = [1];
   profileInterests=[1];
@@ -154,7 +154,7 @@ class CandidateRegisterProfile extends Component{
       [title]: '',
       [start_date]: '',
       [end_date]: '',
-      [present]: '',
+      [present]: false,
       count: this.state.count -1
     })
     

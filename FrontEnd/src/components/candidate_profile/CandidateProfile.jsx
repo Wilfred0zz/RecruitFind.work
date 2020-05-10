@@ -6,6 +6,10 @@ class CandidateProfile extends Component {
   constructor(props){
     super(props)
     this.state = {
+      profileInterests: [],
+      experiences: [],
+      profileLinks: [],
+
       is_logged_in: true,
 
       candidate_current_position: "",
@@ -26,6 +30,7 @@ class CandidateProfile extends Component {
       type_of_link_3: "",
 
       count: 1,
+      check_state: false,
       description_1: "",
       description_2: "",
       description_3: "",
@@ -72,12 +77,11 @@ class CandidateProfile extends Component {
       candidate_edit: false,
     }
   }
+
+  oldState;
   
   // in order to dynamizally create fields and options
-  educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associate's Degree", "Bachelor's Degree", "Master's Degree", "Doctoral or Professional Degree"]
-  profileInterests=[];
-  experiences = [];
-  profileLinks = [];
+  educationLevels = ['Some High School', 'High School Graduate/GED', 'Some College', "Associates Degree", "Bachelors Degree", "Masters Degree", "Doctoral or Professional Degree"]
 
   handleChange = (event) => {
     this.setState({
@@ -93,7 +97,7 @@ class CandidateProfile extends Component {
     if(status >= 400) {
       this.setState({
           is_logged_in: false
-      }, () => {throw Error(alert("There is an error in getting candidate porfile information"))});
+      }, () => {(alert("There is an error in getting candidate porfile information"))});
     } else {
       const result = await response.json();
       console.log(result);
@@ -107,20 +111,31 @@ class CandidateProfile extends Component {
         name_of_interest_3: result.is_deleted_3,
       }, () => {
         console.log(this.state);
+        console.log("the # profile interests are: ", this.state.profileInterests.length);
+
+        //ensure object contianing number of interests is empty before pushing into it
+        if(this.state.profileInterests){
+          this.state.profileInterests = [];
+        }
         // ensure we render appropriate number of interests in view
         this.checkNumberOfInterests();
-        console.log("the # profile interests are: ", this.profileInterests.length);
+        console.log("the # profile interests are: ", this.state.profileInterests.length);
         console.log("Candidate Profile Received");
       })
     }
   }
 
   checkNumberOfInterests = () => {
+    const temp = [];
     for(let i = 1; i < 4; i++) {
       if(this.state[`name_of_interest_${i}`].length > 0){
-        this.profileInterests.push(1);
+        temp.push(1);
+        // this.state.profileInterests.push(1);
       }
     }
+    this.setState({
+      profileInterests: temp
+    })
   }
 
   // CANDIDATE EXPERIENCES –––––––––––––––––––
@@ -142,17 +157,26 @@ class CandidateProfile extends Component {
         })
       }
       console.log(this.state);
+      //ensure object contianing number of experienes is empty before pushing into it
+      if(this.state.experiences){
+        this.state.experiences = [];
+      }
       this.checkNumberOfExperiences();
-      console.log("Number of experiences is: ", this.experiences.length);
+      console.log("Number of experiences is: ", this.state.experiences.length);
     }
   }
 
   checkNumberOfExperiences =  () => {
+    const temp = [];
     for(let i = 1; i < 6; i++) {
       if(this.state[`description_${i}`].length > 0){
-        this.experiences.push(1);
+        temp.push(1);
+        // this.state.experiences.push(1);
       }
     }
+    this.setState({
+      experiences: temp
+    })
   }
 
   // Candidate Skills ––––––––––––––––––––––––
@@ -195,17 +219,26 @@ class CandidateProfile extends Component {
         })
       }
       console.log(this.state);
+      //ensure object contianing number of links is empty before pushing into it
+      if(this.state.profileLinks){
+        this.state.profileLinks = [];
+      }
       this.checkNumberOfLinks();
-      console.log("The number of links are: ", this.profileLinks.length)
+      console.log("The number of links are: ", this.state.profileLinks.length)
     }
   }
 
   checkNumberOfLinks = () =>{
+    const temp = [];
     for(let i = 1; i < 4; i++) {
       if(this.state[`link_${i}`].length > 0){
-        this.profileLinks.push(1);
+        temp.push(1);
+        // this.state.profileLinks.push(1);
       }
     }
+    this.setState({
+      profileLinks: temp
+    })
   }
 
   componentDidMount = async () => {
@@ -214,6 +247,7 @@ class CandidateProfile extends Component {
       await this.fetchCandidateLinks();
       await this.fetchCandidateExperiences();
       await this.fetchCandidateSkills();
+      this.oldState = this.state;
     } catch(error) {
       console.log(error)
     }
@@ -226,8 +260,27 @@ class CandidateProfile extends Component {
       [event.target.name]: !this.state[event.target.name],
     })
   }
+
+  handleEditCancel = async (event) => {
+    event.preventDefault();
+    if(event.target.name === 'skills_edit') {
+      this.fetchCandidateSkills();
+    } else if(event.target.name === 'experiences_edit') {
+      this.fetchCandidateExperiences();
+    } else if(event.target.name === 'links_edit') {
+      this.fetchCandidateLinks();
+    } else if(event.target.name === 'candidate_edit') {
+      this.fetchCandidateInfo();
+    }
+    // this.setState ({
+    //   ...this.oldState
+    // })
+    this.setState({
+      [event.target.name]: !this.state[event.target.name],
+    })
+  }
   // renderInterests = () => {
-  //   for(let i = 1; i <= this.profileInterests; i++){
+  //   for(let i = 1; i <= this.state.profileInterests; i++){
   //     return <p>{this.state[`name_of_interest_${i}`]}</p>
   //   }
   // }
@@ -260,7 +313,7 @@ class CandidateProfile extends Component {
     let present= `present_${number}`;
     if(this.state[present]){
       return (
-        <p>Currently Working</p>
+        <div>Currently Working</div>
       )
     }
     else{
@@ -318,7 +371,8 @@ class CandidateProfile extends Component {
     const data = event.target.name;
     const value = `end_date_${event.target.name[event.target.name.length-1]}`;
     this.setState({
-      [event.target.name]: !this.state[event.target.name]
+      [event.target.name]: !this.state[event.target.name],
+      check_state: true
     }, () => {
       if(this.state[data] === true){
         this.setState({
@@ -353,8 +407,13 @@ class CandidateProfile extends Component {
 
   increaseNumberOfExperiences = (event) => {
     event.preventDefault();
-    if(this.experiences.length <5 ){
-      this.experiences.push(1);
+    // ensure cant increase unless previous one is filled
+    if(this.state[`role_title_${this.state.experiences.length}`] === '' || this.state[`description_${this.state.experiences.length}`] === '' || this.state[`start_date_${this.state.experiences.length}`] === '' || (this.state[`end_date_${this.state.experiences.length}`] === '' || this.state[`present_${this.state.experiences.length}`] === true)){
+      alert(`Please fill in link ${this.state.profileLinks.length}`);
+      return;
+    }
+    if(this.state.experiences.length <5 ){
+      this.state.experiences.push(1);
       this.setState({
         count: this.state.count + 1
       });
@@ -366,7 +425,7 @@ class CandidateProfile extends Component {
 
   deleteRecentExperience = (event) => {
     event.preventDefault();
-    const size = this.experiences.length;
+    const size = this.state.experiences.length;
     const description = `description_${size}`;
     const title = `role_title_${size}`;
     const start_date = `start_date_${size}`;
@@ -374,14 +433,14 @@ class CandidateProfile extends Component {
     const present = `present_${size}`;
 
     // to change display and delete one experience field
-    this.experiences.pop();
+    this.state.experiences.pop();
 
     this.setState({
       [description]: '',
       [title]: '',
       [start_date]: '',
       [end_date]: '',
-      [present]: '',
+      [present]: false,
       count: this.state.count -1
     })
     
@@ -389,8 +448,12 @@ class CandidateProfile extends Component {
 
   increaseLinks = (event) => {
     event.preventDefault();
-    if(this.profileLinks.length <= 3){
-      this.profileLinks.push(1);
+    if(this.state[`link_${this.state.profileLinks.length}`] === '' || this.state[`type_of_link_${this.state.profileLinks.length}`] === '' ){
+      alert(`Please fill in link ${this.state.profileLinks.length}`);
+      return;
+    }
+    if(this.state.profileLinks.length <= 3){
+      this.state.profileLinks.push(1);
       this.setState({
         link_count: this.state.link_count + 1
       });
@@ -402,23 +465,27 @@ class CandidateProfile extends Component {
 
   deleteRecentLink = (event) => {
     event.preventDefault();
-    const size = this.profileLinks.length;
+    const size = this.state.profileLinks.length;
     const link =`link_${size}`;
     const type_of_link = `type_of_link_${size}`;
 
-    this.profileLinks.pop();
+    this.state.profileLinks.pop();
 
     this.setState({
       [link]: '',
       [type_of_link]: '',
       link_count: this.state.link_count - 1
-    });
+    }, ()=> console.log(this.state));
   }
 
   increaseInterests = (event) => {
     event.preventDefault();
-    if(this.profileInterests.length <= 3) {
-      this.profileInterests.push(1);
+    if(this.state[`name_of_interest_${this.state.profileInterests.length}`] === ''){
+      alert(`Please fill in interest ${this.state.profileInterests.length}`);
+      return;
+    }
+    if(this.state.profileInterests.length <= 3) {
+      this.state.profileInterests.push(1);
       this.setState({
         interest_count: this.state.interest_count + 1
       });
@@ -430,10 +497,10 @@ class CandidateProfile extends Component {
 
   deleteRecentInterest = (event) => {
     event.preventDefault();
-    const size = this.profileInterests.length;
+    const size = this.state.profileInterests.length;
     const interest = `name_of_interest_${size}`;
 
-    this.profileInterests.pop();
+    this.state.profileInterests.pop();
 
     this.setState({
       [interest]: '',
@@ -518,7 +585,8 @@ class CandidateProfile extends Component {
     }
   }
 
-  handleExperiencesSubmission = async () => {
+  handleExperiencesSubmission = async () => {    
+
     const experiencess = {
       "role_title_1": this.state.role_title_1,
       "description_1": this.state.description_1,
@@ -556,7 +624,13 @@ class CandidateProfile extends Component {
       "is_deleted_5": false
     }
 
-    for(let i = 1; i <= this.experiences.length; i++){
+    for(let i = 1; i <= this.state.experiences.length; i++){
+      // Need to ensure that end date empty if present is true
+      if(this.state[`present_${i}`] === true){
+        this.setState({
+          [`end_date_${i}`]: ''
+        })
+      }
       if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
         if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
           if(this.state[`end_date_${i}`].length > 0 && this.state[`end_date_${i}`]<this.state[`start_date_${i}`]){
@@ -589,13 +663,14 @@ class CandidateProfile extends Component {
     const result = await response.json();
 
     if(status === 400 || status === 500){
-      console.log(result.error);
       alert("Fix Experiences");
       return;
     }
     else{
       console.log("Experiences have been created");
-      return true;
+      this.setState({
+        experiences_edit: false,
+      })
     }
   }
 
@@ -674,7 +749,7 @@ class CandidateProfile extends Component {
               <label> Interests (Note not all of them have to be filled)</label>
               <div>
                 {
-                  this.profileInterests.map((interest, index) => {
+                  this.state.profileInterests.map((interest, index) => {
                     return (
                       <input key={index+1} name={`name_of_interest_${index+1}`} onChange={this.handleChange} value={this.state[`name_of_interest_${index+1}`]}/>
                       )
@@ -683,22 +758,21 @@ class CandidateProfile extends Component {
               </div>
               {/* Button to add another interest */}
               {
-                (this.profileInterests.length < 3)
+                (this.state.profileInterests.length < 3)
                 ? <button onClick={this.increaseInterests}>+</button>
                 : null
               }
               {/* Button to delete most recent interest */}
               {
-                (this.profileInterests.length > 1)
+                (this.state.profileInterests.length > 0)
                 ? <button onClick={this.deleteRecentInterest}>-</button>
                 : null
               }
               <br/>
-              <button name='candidate_edit' onClick={this.handleEditClick}>Cancel</button>
+              <button name='candidate_edit' onClick={this.handleEditCancel}>Cancel</button>
               <button onClick={this.handleCandidateProfileSubmission}>Submit</button>
             </div>
           : <div className='no_edit_candidate_profile'>
-            
               <label>Position: </label>
               <span>{this.state.candidate_current_position}</span>
               <br/>
@@ -710,6 +784,10 @@ class CandidateProfile extends Component {
               <br/>
               <label>Interests: </label>
               <br/>
+              {/* {
+                this.state.profileInterests.length === 0 
+                ? <span>Add </span>
+              } */}
               {
                 this.state.name_of_interest_1.length > 1
                 ? <span>{this.state.name_of_interest_1} </span>
@@ -736,7 +814,7 @@ class CandidateProfile extends Component {
           ? <div className='edit_candidate_links'>
               <p> Links: </p>
               {
-                this.profileLinks.map((link, index) => {
+                this.state.profileLinks.map((link, index) => {
                   return (
                     <div key ={index + 1}>
                       <label>Type of Link </label>
@@ -750,22 +828,24 @@ class CandidateProfile extends Component {
               }
               {/* Button to add another link */}
               {
-                (this.profileLinks.length < 3)
+                (this.state.profileLinks.length < 3)
                 ? <button onClick={this.increaseLinks}>+</button>
                 : null
               }
               {/* Button to delete most recent link */}
               {
-                (this.profileLinks.length > 1)
+                (this.state.profileLinks.length > 0)
                 ? <button onClick={this.deleteRecentLink}>-</button>
                 : null
               }
-              <button name='links_edit' onClick={this.handleEditClick}>Cancel</button>
+              <br/>
+              <button name='links_edit' onClick={this.handleEditCancel}>Cancel</button>
               <button onClick={this.handleLinkSubmission}>Submit</button>
             </div>
           : <div className='no_edit_candidate_links'>
               <label>Links:</label>
-              {this.profileLinks.map((links, index) => {
+              {this.state.profileLinks.map((links, index) => {
+                console.log("bleh ", this.state.profileLinks.length);
                 return(
                 <div key={`link ${index+1}`}>
                   <label>{this.state[`type_of_link_${index+1}`]} - </label>
@@ -781,7 +861,7 @@ class CandidateProfile extends Component {
           this.state.experiences_edit
           ? <div className='edit_candidate_experiences'>
               {
-                this.experiences.map((experience, index)=>{
+                this.state.experiences.map((experience, index)=>{
                   return (
                     <div key={index+1}>
                       <p>Experience {index+1}</p>
@@ -802,23 +882,23 @@ class CandidateProfile extends Component {
               }
               {/* Button to add another experience */}
               {
-                (this.experiences.length < 5)
+                (this.state.experiences.length < 5)
                 ? <button onClick={this.increaseNumberOfExperiences}>+</button>
                 : null
               }
               {/* Button to delete most recent experience */}
               {
-                (this.experiences.length > 0)
+                (this.state.experiences.length > 0)
                 ? <button onClick={this.deleteRecentExperience}>-</button>
                 : null
               }
               <br/>
-              <button name='experiences_edit' onClick={this.handleEditClick}>Cancel</button>
+              <button name='experiences_edit' onClick={this.handleEditCancel}>Cancel</button>
               <button onClick={this.handleExperiencesSubmission}>Submit</button>
             </div>
           : <div className='no_edit_candidate_experiences'>
               <label>Experiences: </label>
-              {this.experiences.map((experience, index) => {
+              {this.state.experiences.map((experience, index) => {
                   return (
                     <div key={index+1}>
                       <span>Experience {index+1}</span>
@@ -837,7 +917,7 @@ class CandidateProfile extends Component {
                   ) 
                 })
               }
-              <button name='experiences_edit' onClick={this.handleEditClick}>Edit</button>
+              <button name='experiences_edit' onClick={this.handleEditClick}>Edit</button>  
             </div>
         }
         <br/>
@@ -847,7 +927,7 @@ class CandidateProfile extends Component {
           ? null
           : <div className='no_edit_candidate_skills'>
               <label>Skills: </label>
-              <span>{this.state.skills[1]}</span>
+              <span>{this.state.skills[0]}</span>
               {this.state.skills.map((skill, index) =>{
                 if(index === 0){
                   return null;
