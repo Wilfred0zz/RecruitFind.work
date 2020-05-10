@@ -33,7 +33,7 @@ class RecruiterQueryResults extends Component{
       "query_description": "L4 Software Engineer At Google",
       "query_payment": "100-160k",
       "query_date": "04-30-2020",
-      "desired_skill_1": "",
+      "desired_skill_1": "diving",
       "desired_skill_2": "",
       "desired_skill_3": "",
       "desired_skill_4": "",
@@ -42,7 +42,7 @@ class RecruiterQueryResults extends Component{
       "desired_skill_7": "",
       "desired_skill_8": "",
       "desired_skill_9": "",	
-      "desired_skill_10": "diving",
+      "desired_skill_10": "",
       "is_deleted": false
     }
 
