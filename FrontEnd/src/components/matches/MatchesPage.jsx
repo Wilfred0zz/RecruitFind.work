@@ -1,28 +1,19 @@
 import React from 'react';
 
-const MatchesPage = () => {
-
-  fetchAllMatches = async () => {
-    
-  }
-
-  componentDidMount = async () => {
-    try{
-      await this.fetchAllMatches();
-
-    } catch(error) {
-      console.log(error);
-    }
-  } 
-
-  render() {
-    return (
-      <div className='Matches'>
-
-      </div>
-    )
-  }
-
+const MatchesPage = (props) => {
+  const { matches } = props;
+  // this should now have an array of arrays
+  // format for matches data is:
+  const values = Object.values(matches);
+  return (
+    <div className='Matches'>
+      {
+        this.values.map((match, index) => {
+          
+        })
+      }
+    </div>
+  )
 }
 
 export default Matches;
