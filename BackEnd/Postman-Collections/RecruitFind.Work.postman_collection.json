@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"ricky@gmail.com\",\n    \"password\": \"Tomatoman\"\n}",
+					"raw": "{\n    \"email\": \"jimmy@gmail.com\",\n    \"password\": \"123456\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Developer\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"c#\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"nbnbnbn\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Developer\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"c#\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -820,7 +820,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"candidate_email\": \"jimmy@gmail.com\",\n\t\"query_id\": 72\n}",
+					"raw": "{\n\t\"candidate_email\": \"jimmy@gmail.com\",\n\t\"query_id\": 634\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1019,6 +1019,38 @@
 					"path": [
 						"api",
 						"rejectMatch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidatePage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"jimmy@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidatePage",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidatePage"
 					]
 				}
 			},
