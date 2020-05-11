@@ -8,6 +8,7 @@ class CandidateProfile extends Component {
   constructor(props){
     super(props)
     this.state = {
+      didRegister: true,
       profileInterests: [],
       experiences: [],
       profileLinks: [],
@@ -97,9 +98,18 @@ class CandidateProfile extends Component {
     const status = response.status;
     
     if(status >= 400) {
-      this.setState({
+      const result = await response.json();
+      console.log(result);
+      if(result.error === 'Candidate Profile Does Not Exist!'){
+        this.setState({
+          didRegister: false
+        })
+      }
+      else{
+        this.setState({
           is_logged_in: false
-      }, () => {(alert("There is an error in getting candidate porfile information"))});
+        }, () => {(alert("There is an error in getting candidate porfile information"))});
+      }
     } else {
       const result = await response.json();
 
@@ -208,7 +218,7 @@ class CandidateProfile extends Component {
     const result = await response.json();
 
     if(status >= 400){
-      throw Error(alert(result.error));
+      throw Error(result.error);
     } else {
       for(let i = 1; i < 4; i++){
         this.setState({
@@ -731,6 +741,11 @@ class CandidateProfile extends Component {
     return (
       <div className='candidate_profile'>
         <NavigationBarCandidate updateLogout={this.updateLogout}/>
+        {
+          this.state.didRegister 
+          ? null
+          : <Redirect to='/candidate_register_profile'/>
+        }
         {/* handle logout */}
         {
           this.state.is_logged_in
@@ -956,12 +971,10 @@ class CandidateProfile extends Component {
             </div>
           : <div className='no_edit_candidate_skills'>
               <label>Skills: </label>
-              <span>{this.state.skills[0]}</span>
               {this.state.skills.map((skill, index) =>{
-                if(index !== 0){
-                  return <span key={index + 1}> {this.state.skills[`${index}`]}</span>
-                }
+                return <span key={index}> {this.state.skills[`${index}`]}</span>
               })}
+              <br/>
               <button name='skills_edit' onClick={this.handleEditClick}>Edit</button>
             </div>
         }
