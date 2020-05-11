@@ -6,8 +6,8 @@ import officeImg from './static/images/office.jpeg';
 //import DisplayPastQueries from './../all_queries/QueriesPage';
 //import MatchInfoModal from './../match_info_modal/MatchInfoModal';
 //import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
-import { Redirect } from 'react-router-dom';
 
+import { Redirect } from 'react-router-dom';
 
 class MainPage extends Component {
   constructor(props){
@@ -103,7 +103,7 @@ class MainPage extends Component {
                       <label className='email'> Email: </label>
                       <input type='email' name='email' placeholder='Email' value={this.state.email} onChange={this.handleChange}/>
                       <label className='password'> Password: </label>
-                      <input type='text' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
+                      <input type='password' name='password' placeholder="Password" value={this.state.password} onChange={this.handleChange}/>
                     </div>
                     <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
                     <button className='log-in-button' onClick={this.handleLogOut}>Log Out</button>
