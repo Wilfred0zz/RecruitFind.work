@@ -35,9 +35,11 @@ def storeMatch():
                 status = 'PENDING'
 
                 if currentRecruiterId:
+                    print(queryId)
                     cursor.execute(f"""SELECT match_id FROM public."Matches" WHERE query_id={queryId} AND candidate_id={candidateId} AND recruiter_id={currentRecruiterId}""")
                     queryResult = cursor.fetchone()
-                    if queryResult != None:
+                    print(queryResult)
+                    if queryResult == None:
                         cursor.execute(f"""INSERT INTO public."Matches" (candidate_id, recruiter_id, status, query_id, is_viewed, is_recruiter_deleted, is_candidate_deleted) VALUES ({candidateId}, {currentRecruiterId}, '{status}', {queryId}, {False}, {False}, {False})""")
                         database.commit()
                         
