@@ -69,7 +69,7 @@ class RecruiterQueryResults extends Component{
           }
           const result = await computeQueryResponse.json();
           const value = Object.values(result);
-          //value.pop();
+          value.pop();
           console.log("Value " , value);
           //pop end
 

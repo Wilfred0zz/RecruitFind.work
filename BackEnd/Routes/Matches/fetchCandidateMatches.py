@@ -44,6 +44,7 @@ def fetchCandidateMatches():
                             queryInfo = cursor.fetchone()
                     
                             cursor.execute(f"""SELECT skill_id FROM public."Query Skills" WHERE query_id={queryId}""")
+                            print("this is the query idz: ", queryId)
                             skillIdsFromQueryInfo = cursor.fetchall()
 
                             for i in range(len(skillIdsFromQueryInfo)):
