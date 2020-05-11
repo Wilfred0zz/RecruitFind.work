@@ -75,6 +75,7 @@ def storeQuery():
                             raise Exception(response)
 
                     print(nonExistentSkillsTracker)
+                    response["query_id"] = queryID
                     response['status'] = True
                     response['status_info'] = 'Query Stored Successfully!'
         else:
