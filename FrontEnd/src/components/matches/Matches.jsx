@@ -1,34 +1,28 @@
-import React, { Component } from 'react';
+// import React from 'react';
 
-class Matches extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
+// const MatchesPage = () => {
 
-    }
-  }
-
-  fetchAllMatches = async () => {
+//   fetchAllMatches = async () => {
     
-  }
+//   }
 
-  componentDidMount = async () => {
-    try{
-      await this.fetchAllMatches();
+//   componentDidMount = async () => {
+//     try{
+//       await this.fetchAllMatches();
 
-    } catch(error) {
-      console.log(error);
-    }
-  } 
+//     } catch(error) {
+//       console.log(error);
+//     }
+//   } 
 
-  render() {
-    return (
-      <div className='Matches'>
+//   render() {
+//     return (
+//       <div className='Matches'>
 
-      </div>
-    )
-  }
+//       </div>
+//     )
+//   }
 
-}
+// }
 
-export default Matches;
+// export default Matches;
