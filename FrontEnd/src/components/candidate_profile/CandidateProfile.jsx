@@ -75,6 +75,18 @@ class CandidateProfile extends Component {
       skill_9: "",
       skill_10: "",
 
+      email: "",
+      first_name: "",
+      gender: "",
+      last_name: "",
+      personal_city: "",
+      personal_country: "",
+      personal_postal: 0,
+      personal_state: "",
+      personal_street_address: "",
+      phone_number: "",
+      status: "Candidate",
+
       // Edits
       skills_edit: false,
       experiences_edit: false,
@@ -129,6 +141,40 @@ class CandidateProfile extends Component {
         // ensure we render appropriate number of interests in view
         this.checkNumberOfInterests();
       })
+    }
+  }
+
+  fetchCandidatePersonalInfo = async () => {
+    try{
+      let response = await fetch('/api/fetchCandidatePersonalInformation', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET'
+      });
+      let status = response.status;
+      let result = await response.json();
+      if(status>= 400){
+        throw Error(alert('There is an error in getting candidate Personal Information'))
+      }else{
+        console.log(result)
+        const{email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
+        this.setState({
+          email:email,
+          first_name: first_name,
+          gender: gender,
+          last_name: last_name,
+          personal_city: personal_city,
+          personal_country: personal_country,
+          personal_postal: personal_postal,
+          personal_state: personal_state,
+          personal_street_address: personal_street_address,
+          phone_number:phone_number,
+        })
+      }
+    }catch(error){
+      console.log(error);
     }
   }
 
@@ -252,6 +298,7 @@ class CandidateProfile extends Component {
       await this.fetchCandidateLinks();
       await this.fetchCandidateExperiences();
       await this.fetchCandidateSkills();
+      await this.fetchCandidatePersonalInfo();
       this.oldState = this.state;
     } catch(error) {
       console.log(error)
@@ -334,7 +381,17 @@ class CandidateProfile extends Component {
       "name_of_interest_2": this.state.name_of_interest_2,
       "is_deleted_2": false,
       "name_of_interest_3": this.state.name_of_interest_3,
-      "is_deleted_3": false
+      "is_deleted_3": false,
+      "email" : this.state.email,
+      "first_name": this.state.first_name,
+      "gender": this.state.gender,
+      "last_name": this.state.last_name,
+      "personal_city": this.state.personal_city,
+      "personal_country": this.state.personal_country,
+      "personal_postal": this.personal_postal,
+      "personal_state": this.personal_state,
+      "personal_street_address": this.personal_street_address,
+      "phone_number": this.phone_number,
     }
 
     const response = await fetch('/api/updateCandidateProfileInfo', {
@@ -800,6 +857,15 @@ class CandidateProfile extends Component {
               <button onClick={this.handleCandidateProfileSubmission}>Submit</button>
             </div>
           : <div className='no_edit_candidate_profile'>
+              <label>First Name: </label>
+              <p>{this.state.first_name}</p>
+
+              <label>Last Name:</label>
+              <p>{this.state.last_name}</p>
+
+              <label>Email: </label>
+              <p>{this.state.email}</p>
+              
               <label>Position: </label>
               <span>{this.state.candidate_current_position}</span>
               <br/>
