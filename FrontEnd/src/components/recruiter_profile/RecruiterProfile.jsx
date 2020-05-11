@@ -7,6 +7,7 @@ class RecruiterProfile extends Component{
   constructor(props){
     super(props);
     this.state = { 
+      didRegister: true,
       is_logged_in: true,
       recruiter_company_update: false,
       // Add personal information like location they live at, gender, and more if they wanna change
@@ -75,6 +76,12 @@ class RecruiterProfile extends Component{
           this.setState({
             is_logged_in: false
           })
+        }
+        else {
+          this.setState({
+            didRegister: false
+          })
+          return;
         }
       } else { // user already has info so not the first time they are registering, so redirect them
         const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
@@ -152,6 +159,11 @@ class RecruiterProfile extends Component{
   render() {
     return (
       <div className='recruiter-profile'>
+        {
+          this.state.didRegister 
+          ? null
+          : <Redirect to='/recruiter_register_profile'/>
+        }
         { // Redirect them to main page to log in, if they aren't logged in
           !this.state.is_logged_in 
           ? <Redirect to='/'/>
