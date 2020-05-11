@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\"\n}",
+					"raw": "{\n    \"email\": \"ricky@gmail.com\",\n    \"password\": \"Tomatoman\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -353,7 +353,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"type_of_link_1\": \"mypersonalwebsite\",\n\t\"link_1\": \"mypersonalwebsite.com\",\n\t\"is_deleted_1\": false,\n\t\"type_of_link_2\": \"Profile Website\",\n\t\"link_2\": \"HenryWordsworth.com\",\n\t\"is_deleted_2\": false,\n\t\"type_of_link_3\": \"Google\",\n\t\"link_3\": \"google.com\",\n\t\"is_deleted_3\": false\n}",
+					"raw": "{\n\t\"type_of_link_1\": \"mypersonalwebsite\",\n\t\"link_1\": \"mypersonalwebsite.com\",\n\t\"is_deleted_1\": false,\n\t\"type_of_link_2\": \"\",\n\t\"link_2\": \"\",\n\t\"is_deleted_2\": false,\n\t\"type_of_link_3\": \"Google\",\n\t\"link_3\": \"google.com\",\n\t\"is_deleted_3\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"diving\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"skill\": \"backend development\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -646,7 +646,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"c++\",\n\t\"is_deleted\": true\n}",
+					"raw": "{\n\t\"skill\": \"problem-sovlingrgrh\",\n\t\"is_deleted\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"flask\",\n\t\"desired_skill_3\": \"python\",\n\t\"desired_skill_4\": \"diving\",\n\t\"desired_skill_5\": \"dancing\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Developer\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"c#\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"nbnbnbn\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -728,15 +728,12 @@
 		},
 		{
 			"name": "computeQuery",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Software Engineer\",\n\t\"query_description\": \"L4 Software Engineer At Google\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"flask\",\n\t\"desired_skill_3\": \"python\",\n\t\"desired_skill_4\": \"diving\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"react-native\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"Developer\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"c#\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"nbnbnbn\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -823,7 +820,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"candidate_email\": \"tombrady12@gmail.com\",\n\t\"query_id\": 46\n}",
+					"raw": "{\n\t\"candidate_email\": \"jimmy@gmail.com\",\n\t\"query_id\": 72\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -889,6 +886,139 @@
 					"path": [
 						"api",
 						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchCandidatePersonalInformation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchCandidatePersonalInformation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchCandidatePersonalInformation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchRecruiterPersonalInformation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchRecruiterPersonalInformation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchRecruiterPersonalInformation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetchRecruiterMatches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/fetchRecruiterMatches",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"fetchRecruiterMatches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acceptMatch",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"match_id\": 4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/acceptMatch",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"acceptMatch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rejectMatch",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"match_id\": 4\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/rejectMatch",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"rejectMatch"
 					]
 				}
 			},
