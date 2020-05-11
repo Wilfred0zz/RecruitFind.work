@@ -122,7 +122,7 @@ export default props => {
       const result = await response.json();
 
       if (status === 400 || status === 500) {
-        alert(result.error);
+        throw Error(alert(result.error));
       } else {
         console.log(result.status_info);
         // get the user logged in if registration is a success
@@ -193,7 +193,7 @@ export default props => {
     { state.user.isRegistered === true ? 
     [(
         state.user.status === 'candidate' ? 
-        <Redirect key="candidate" push to='/candidate_profile' state={ state.user.first_time = 'true' } /> :
+        <Redirect key="candidate" push to='/candidate_register_profile' state={ state.user.first_time = 'true' } /> :
         <Redirect key="recruiter" push to='/recruiter_register_profile'/> 
     )]: null }
 
