@@ -49,7 +49,6 @@ class RecruiterQueryResults extends Component{
       alert(result.error);
     } else {
       console.log(result);
-
       try {    
         const computeQueryResponse = await fetch('/api/computeQuery', {
               headers: {
@@ -76,6 +75,8 @@ class RecruiterQueryResults extends Component{
           } else {
             this.setState({
               qualifiedCandidates : value
+              
+
             }
           )
           console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
@@ -98,33 +99,36 @@ class RecruiterQueryResults extends Component{
       return (
         <div>
           <NavigationBarRecruiter/>
-          <Grid container spacing={4} className={classes.gridContainer} justify="center">
-            {this.state.qualifiedCandidates.map((candidate, i) => (
-            <Grid item xs={12} sm={6} md={3} key={'candidate' + i}>
-            <Card>
-            <CardContent>
-              <AccountCircleIcon className={classes.svg_icons}/>
-              <br/>
-              <Typography > {'First Name: '}{candidate[0]} </Typography>
-              <br />
-              <Typography > {'Last Name: '}{candidate[1]} </Typography>
-              <br />
-              <Typography > {'Email: '} {candidate[2]} </Typography>
-              <br />
-              <Typography > {'Relavent Skills: '} 
-                {candidate[3]} {candidate[4]}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Accept</Button>
-              <Button size="small">Reject</Button>
-              <Button size="small">More</Button>
-            </CardActions>
-            </Card>
+          <div>
+            <Grid container spacing={4} className={classes.gridContainer} justify="center">
+              {this.state.qualifiedCandidates.map((candidate, i) => (
+              <Grid item xs={12} sm={6} md={3} key={'candidate' + i}>
+              <Card>
+              <CardContent>
+                <AccountCircleIcon className={classes.svg_icons}/>
+                <br/>
+                <Typography > {'First Name: '}{candidate[0]} </Typography>
+                <br />
+                <Typography > {'Last Name: '}{candidate[1]} </Typography>
+                <br />
+                <Typography > {'Email: '} {candidate[2]} </Typography>
+                <br />
+                <Typography > {'Relevant Skills: '} 
+                  {candidate[3]} {" "} {candidate[4]}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Accept</Button>
+                <Button size="small">Reject</Button>
+                <Button size="small">More</Button>
+              </CardActions>
+              </Card>
+              </Grid>
+              )
+              )}
             </Grid>
-          )
-          )}
-        </Grid>
+            
+          </div>
         </div>
         );  
   }
