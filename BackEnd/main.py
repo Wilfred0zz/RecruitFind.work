@@ -1,6 +1,10 @@
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, render_template
 import psycopg2
 from flask_login import current_user, login_user, logout_user, login_required, LoginManager
+import os
+APP_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BUILD_PATH = os.path.join(APP_PATH, 'FrontEnd\\build')
+print(BUILD_PATH)
 
 #Connection Route
 from Routes.Connections.connection import connect
@@ -26,6 +30,7 @@ from Routes.Candidate.fetchCandidateProfileInfo import fcp
 from Routes.Candidate.deleteCandidateProfile import dcp
 from Routes.Candidate.deleteCandidateInterests import dci
 from Routes.Candidate.fetchCandidatePersonalInformation import fcpi
+from Routes.Candidate.fetchCandidatePage import fcpage
 
 #Candidate Link Routes
 from Routes.Candidate.Links.candidateLinks import cl
@@ -85,6 +90,7 @@ app.register_blueprint(fcp)
 app.register_blueprint(dci)
 app.register_blueprint(dcp)
 app.register_blueprint(fcpi)
+app.register_blueprint(fcpage)
 
 #Candidate Link Blueprints
 app.register_blueprint(cl)
@@ -140,3 +146,10 @@ def load_user(id):
             raise Exception(response)
     except Exception:
         return response, 400
+
+@app.route("/", methods=["GET"])
+def renderClient():
+    return render_template('index')
+
+
+

@@ -32,7 +32,6 @@ def fetchCandidateMatches():
                             currentMatch = queryResult[i]
                             recruiterId = currentMatch[0]
                             queryId = currentMatch[1]
-                            queryId = 72
                             matchId = currentMatch[2]
                             status = currentMatch[3]
                             matches.append(matchId)
@@ -53,7 +52,7 @@ def fetchCandidateMatches():
                                 skills.insert(0, skill)
 
                             for i in range(len(matches)):
-                                constructReponse(response, recruiterInfo, queryInfo, skills, matches[i], status)
+                                constructReponse(response, recruiterInfo, queryInfo, skills, matches[i], status, i)
                     else:
                         response['status'] = True
                         response['status_info'] = "Candidate Has No Matches At This Time!"
@@ -69,7 +68,7 @@ def fetchCandidateMatches():
     return response
 
 
-def constructReponse(respObj, recruiter, query, skills, match, status):
+def constructReponse(respObj, recruiter, query, skills, match, status, number):
     recruiterInfo = []
     queryInfo = []
     recruiter = recruiter[::-1]
