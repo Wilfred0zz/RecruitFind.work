@@ -25,8 +25,14 @@ def fetchAllQueriesForAUser():
                     if len(queryResult) != 0:
                         length = len(queryResult)
 
-                        for i in range(length):
-                            constructResponse(response, queryResult[i], i)
+                        response['queries'] = [ {
+                            'query_id': row[0],
+                            'queryTitle': row[1],
+                            'queryDescription': row[2],
+                            'queryPayment': row[3],
+                            'queryDate': row[4]
+                        } 
+                        for row in queryResult ]
 
                         
                     else:

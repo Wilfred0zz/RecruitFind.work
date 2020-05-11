@@ -80,8 +80,8 @@ def computeQueryResult():
                         checkForMatchedUsersThatRejected(response, cursor)
 
                         response['query_id'] = queryID
-                        
-                        if len(response) == 2:
+                        #print(response , " This is the response")
+                        if len(response) == 1:
                             response['status_info'] = 'No Results Could Be Found For This Query! This Is Because No User With That Skill Exists Or Because Some Users Are Hidden!'
                         else:
                             print("")
@@ -100,8 +100,21 @@ def computeQueryResult():
         print(traceback.format_exc())
         return response, 400
 
-    return response
+    #empty = []
 
+    #for key in response:
+    #    print("this is j: ", key)
+    #    for i in range(len(response[key][4])):
+    #        if response[key][4][i] == "":
+    #           empty.insert(0,response[key][4][i])
+
+    #print("this is the empty responnse: " , empty)
+    #for key in response:
+    #    for item in empty:
+    #        del response[key][4][item]
+    #print (response)
+    #response['query_id'] = queryID
+    return response
 
 def extractUsersFromQueryResult(qryResult):
     newQryResult = []
@@ -202,9 +215,11 @@ def filterExistingSkills(listOfSkills, curr):
 def checkSkillsOfCandidate(targetedCandidates, curr):
     usersAndTheirSkills = defaultdict(list)
     skills = []
+    print(targetedCandidates)
 
     for keys in targetedCandidates:
         for candidateId in targetedCandidates[keys]:
+            print(candidateId)
             curr.execute(f"""SELECT email FROM public."Personal Information" WHERE user_id={candidateId}""")
             candidateEmail = curr.fetchone()[0]
             skills.insert(0, keys)
