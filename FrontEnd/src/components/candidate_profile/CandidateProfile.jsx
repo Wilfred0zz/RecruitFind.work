@@ -112,17 +112,12 @@ class CandidateProfile extends Component {
         name_of_interest_2: result.is_deleted_2,
         name_of_interest_3: result.is_deleted_3,
       }, () => {
-        console.log(this.state);
-        console.log("the # profile interests are: ", this.state.profileInterests.length);
-
         //ensure object contianing number of interests is empty before pushing into it
         if(this.state.profileInterests){
           this.state.profileInterests = [];
         }
         // ensure we render appropriate number of interests in view
         this.checkNumberOfInterests();
-        console.log("the # profile interests are: ", this.state.profileInterests.length);
-        console.log("Candidate Profile Received");
       })
     }
   }
@@ -132,7 +127,6 @@ class CandidateProfile extends Component {
     for(let i = 1; i < 4; i++) {
       if(this.state[`name_of_interest_${i}`].length > 0){
         temp.push(1);
-        // this.state.profileInterests.push(1);
       }
     }
     this.setState({
@@ -158,13 +152,11 @@ class CandidateProfile extends Component {
           [`start_date_${i}`]: result[`start_date_${i}`]
         })
       }
-      console.log(this.state);
       //ensure object contianing number of experienes is empty before pushing into it
       if(this.state.experiences){
         this.state.experiences = [];
       }
       this.checkNumberOfExperiences();
-      console.log("Number of experiences is: ", this.state.experiences.length);
     }
   }
 
@@ -173,7 +165,6 @@ class CandidateProfile extends Component {
     for(let i = 1; i < 6; i++) {
       if(this.state[`description_${i}`].length > 0){
         temp.push(1);
-        // this.state.experiences.push(1);
       }
     }
     this.setState({
@@ -207,8 +198,6 @@ class CandidateProfile extends Component {
           skills: [...this.state.skills, result[`skill_${i}`]]
         })
       }
-      console.log(this.state);
-      console.log("the number of skills is: ", this.state.skills.length);
     }
   }
 
@@ -227,13 +216,11 @@ class CandidateProfile extends Component {
           [`type_of_link_${i}`]: result[`type_of_link_${i}`],
         })
       }
-      console.log(this.state);
       //ensure object contianing number of links is empty before pushing into it
       if(this.state.profileLinks){
         this.state.profileLinks = [];
       }
       this.checkNumberOfLinks();
-      console.log("The number of links are: ", this.state.profileLinks.length)
     }
   }
 
@@ -242,7 +229,6 @@ class CandidateProfile extends Component {
     for(let i = 1; i < 4; i++) {
       if(this.state[`link_${i}`].length > 0){
         temp.push(1);
-        // this.state.profileLinks.push(1);
       }
     }
     this.setState({
@@ -341,8 +327,6 @@ class CandidateProfile extends Component {
       "is_deleted_3": false
     }
 
-    console.log("The data I am submitting is: ", candidateProfile);
-    
     const response = await fetch('/api/updateCandidateProfileInfo', {
       headers: {
         'Accept': 'application/json',
@@ -353,10 +337,8 @@ class CandidateProfile extends Component {
     })
 
     const status = response.status;
-    const result = await response.json();
 
     if(status === 400 || status === 500){
-      console.log(result, "this is my error")
       alert("Fix your candidate profile information");
       return;
     }
@@ -364,7 +346,6 @@ class CandidateProfile extends Component {
       this.setState({
         candidate_edit: !this.state.candidate_edit
       })
-      console.log('Candidate Profile Created');
     }
   }
 
@@ -409,8 +390,8 @@ class CandidateProfile extends Component {
   increaseNumberOfExperiences = (event) => {
     event.preventDefault();
     // ensure cant increase unless previous one is filled
-    if(this.state[`role_title_${this.state.experiences.length}`] === '' || this.state[`description_${this.state.experiences.length}`] === '' || this.state[`start_date_${this.state.experiences.length}`] === '' || (this.state[`end_date_${this.state.experiences.length}`] === '' || this.state[`present_${this.state.experiences.length}`] === true)){
-      alert(`Please fill in link ${this.state.profileLinks.length}`);
+    if(this.state[`role_title_${this.state.experiences.length}`] === '' || this.state[`description_${this.state.experiences.length}`] === '' || this.state[`start_date_${this.state.experiences.length}`] === '' || ((this.state[`end_date_${this.state.experiences.length}`] === '' && this.state[`present_${this.state.experiences.length}`] === false))){
+      alert(`Please fill in Experience ${this.state.experiences.length}`);
       return;
     }
     if(this.state.experiences.length <5 ){
@@ -443,8 +424,7 @@ class CandidateProfile extends Component {
       [end_date]: '',
       [present]: false,
       count: this.state.count -1
-    })
-    
+    }) 
   }
 
   increaseLinks = (event) => {
@@ -476,7 +456,7 @@ class CandidateProfile extends Component {
       [link]: '',
       [type_of_link]: '',
       link_count: this.state.link_count - 1
-    }, ()=> console.log(this.state));
+    });
   }
 
   increaseInterests = (event) => {
@@ -518,7 +498,7 @@ class CandidateProfile extends Component {
         // skill_count: this.state.skill_count - 1,
         skills: value,
         // skill_options: []
-      }, ()=> console.log(this.state.delete_skills));
+      });
     } else if(this.state.skills.length >= 10){
       // event.target.value='';
       return alert('Only 10 allowed');
@@ -531,7 +511,7 @@ class CandidateProfile extends Component {
         // skill_count: this.state.skill_count + 1,
         skills: [...this.state.skills, value[value.length-1].toLowerCase()],
         // skill_options: []
-      }, ()=> console.log(this.state.skills));
+      });
     } else {
       return;
     }
@@ -574,7 +554,6 @@ class CandidateProfile extends Component {
     });
 
     const status = response.status;
-    // const result = await response.json();
 
     if(status === 400 || status === 500){
       alert("Please fix your links");
@@ -583,13 +562,11 @@ class CandidateProfile extends Component {
     else{
       this.setState({
         links_edit: false,
-      })
-      console.log("Links have been created");
+      });
     }
   }
 
   handleExperiencesSubmission = async () => {    
-
     const experiencess = {
       "role_title_1": this.state.role_title_1,
       "description_1": this.state.description_1,
@@ -652,7 +629,6 @@ class CandidateProfile extends Component {
         return;
       }
     }
-    console.log(experiencess);
     const response = await fetch('/api/updateCandidateExperiences', {
       headers: {
         'Accept': 'application/json',
@@ -670,7 +646,6 @@ class CandidateProfile extends Component {
       return;
     }
     else{
-      console.log("Experiences have been created");
       this.setState({
         experiences_edit: false,
       })
@@ -699,14 +674,12 @@ class CandidateProfile extends Component {
       const status = response.status;
 
       if(status >= 400) {
-        console.log(`Skill ${this.state.delete_skills[i]} may never have existed to delete in the first place`)
         continue;
       }
       else{
         this.setState({
           skills_edit: false,
         })
-        console.log(`Successfully deleted ${this.state.delete_skills[i]}`);
       }
     }
     // add skills
@@ -739,7 +712,6 @@ class CandidateProfile extends Component {
         this.setState({
           skills_edit: false,
         })
-        console.log(`Successfully added skill_${i}`);
       }
     }
     //ensure no skills left to be deleted in state

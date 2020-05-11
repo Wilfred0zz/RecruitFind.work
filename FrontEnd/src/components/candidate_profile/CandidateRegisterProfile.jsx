@@ -122,8 +122,8 @@ class CandidateRegisterProfile extends Component{
   increaseNumberOfExperiences = (event) => {
     event.preventDefault();
     // ensure cant increase unless previous one is filled
-    if(this.state[`role_title_${this.experiences.length}`] === '' || this.state[`description_${this.experiences.length}`] === '' || this.state[`start_date_${this.experiences.length}`] === '' || this.state[`end_date_${this.experiences.length}`] === '' || this.state[`present_${this.experiences.length}`] === true){
-      alert(`Please fill in link ${this.profileLinks.length}`);
+    if(this.state[`role_title_${this.experiences.length}`] === '' || this.state[`description_${this.experiences.length}`] === '' || this.state[`start_date_${this.experiences.length}`] === '' || ((this.state[`end_date_${this.experiences.length}`] === '' && this.state[`present_${this.experiences.length}`] === false))){
+      alert(`Please fill in Experience ${this.experiences.length}`);
       return;
     }
     if(this.experiences.length <5 ){
@@ -325,9 +325,6 @@ class CandidateRegisterProfile extends Component{
       console.log(result, "this is my error")
       throw Error("Fix your candidate profile information");
     }
-    else { 
-      console.log('Candidate Profile Created');
-    }
   }
 
   handleLinkSubmission = async () => {
@@ -359,9 +356,6 @@ class CandidateRegisterProfile extends Component{
 
     if(status === 400 || status === 500){
       throw Error("Error in links");
-    }
-    else{
-      console.log("Links have been created");
     }
   }
 
@@ -419,10 +413,6 @@ class CandidateRegisterProfile extends Component{
       console.log(result.error);
       throw Error(alert("Fix your Experiences bro, go get a job"));
     }
-    else{
-      console.log("Experiences have been created");
-      return true;
-    }
   }
 
   handleSkillSubmission = async () => {
@@ -448,9 +438,6 @@ class CandidateRegisterProfile extends Component{
           console.log(result);
           throw Error(`error in skill_${i}`);
         }
-      }
-      else{
-        console.log(`Successfully added skill_${i}`);
       }
     }
     
@@ -533,10 +520,7 @@ class CandidateRegisterProfile extends Component{
 
       if (status >= 400) {
         // If I get an error I need to check the error message
-        if(result.error){
-          console.log(result.error);
-        }
-        else {
+        if(!result.error){
           console.log("User doesn't exist or isn't logged in and should be redirected to login");
           this.setState({
             is_logged_in: false
