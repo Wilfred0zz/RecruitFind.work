@@ -19,6 +19,18 @@ class RecruiterProfile extends Component{
       recruiter_position: "",
       recruiter_postal: 0,
       recruiter_state: "",
+      email: "",
+      first_name: "",
+      gender: "",
+      last_name: "",
+      personal_city: "",
+      personal_country: "",
+      personal_postal: 0,
+      personal_state: "",
+      personal_street_address: "",
+      phone_number: "",
+      status: "recruiter",
+      personal_info : [] 
     }
   }
   
@@ -52,6 +64,61 @@ class RecruiterProfile extends Component{
     this.setState({
       recruiter_company_update: true 
     })
+  }
+
+  fetchRecruiterPersonalInfo= async () => {
+    try{
+      const response = await fetch('/api/fetchRecruiterPersonalInformation', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET',
+      });
+      let status = response.status;
+      if(status === 401){
+        this.setState({
+          is_logged_in: false
+        })
+        return;
+      }
+      let result = await response.json();
+  
+      if (status >= 400) {
+        // If I dont get an error it means user isn't logged in
+        if(!result.error || result.error === 'User Not Authenticated!') {
+          console.log("User doesn't exist or isn't logged in and should be redirected to login");
+          this.setState({
+            is_logged_in: false
+          })
+        }
+        else {
+          this.setState({
+            didRegister: false
+          })
+          return;
+        }
+      } else { // user already has info so not the first time they are registering, so redirect them
+        console.log(result);
+        const { email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
+        this.setState({
+          email: email,
+          first_name: first_name,
+          gender: gender,
+          last_name: last_name,
+          personal_city: personal_city,
+          personal_country: personal_country,
+          personal_postal: personal_postal,
+          personal_state: personal_state,
+          personal_street_address: personal_street_address,
+          phone_number: phone_number
+        })
+      }
+
+    } 
+    catch(error) {
+      console.log(error);
+    }
   }
 
   // Fetch All Data, and see if any information exists
@@ -118,7 +185,17 @@ class RecruiterProfile extends Component{
       "recruiter_postal": this.state.recruiter_postal,
       "recruiter_country": this.state.recruiter_country,
       "recruiter_state": this.state.recruiter_state,
-      "is_deleted": false
+      "is_deleted": false,
+      "email" : this.state.email,
+      "first_name": this.state.first_name,
+      "gender": this.state.gender,
+      "last_name": this.state.last_name,
+      "personal_city": this.state.personal_city,
+      "personal_country": this.state.personal_country,
+      "personal_postal": this.personal_postal,
+      "personal_state": this.personal_state,
+      "personal_street_address": this.personal_street_address,
+      "phone_number": this.phone_number,
     }
 
     try {
@@ -162,6 +239,7 @@ class RecruiterProfile extends Component{
 
   componentDidMount = async () => {
     await this.fetchRecruiterCompanyInfo();
+    await this.fetchRecruiterPersonalInfo();
   }
 
   render() {
@@ -203,6 +281,18 @@ class RecruiterProfile extends Component{
           </div> 
         :
         <div className='create_recruiter_profile'>
+          <form className="recuriter_personal_info">
+              
+              <label>First Name: </label>
+              <p>{this.state.first_name}</p>
+              
+              <label>Last Name: </label>
+              <p>{this.state.last_name}</p>
+
+              <label>Email: </label>
+              <p>{this.state.email}</p>
+
+          </form>
           <form className='recruiter_company_info'>
             <label> Company </label>
             <p>{this.state.recruiter_company}</p>

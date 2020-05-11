@@ -44,7 +44,6 @@ class RecruiterQueryResults extends Component{
   
       const status = queryResponse.status;   
       // const result = await queryResponse.json();
-
       if (status === 400 || status === 500) {
         alert("Problem with query: ")
         // alert(result.error);
@@ -69,6 +68,7 @@ class RecruiterQueryResults extends Component{
           }
           const result = await computeQueryResponse.json();
           const value = Object.values(result);
+          console.log(result);
           value.pop();
           console.log("Value " , value);
           //pop end
