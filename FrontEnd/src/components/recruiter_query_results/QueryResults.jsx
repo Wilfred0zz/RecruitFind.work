@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 
 //CONTEXT
 import Button from '@material-ui/core/Button';
@@ -14,7 +15,7 @@ import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recrui
 const styles = theme => ({
   gridContainer: {
     paddingLeft: "40px",
-    paddingRight: "40px"
+    paddingRight: "40px",
   }
 });
 
@@ -22,12 +23,12 @@ class RecruiterQueryResults extends Component{
   constructor(props) {
     super(props);
     this.state = {
-        qualifiedCandidates : []
-        };
-    }
+      is_logged_in: true,
+      qualifiedCandidates : []
+    };
+  }
 
   componentDidMount = async () => {
-  
     const queryInfo = {...this.props.state, query_date : new Date(Date.now()).toLocaleDateString()};
     console.log(queryInfo);
 
@@ -41,64 +42,74 @@ class RecruiterQueryResults extends Component{
         body: JSON.stringify(queryInfo)
       });
   
-    const status = queryResponse.status;   
-    const result = await queryResponse.json();
+      const status = queryResponse.status;   
+      // const result = await queryResponse.json();
 
-    if (status === 400 || status === 500) {
-      alert("Problem with query: ")
-      alert(result.error);
-    } else {
-      console.log(result);
-      try {    
-        const computeQueryResponse = await fetch('/api/computeQuery', {
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              method: 'POST',
-              body: JSON.stringify(queryInfo)
-            });
-        
+      if (status === 400 || status === 500) {
+        alert("Problem with query: ")
+        // alert(result.error);
+      } else {
+        // console.log(result);
+        try {    
+          const computeQueryResponse = await fetch('/api/computeQuery', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(queryInfo)
+          });
+      
           const status = computeQueryResponse.status;   
+          if(status === 401){
+            this.setState({
+              is_logged_in: false,
+            })
+            return;
+          }
           const result = await computeQueryResponse.json();
-          
           const value = Object.values(result);
-          
           //value.pop();
           console.log("Value " , value);
           //pop end
 
           if (status === 400 || status === 500) {
-          alert("Problem with computing: ")
-          alert(result.error);
-          
+            alert("Problem with computing: ")
+            alert(result.error);
           } else {
             this.setState({
               qualifiedCandidates : value
-              
-
-            }
-          )
-          console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
+            })
+            console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
             //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
             //const temp = JSON.parse(JSON.stringify(state));
           }
         } catch (error) {
           console.log(error);
         }
-      //const temp = JSON.parse(JSON.stringify(state));
-    }
-  } catch (error) {
+        //const temp = JSON.parse(JSON.stringify(state));
+      }
+    } catch (error) {
     console.log(error);
-  }
-      
+    }
   };
+
+  updateLogout = () => {
+    this.setState({
+      is_logged_in: false
+    })
+  }
   
   render(){
     const { classes } = this.props;
       return (
         <div>
-          <NavigationBarRecruiter/>
+          <NavigationBarRecruiter updateLogout={this.updateLogout}/>
+          {
+            this.state.is_logged_in
+            ? null
+            : <Redirect to='/'/>
+          }
           <div>
             <Grid container spacing={4} className={classes.gridContainer} justify="center">
               {this.state.qualifiedCandidates.map((candidate, i) => (
