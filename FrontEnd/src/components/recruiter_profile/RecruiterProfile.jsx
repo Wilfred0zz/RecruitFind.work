@@ -67,16 +67,16 @@ class RecruiterProfile extends Component{
       });
 
       const status = response.status;
+      if(status === 401) {
+        this.setState({
+          is_logged_in: false
+        })
+        return;
+      }
+      var result = await response.json();
+
       
       if (status >= 400) {
-        if(status === 401) {
-          this.setState({
-            is_logged_in: false
-          })
-          return;
-        }
-        
-        var result = await response.json();
         // If I dont get an error it means user isn't logged in
         if(!result.error || result.error === 'User Not Authenticated!') {
           console.log("User doesn't exist or isn't logged in and should be redirected to login");
@@ -91,6 +91,7 @@ class RecruiterProfile extends Component{
           return;
         }
       } else { // user already has info so not the first time they are registering, so redirect them
+        console.log(result);
         const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
         this.setState({
           recruiter_city: recruiter_city,
