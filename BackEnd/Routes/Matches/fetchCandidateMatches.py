@@ -20,14 +20,15 @@ def fetchCandidateMatches():
 
             if current_user.is_authenticated:
                 currentCandidateId = current_user.get_id()
-                currentCandidateId = 216
 
                 if currentCandidateId:
-                    cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_candidate_deleted={False} AND candidate_id={currentCandidateId}""")
+                    # print()
+                    cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_candidate_deleted=False AND candidate_id={currentCandidateId}""")
                     queryResult = cursor.fetchall()
-
+                    print("RESTUL: ", queryResult)
                     if len(queryResult) != 0:
-                    
+                        # Need to make an outer for loop, the issue is it is taking skill results from all queries and combining it into one
+                        
                         for i in range(len(queryResult)):
                             currentMatch = queryResult[i]
                             recruiterId = currentMatch[0]
@@ -38,19 +39,25 @@ def fetchCandidateMatches():
 
                             cursor.execute(f"""SELECT email, first_name, last_name FROM public."Personal Information" WHERE user_id={recruiterId}""")
                             recruiterInfo = cursor.fetchone()
+                            print("RECRUITERINFO: ", recruiterInfo)
         
                             cursor.execute(f"""SELECT query_title, query_description, query_payment, query_date FROM public."Queries" WHERE query_id={queryId}""")
                             queryInfo = cursor.fetchone()
-                    
+                            print("QUERY: ", queryInfo)
+
                             cursor.execute(f"""SELECT skill_id FROM public."Query Skills" WHERE query_id={queryId}""")
                             print("this is the query idz: ", queryId)
                             skillIdsFromQueryInfo = cursor.fetchall()
+                            print("this is the info: ", skillIdsFromQueryInfo)
 
                             for i in range(len(skillIdsFromQueryInfo)):
-                                cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id='{skillIdsFromQueryInfo[i][0]}'""")
+                                print("Current ValuE: ", skillIdsFromQueryInfo[i][0])
+                                cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id={skillIdsFromQueryInfo[i][0]}""")
                                 skill = cursor.fetchone()[0]
+                                print("SKILL: ", skill)
                                 skills.insert(0, skill)
-
+                                print('Skills at this point: ', skills)
+                            print("The Content of Matches: ", matches)
                             for i in range(len(matches)):
                                 constructReponse(response, recruiterInfo, queryInfo, skills, matches[i], status, i)
                     else:
@@ -80,4 +87,4 @@ def constructReponse(respObj, recruiter, query, skills, match, status, number):
     for item in query:
         queryInfo.insert(0, item)
 
-    respObj['match'] = [{'recruiter_info': recruiterInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status} for x in range(1)]
+    respObj['match_'+str(number)] = [{'recruiter_info': recruiterInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status} for x in range(1)]
