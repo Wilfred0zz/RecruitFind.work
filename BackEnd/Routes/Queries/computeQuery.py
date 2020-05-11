@@ -80,7 +80,7 @@ def computeQueryResult():
                         checkForMatchedUsersThatRejected(response, cursor)
 
                         response['query_id'] = queryID
-                        print(response , " This is the response")
+                        #print(response , " This is the response")
                         if len(response) == 1:
                             response['status_info'] = 'No Results Could Be Found For This Query! This Is Because No User With That Skill Exists Or Because Some Users Are Hidden!'
                         else:
@@ -100,17 +100,20 @@ def computeQueryResult():
         print(traceback.format_exc())
         return response, 400
 
-    print(response)
-    empty = []
-    print(response['1'][4])
-    for j in range(len(response)):
-        for i in range(len(response[j][4])):
-            if response[j][4][i] == "":
-               empty.insert(0,i)
-    for key in response:
-        for item in empty:
-            del response[key][4][item]
-    print (response)
+    #empty = []
+
+    #for key in response:
+    #    print("this is j: ", key)
+    #    for i in range(len(response[key][4])):
+    #        if response[key][4][i] == "":
+    #           empty.insert(0,response[key][4][i])
+
+    #print("this is the empty responnse: " , empty)
+    #for key in response:
+    #    for item in empty:
+    #        del response[key][4][item]
+    #print (response)
+    #response['query_id'] = queryID
     return response
 
 def extractUsersFromQueryResult(qryResult):
