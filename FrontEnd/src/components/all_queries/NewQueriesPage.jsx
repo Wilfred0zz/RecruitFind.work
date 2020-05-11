@@ -104,7 +104,7 @@ class NewQueries extends Component{
                     size='small' // dispaly small                 
                     id="multiple-limit-tags" // id for this component                 
                     options={[]} // provide no options
-                    value={this.state.skills}                 
+                    value={this.state.skills}
                     onChange={this.modifySkill} // when a user presses enter this function occurs                 
                     renderInput={params => ( //display for all entered inputs                   
                       <TextField 

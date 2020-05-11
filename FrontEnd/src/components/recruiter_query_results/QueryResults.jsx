@@ -24,6 +24,7 @@ class RecruiterQueryResults extends Component{
     super(props);
     this.state = {
       is_logged_in: true,
+      query_id: '',
       qualifiedCandidates : []
     };
   }
@@ -32,66 +33,63 @@ class RecruiterQueryResults extends Component{
     const queryInfo = {...this.props.state, query_date : new Date(Date.now()).toLocaleDateString()};
     console.log(queryInfo);
 
-    try {
-      const queryResponse =  await fetch('/api/query', {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(queryInfo)
-      });
-  
-      const status = queryResponse.status;   
-      // const result = await queryResponse.json();
-      if (status === 400 || status === 500) {
-        alert("Problem with query: ")
-        // alert(result.error);
-      } else {
-        // console.log(result);
-        try {    
-          const computeQueryResponse = await fetch('/api/computeQuery', {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(queryInfo)
-          });
-      
-          const status = computeQueryResponse.status;   
-          if(status === 401){
-            this.setState({
-              is_logged_in: false,
-            })
-            return;
-          }
-          const result = await computeQueryResponse.json();
-          const value = Object.values(result);
-          console.log(result);
-          value.pop();
-          console.log("Value " , value);
-          //pop end
+    const queryResponse =  await fetch('/api/query', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(queryInfo)
+    });
 
-          if (status === 400 || status === 500) {
-            alert("Problem with computing: ")
-            alert(result.error);
-          } else {
-            this.setState({
-              qualifiedCandidates : value
-            })
-            console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
-            //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
-            //const temp = JSON.parse(JSON.stringify(state));
-          }
-        } catch (error) {
-          console.log(error);
+    const status = queryResponse.status;   
+    // const result = await queryResponse.json();
+
+    if (status === 400 || status === 500) {
+      alert("Problem with query: ")
+      // alert(result.error);
+    } else {
+      // console.log(result);  
+        const computeQueryResponse = await fetch('/api/computeQuery', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify(queryInfo)
+        });
+    
+        const status = computeQueryResponse.status;   
+        if(status === 401){
+          this.setState({
+            is_logged_in: false,
+          })
+          return;
+        }
+        const result = await computeQueryResponse.json();
+        const value = Object.values(result);
+        const query_id = value.pop();
+        console.log("Query_ID: " + query_id);
+        
+        this.setState({
+          query_id : query_id
+        })
+
+        console.log("Value " , value);
+
+        if (status === 400 || status === 500) {
+          alert("Problem with computing: ")
+          alert(result.error);
+        } else {
+          this.setState({
+            qualifiedCandidates : value
+          })
+          console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
+          //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
+          //const temp = JSON.parse(JSON.stringify(state));
         }
         //const temp = JSON.parse(JSON.stringify(state));
       }
-    } catch (error) {
-    console.log(error);
-    }
   };
 
   updateLogout = () => {
@@ -100,6 +98,35 @@ class RecruiterQueryResults extends Component{
     })
   }
   
+  handleAccept = async (email) => {
+    console.log(email);
+    console.log(this.state.query_id);
+
+    const data = {
+      "candidate_email" : email,
+      "query_id" : this.state.query_id
+    }
+
+    const acceptMatchResponse = await fetch('/api/match', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+
+    const status = acceptMatchResponse.status;
+
+    if(status === 400 || status === 500){
+      console.log("400 or 500 error")
+    }
+    else{
+      console.log("successfully set match")
+    }
+
+  }
+
   render(){
     const { classes } = this.props;
       return (
@@ -112,8 +139,8 @@ class RecruiterQueryResults extends Component{
           }
           <div>
             <Grid container spacing={4} className={classes.gridContainer} justify="center">
-              {this.state.qualifiedCandidates.map((candidate, i) => (
-              <Grid item xs={12} sm={6} md={3} key={'candidate' + i}>
+              {this.state.qualifiedCandidates.map((candidate, index) => (
+              <Grid item xs={12} sm={6} md={3} name={ candidate[2] } key={ candidate[2] }>
               <Card>
               <CardContent>
                 <AccountCircleIcon className={classes.svg_icons}/>
@@ -125,18 +152,20 @@ class RecruiterQueryResults extends Component{
                 <Typography > {'Email: '} {candidate[2]} </Typography>
                 <br />
                 <Typography > {'Relevant Skills: '} 
-                  {candidate[3]} {" "} {candidate[4]}
+                  {candidate[3]} {" "}
+                  {
+                    candidate[4] ? candidate[4].map((skills) =>
+                    (<span key={skills}> {skills} </span>)) : ''
+                  }
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Accept</Button>
-                <Button size="small">Reject</Button>
+                <Button onClick={() => this.handleAccept(candidate[2])} size="small">Accept</Button>
                 <Button size="small">More</Button>
               </CardActions>
               </Card>
               </Grid>
-              )
-              )}
+              ))}
             </Grid>
             
           </div>

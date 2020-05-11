@@ -4,7 +4,7 @@ import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
 import officeImg from './static/images/office.jpeg';
 //import DisplayPastQueries from './../all_queries/QueriesPage';
-//import MatchInfoModal from './../match_info_modal/MatchInfoModal';
+import MatchInfoModal from './../match_info_modal/MatchInfoModal';
 //import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
 
 import { Redirect } from 'react-router-dom';
@@ -113,6 +113,7 @@ class MainPage extends Component {
                 <div id = 'registerForm'> <RegisterForm/> </div>
               </div>
             </main>
+            <MatchInfoModal/>
             <img src={officeImg} alt="officeImg"/>
           </div>
         }
