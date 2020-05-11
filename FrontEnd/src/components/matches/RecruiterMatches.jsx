@@ -40,7 +40,7 @@ class Matches extends Component {
 
   render() {
     return (
-      
+      <MatchesPage matches = {this.state.matches}/>
     )
   }
 
