@@ -55,28 +55,31 @@ def storeQuery():
                     cursor.execute(f"""SELECT query_id FROM public."Queries" WHERE user_id={currentUserId} AND query_title='{queryTitle}' AND query_description='{queryDescription}' AND query_payment='{queryPayment}' AND query_date='{queryDate}'""")
                     queryID = cursor.fetchone()[0]
 
+
                     for i in range(len(skills)):
                         print(skills[i])
                         print("2")
                         cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
                         skillID = cursor.fetchone()
-                        print(skillID)
+                        print("THIS IS SKILL IDl :", skillID)
                         if skillID != None:
                             skillID = skillID[0]
-                            print(skillID)
+                            print("this is skill id that's being inserted: ", skillID)
                             skillIdTracker.insert(0, skillID)
                             cursor.execute(f"""INSERT INTO public."Query Skills" (query_id, skill_id, is_deleted) VALUES ({queryID}, {skillID}, {False})""")
                             database.commit()
                         else:
-                            if i == 0:
+                            if i == 0 or i == 1 or i == 2 or i == 3 or i == 4 or i == 5 or i == 6 or i ==7 or i == 8:
+                                nonExistentSkill = skills[i] 
+                                if nonExistentSkill == "":
+                                    nonExistentSkill = 'a' + str(i) +'z'
+                                nonExistentSkillsTracker.insert(0, nonExistentSkill)
                                 continue
-                            nonExistentSkill = skills[i] 
-                            nonExistentSkillsTracker.insert(0, nonExistentSkill)
-                            if nonExistentSkill == "" or len(skillIdTracker) != 0:
-                                continue
-                            error = "No User With " + nonExistentSkill + " Skills Exists Within Our Database!"
-                            response['error'] = error
-                            raise Exception(response)
+                            if i == 9:
+                                if len(nonExistentSkillsTracker) == 9:
+                                    error = "No Users Have Any of the Skills That Were Entered!"
+                                    response['error'] = error
+                                    raise Exception(response)
 
                     print(nonExistentSkillsTracker)
                     response["query_id"] = queryID

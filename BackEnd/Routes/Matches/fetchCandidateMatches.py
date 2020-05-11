@@ -50,16 +50,17 @@ def fetchCandidateMatches():
                             skillIdsFromQueryInfo = cursor.fetchall()
                             print("this is the info: ", skillIdsFromQueryInfo)
 
-                            for i in range(len(skillIdsFromQueryInfo)):
-                                print("Current ValuE: ", skillIdsFromQueryInfo[i][0])
-                                cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id={skillIdsFromQueryInfo[i][0]}""")
+                            for j in range(len(skillIdsFromQueryInfo)):
+                                #print("Current ValuE: ", skillIdsFromQueryInfo[i][0])
+                                cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id={skillIdsFromQueryInfo[j][0]}""")
                                 skill = cursor.fetchone()[0]
-                                print("SKILL: ", skill)
+                                #print("SKILL: ", skill)
                                 skills.insert(0, skill)
-                                print('Skills at this point: ', skills)
-                            print("The Content of Matches: ", matches)
-                            for i in range(len(matches)):
-                                constructReponse(response, recruiterInfo, queryInfo, skills, matches[i], status, i)
+                                #print('Skills at this point: ', skills)
+                            #print("The Content of Matches: ", matches)
+                            
+                            constructReponse(response, recruiterInfo, queryInfo, skills, matchId, status, i)
+                            skills = []
                     else:
                         response['status'] = True
                         response['status_info'] = "Candidate Has No Matches At This Time!"

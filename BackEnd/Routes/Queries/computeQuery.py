@@ -48,6 +48,7 @@ def computeQueryResult():
                 skills.insert(0, desiredSkill1)
 
                 skills = filterExistingSkills(skills, cursor)
+                print("these are skills: ", skills)
 
                 currentUserId = current_user.get_id()
 
