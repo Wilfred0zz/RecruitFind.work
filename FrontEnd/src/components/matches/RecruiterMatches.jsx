@@ -4,7 +4,7 @@ class Matches extends Component {
   constructor(props){
     super(props);
     this.state = {
-      matches: [],
+      matches: {},
     }
   }
 
@@ -18,20 +18,21 @@ class Matches extends Component {
     })
 
     const status =  response.status;
-    const result = await response.json();
-
     if(status >= 400){
-
+      console.log('error', response);
     } else {
-      
+      var result = await response.json();
+      if(values){
+        this.setState({
+          matches: result
+        })
+      }
     }
-
   }
 
   componentDidMount = async () => {
     try{
       await this.fetchAllMatches();
-
     } catch(error) {
       console.log(error);
     }
@@ -39,9 +40,7 @@ class Matches extends Component {
 
   render() {
     return (
-      <div className='Matches'>
-        
-      </div>
+      
     )
   }
 
