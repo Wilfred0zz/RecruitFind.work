@@ -56,10 +56,14 @@ def storeQuery():
                     queryID = cursor.fetchone()[0]
 
                     for i in range(len(skills)):
-                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE EXISTS (SELECT skill FROM public."Skills" WHERE skill='{skills[i]}')""")
+                        print(skills[i])
+                        print("2")
+                        cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
                         skillID = cursor.fetchone()
+                        print(skillID)
                         if skillID != None:
                             skillID = skillID[0]
+                            print(skillID)
                             skillIdTracker.insert(0, skillID)
                             cursor.execute(f"""INSERT INTO public."Query Skills" (query_id, skill_id, is_deleted) VALUES ({queryID}, {skillID}, {False})""")
                             database.commit()
