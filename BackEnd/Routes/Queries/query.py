@@ -77,7 +77,7 @@ def storeQuery():
                                 continue
                             if i == 9:
                                 if len(nonExistentSkillsTracker) == 9:
-                                    error = "No Users Have Any of the Skills That We're Entered!"
+                                    error = "No Users Have Any of the Skills That Were Entered!"
                                     response['error'] = error
                                     raise Exception(response)
 
