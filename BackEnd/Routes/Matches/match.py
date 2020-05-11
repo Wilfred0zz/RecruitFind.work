@@ -31,15 +31,22 @@ def storeMatch():
                 
                 candidateId = cursor.fetchone()[0]
 
-
+                
                 status = 'PENDING'
 
                 if currentRecruiterId:
-                    cursor.execute(f"""INSERT INTO public."Matches" (candidate_id, recruiter_id, status, query_id, is_viewed, is_recruiter_deleted, is_candidate_deleted) VALUES ({candidateId}, {currentRecruiterId}, '{status}', {queryId}, {False}, {False}, {False})""")
-                    database.commit()
-                    
-                    response['status'] = True
-                    response['status_info'] = 'Match Created Successfully!'
+                    cursor.execute(f"""SELECT match_id FROM public."Matches" WHERE query_id={queryId} AND candidate_id={candidateId} AND recruiter_id={currentRecruiterId}""")
+                    queryResult = cursor.fetchone()
+                    if queryResult != None:
+                        cursor.execute(f"""INSERT INTO public."Matches" (candidate_id, recruiter_id, status, query_id, is_viewed, is_recruiter_deleted, is_candidate_deleted) VALUES ({candidateId}, {currentRecruiterId}, '{status}', {queryId}, {False}, {False}, {False})""")
+                        database.commit()
+                        
+                        response['status'] = True
+                        response['status_info'] = 'Match Created Successfully!'
+                    else:
+                        error = "Match Already Exists!"
+                        response['error'] = error
+                        raise Exception(response)
                 
         else:
             error = "Connection To Database Failed!"
