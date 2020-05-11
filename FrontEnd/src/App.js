@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router-dom';
 import './App.css';
 
 import MainPage from './components/main_page/MainPage';
+import CandidateRegisterProfile from './components/candidate_profile/CandidateRegisterProfile';
 import CandidateProfile from './components/candidate_profile/CandidateProfile';
 import RecruiterRegisterProfile from './components/recruiter_profile/RecruiterRegisterProfile';
 import RecruiterProfile from './components/recruiter_profile/RecruiterProfile';
@@ -40,6 +41,7 @@ class App extends Component{
 
   render(){
     const MainPageComponent = () => <MainPage/>
+    const CandidateRegisterProfileComponent = () => <CandidateRegisterProfile/>;
     const CandidateProfileComponent = () => <CandidateProfile/>
     const RecruiterRegisterProfileComponent = () => <RecruiterRegisterProfile/>
     const RecruiterProfileComponent = () => <RecruiterProfile/>
@@ -54,6 +56,7 @@ class App extends Component{
         {/* Listing all routes that will be used in our application */}
         <Switch> 
           <Route exact path="/" render={MainPageComponent}/>
+          <Route exact path="/candidate_register_profile" render={CandidateRegisterProfileComponent}/>
           <Route exact path="/candidate_profile" render={CandidateProfileComponent}/>
           <Route exact path='/recruiter_register_profile' render={RecruiterRegisterProfileComponent}/>
           <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
