@@ -35,7 +35,7 @@ class NavigationBarCandidate extends Component {
         <div className='navbar-items'>
           <ul>
             <li><a href='/candidate_profile'> Profile </a></li>
-            <li><a href='/'> Matches </a></li>
+            <li><a href='/candidate_matches'> Matches </a></li>
             <li><button onClick={this.handleLogOut}>Log Out</button></li>
           </ul>
         </div>
