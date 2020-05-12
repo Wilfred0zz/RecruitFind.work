@@ -7,13 +7,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
 import MatchInfoModal from './../match_info_modal/MatchInfoModal'
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,19 +31,22 @@ const useStyles = makeStyles(theme => ({
 const MatchesPage = (props) => {
   const classes = useStyles();
   const { matches } = props;
+  const [ matchState, setMatchState ] = React.useState({});
   const [open, setOpen] = React.useState(false);
+  //console.log("THIS IS MATCHES: ")
+  //console.log(matches);
 
-  const handleOpen = (matches) => {
+  const handleOpen = (match) => {
     setOpen(true);
-    console.log(matches);
-    return (
-      <MatchInfoModal matches={matches}/>
-    )
+    setMatchState(match);
+    //console.log("HANDLE OPEN")
   };
   
   const handleClose = () => {
     setOpen(false);
+    //console.log("HANDLE FALSE")
   };
+
 
   return (
     <div className={classes.root}>
@@ -66,6 +64,9 @@ const MatchesPage = (props) => {
           {/* handles rendering of pending matches */}
         {
             Object.keys(matches).map((match, i) => {
+
+              //console.log(match);
+
               const match_id = matches[match].match_id;
               const match_status = matches[match].match_status;
               const title = matches[match].query_info[0];
@@ -130,13 +131,13 @@ const MatchesPage = (props) => {
                     <br />
                     <Typography > {'Description: '}{description}</Typography>
                     <br />
-                    <Typography > {'Matched skills: '}{skills}</Typography>
+                    <Typography > {'Skills: '}{skills}</Typography>
                     <br />
-                    <Typography > {'Contact '}{recruiter_email}</Typography>
+                    <Typography > {'Contact: '}{recruiter_email}</Typography>
                   </CardContent>
                   
                   <CardActions>
-                    <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
+                  <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
                   </CardActions>
                 </Card> : null
               )
@@ -144,12 +145,7 @@ const MatchesPage = (props) => {
           }
         </Grid>
       </Grid>
-      <Dialog
-      open={open}
-      onClose={handleClose}
-      >
-        <MatchInfoModal/>
-      </Dialog>
+      {open ? <MatchInfoModal open={open} close={handleClose} matches={matchState}/> : null}
     </div>
   )
 }

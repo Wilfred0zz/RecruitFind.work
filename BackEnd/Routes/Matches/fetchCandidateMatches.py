@@ -24,7 +24,7 @@ def fetchCandidateMatches():
                     # print()
                     cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_candidate_deleted=False AND candidate_id={currentCandidateId}""")
                     queryResult = cursor.fetchall()
-                    print("Result: ", queryResult)
+                    #print("Result: ", queryResult)
                     if len(queryResult) != 0:
                         # Need to make an outer for loop, the issue is it is taking skill results from all queries and combining it into one
                         
@@ -38,16 +38,16 @@ def fetchCandidateMatches():
 
                             cursor.execute(f"""SELECT email, first_name, last_name FROM public."Personal Information" WHERE user_id={recruiterId}""")
                             recruiterInfo = cursor.fetchone()
-                            print("RECRUITERINFO: ", recruiterInfo)
+                            #print("RECRUITERINFO: ", recruiterInfo)
         
                             cursor.execute(f"""SELECT query_title, query_description, query_payment, query_date FROM public."Queries" WHERE query_id={queryId}""")
                             queryInfo = cursor.fetchone()
-                            print("QUERY: ", queryInfo)
+                            #print("QUERY: ", queryInfo)
 
                             cursor.execute(f"""SELECT skill_id FROM public."Query Skills" WHERE query_id={queryId}""")
-                            print("this is the query idz: ", queryId)
+                            #print("this is the query idz: ", queryId)
                             skillIdsFromQueryInfo = cursor.fetchall()
-                            print("this is the info: ", skillIdsFromQueryInfo)
+                            #print("this is the info: ", skillIdsFromQueryInfo)
 
                             for j in range(len(skillIdsFromQueryInfo)):
                                 #print("Current ValuE: ", skillIdsFromQueryInfo[i][0])

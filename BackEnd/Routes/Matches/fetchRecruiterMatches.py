@@ -14,7 +14,6 @@ def fetchRecruiterMatches():
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
-            
             skills = []
             matches = []
 
@@ -24,40 +23,40 @@ def fetchRecruiterMatches():
                 if recruiterId:
                     cursor.execute(f"""SELECT candidate_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_recruiter_deleted={False} AND recruiter_id={recruiterId}""")
                     queryResult = cursor.fetchall()
-                    print("this is query result: ", queryResult)
+                    #print("this is query result: ", queryResult)
                     
                     for i in range(len(queryResult)):
                         currentMatch = queryResult[i]
                         candidateId = currentMatch[0]
-                        print("this is candidat id: ", candidateId)
+                        #print("this is candidat id: ", candidateId)
                         queryId = currentMatch[1]
-                        print("this is the query id: ", queryId)
+                        #print("this is the query id: ", queryId)
                         matchId = currentMatch[2]
-                        print("this is match id: ", matchId)
+                        #print("this is match id: ", matchId)
                         status = currentMatch[3]
-                        print("this is status: ", status)
+                        #print("this is status: ", status)
                         matches.append(matchId)
 
                         cursor.execute(f"""SELECT email, first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
                         candidateInfo = cursor.fetchone()
-                        print("this is candidate info: ", candidateInfo)
+                        #print("this is candidate info: ", candidateInfo)
     
                         cursor.execute(f"""SELECT query_title, query_description, query_payment, query_date FROM public."Queries" WHERE query_id={queryId}""")
                         queryInfo = cursor.fetchone()
-                        print("this is first query info: ", queryInfo)
+                        #print("this is first query info: ", queryInfo)
                   
                         cursor.execute(f"""SELECT skill_id FROM public."Query Skills" WHERE query_id={queryId}""")
                         skillIdsFromQueryInfo = cursor.fetchall()
-                        print("these are skills: ", skillIdsFromQueryInfo)
+                        #print("these are skills: ", skillIdsFromQueryInfo)
 
                         for j in range(len(skillIdsFromQueryInfo)):
                             cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id='{skillIdsFromQueryInfo[j][0]}'""")
                             skill = cursor.fetchone()[0]
                             skills.insert(0, skill)
-                            print("this is ", candidateId, "'s skills ", skills)
+                            #print("this is ", candidateId, "'s skills ", skills)
 
-                        
-                        constructReponse(response, candidateInfo, queryInfo, skills, matchId, status, i)
+                        matchObj = { i : constructReponse(response, candidateInfo, queryInfo, skills, matchId, status)}
+                        response.update(matchObj)
                         skills = []
 
                         print("this is response: ", response)
@@ -74,7 +73,7 @@ def fetchRecruiterMatches():
     return response
 
 
-def constructReponse(respObj, candidate, query, skills, match, status, number):
+def constructReponse(respObj, candidate, query, skills, match, status):
     #print(respObj)
     #print(candidate)
     #print(query)
@@ -93,4 +92,7 @@ def constructReponse(respObj, candidate, query, skills, match, status, number):
     for item in query:
         queryInfo.insert(0, item)
 
-    respObj['match_'+str(number)] = [{'candidate_info': candidateInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status} for x in range(1)]
+    for x in range(1):
+        respOb = {'candidate_info': candidateInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status }
+
+    return respOb

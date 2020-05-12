@@ -25,33 +25,68 @@ const useStyles = makeStyles({
   },
 });
 
+const handleAccept = async (match_id) => {
+  console.log(match_id);
+
+  const match_id_obj = {
+    "match_id": match_id
+  }
+
+  const acceptMatchResponse = await fetch('/api/acceptMatch', {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: 'PUT',
+    body: JSON.stringify(match_id_obj)
+  });
+
+  const status = acceptMatchResponse.status;
+
+  if(status === 400 || status === 500){
+    console.log("400 or 500 error")
+  }
+  else{
+    console.log("successfully set match")
+    document.location = '/'
+  }
+}
+
 const MatchInfoModal = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  console.log(props);
-  //console.log(isOpen);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  //console.log(props.matches.query_info ? props.matches.query_info[0] : null);
+  const match_id = props.matches.match_id;
+  const match_status = props.matches.match_status;
+  const title = props.matches.query_info[0];
+  const description = props.matches.query_info[1];
+  const salary = props.matches.query_info[2];
+  const date = props.matches.query_info[3];
+  const recruiter_email = props.matches.recruiter_info[0];
+  const recruiter_firstName = props.matches.recruiter_info[1];
+  const recruiter_lastName = props.matches.recruiter_info[2];
+  const skills = props.matches.skills;
 
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
+      open={props.open}
+      onClose={props.close}
     >
       <DialogContent>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <DialogTitle> {}</DialogTitle>
+            <DialogTitle> 
+              {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}
+            </DialogTitle>
           </Paper>
         </Grid>
 
           <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <div className={classes.div}>
-                {"csacas"}
+                {"Description"}<br/>{description}<br/>
+                {"Salary"}<br/>{salary}<br/>
+                {"Skills"}<br/>{skills}<br/>
               </div>
             </Paper>
           </Grid>
@@ -64,12 +99,17 @@ const MatchInfoModal = (props) => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>{'CONTACT'}</Paper>
+            <Paper className={classes.paper}>
+              Would you like to accept {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
+                  request?'
+              <br/>
+              <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
+            </Paper>
           </Grid>
       </Grid>
       </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={props.close} color="primary">
             Cancel
           </Button>
         </DialogActions>

@@ -10,6 +10,8 @@ import RecruiterProfile from './components/recruiter_profile/RecruiterProfile';
 import QueriesPage from './components/all_queries/QueriesPage';
 import NewQueriesPage from './components/all_queries/NewQueriesPage';
 import RecruiterQueryResults from './components/recruiter_query_results/QueryResults'
+import CandidateMatches from './components/matches/CandidateMatches';
+import RecruiterMatches from './components/matches/RecruiterMatches';
 // import CandidateRegister from './components/';
 //import RecruiterRegister from './components/register_recruiter/RegisterRecruiter';
 
@@ -48,6 +50,8 @@ class App extends Component{
     const QueriesPageComponent = () => <QueriesPage/>
     const NewQueriesPageComponent = () => <NewQueriesPage state={this.state} updateState={this.updateState}/>
     const RecruiterQueryResultsComponent = () => <RecruiterQueryResults state={this.state} />
+    const CandidateMatchesComponent = () => <CandidateMatches/>
+    const RecruiterMatchesComponent = () => <RecruiterMatches/>
 
     return (
       <div className="App">
@@ -62,7 +66,9 @@ class App extends Component{
           <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
           <Route exact path= '/all_queries' render={QueriesPageComponent}/>
           <Route exact path= '/new_query_page' render={NewQueriesPageComponent}/>
-          <Route exact path= '/query_results_page' render={RecruiterQueryResultsComponent}/>
+          <Route exact path= '/candidate_matches' render={CandidateMatchesComponent}/>
+          <Route exact path= '/recruiter_matches' render={RecruiterMatchesComponent}/>
+          <Route exact path="/query_results_page" render={RecruiterQueryResultsComponent}/>
         </Switch>
       </div>
     );

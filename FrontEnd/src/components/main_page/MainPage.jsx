@@ -114,8 +114,6 @@ class MainPage extends Component {
                 <div id = 'registerForm'> <RegisterForm/> </div>
               </div>
             </main>
-            {/* <MatchInfoModal/> */}
-            <Matches/>
             <img src={officeImg} alt="officeImg"/>
           </div>
         }
