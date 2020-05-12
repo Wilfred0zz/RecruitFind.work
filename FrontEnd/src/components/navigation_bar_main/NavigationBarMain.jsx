@@ -8,7 +8,7 @@ const MainNavBar = props => (
             <div className='navbar-items'>
                 <ul>
                     <li><a href='/'>HomePage</a></li>
-                    <li><a href='/'> About</a></li>
+                    <li><a href='/about_us'> About</a></li>
                     <li><a href='/'>Contact</a></li>
                 </ul>
             </div>

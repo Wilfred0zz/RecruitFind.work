@@ -11,6 +11,7 @@ import QueriesPage from './components/all_queries/QueriesPage';
 import NewQueriesPage from './components/all_queries/NewQueriesPage';
 import RecruiterQueryResults from './components/recruiter_query_results/QueryResults';
 import PublicCandidateProfile from './components/candidate_profile/PublicCandidateProfile';
+import AboutUs from './components/about_us/about_us'
 // import CandidateRegister from './components/';
 //import RecruiterRegister from './components/register_recruiter/RegisterRecruiter';
 
@@ -51,6 +52,7 @@ class App extends Component{
     const RecruiterQueryResultsComponent = () => <RecruiterQueryResults state={this.state} />
     // need to pass in this to get access to history, otherwise need to use window.location.href
     const PublicCandidateProfileComponent = (routerProps) => <PublicCandidateProfile routeProps={routerProps}/>
+    const AboutUs = () => <AboutUs/>
 
     return (
       <div className="App">
@@ -67,6 +69,12 @@ class App extends Component{
           <Route exact path="/all_queries" render={QueriesPageComponent}/>
           <Route exact path="/new_query_page" render={NewQueriesPageComponent}/>
           <Route exact path="/query_results_page" render={RecruiterQueryResultsComponent}/>
+          <Route exact path='/recruiter_register_profile' render={RecruiterRegisterProfileComponent}/>
+          <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
+          <Route exact path= '/all_queries' render={QueriesPageComponent}/>
+          <Route exact path= '/new_query_page' render={NewQueriesPageComponent}/>
+          <Route exact path= '/query_results_page' render={RecruiterQueryResultsComponent}/>
+          <Route exact path= '/about_us' render={AboutUs} />
         </Switch>
       </div>
     );
