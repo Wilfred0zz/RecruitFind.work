@@ -42,3 +42,10 @@
     color: steelblue;
 }
 
+.logo{
+    position: absolute;
+    left: -3.5%;
+    top: -7%;
+    height: 204px;
+    width: 204px;
+}

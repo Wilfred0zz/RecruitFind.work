@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import "./static/css/CandidateRegisterProfile.css"
 
 class CandidateRegisterProfile extends Component{
   constructor(props){

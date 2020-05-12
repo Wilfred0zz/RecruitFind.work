@@ -113,7 +113,7 @@ class MainPage extends Component {
                 <div id = 'registerForm'> <RegisterForm/> </div>
               </div>
             </main>
-            <img src={officeImg} alt="officeImg"/>
+            <img className="officeImg" src={officeImg} alt="officeImg"/>
           </div>
         }
       </div>
