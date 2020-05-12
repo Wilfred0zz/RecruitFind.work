@@ -73,9 +73,9 @@ const MatchesPage = (props) => {
               const description = matches[match].query_info[1];
               const salary = matches[match].query_info[2];
               const date = matches[match].query_info[3];
-              const recruiter_email = matches[match].recruiter_info[0];
-              const recruiter_firstName = matches[match].recruiter_info[1];
-              const recruiter_lastName = matches[match].recruiter_info[2];
+              const recruiter_email = matches[match].recruiter_info ? matches[match].recruiter_info[0] : matches[match].candidate_info[0];
+              const recruiter_firstName = matches[match].recruiter_info ? matches[match].recruiter_info[1] : matches[match].candidate_info[1]; 
+              const recruiter_lastName = matches[match].recruiter_info ? matches[match].recruiter_info[2] : matches[match].candidate_info[2];
               const skills = matches[match].skills;
 
               //lmao it works
@@ -113,9 +113,9 @@ const MatchesPage = (props) => {
               const description = matches[match].query_info[1];
               const salary = matches[match].query_info[2];
               const date = matches[match].query_info[3];
-              const recruiter_email = matches[match].recruiter_info[0];
-              const recruiter_firstName = matches[match].recruiter_info[1];
-              const recruiter_lastName = matches[match].recruiter_info[2];
+              const recruiter_email = matches[match].recruiter_info ? matches[match].recruiter_info[0] : matches[match].candidate_info[0];
+              const recruiter_firstName = matches[match].recruiter_info ? matches[match].recruiter_info[1] : matches[match].candidate_info[1];
+              const recruiter_lastName = matches[match].recruiter_info ? matches[match].recruiter_info[2] : matches[match].candidate_info[2];
               const skills = matches[match].skills;
 
               //lmao it works

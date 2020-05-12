@@ -48,7 +48,7 @@ const handleAccept = async (match_id) => {
   }
   else{
     console.log("successfully set match")
-    document.location = '/'
+    document.location.reload();
   }
 }
 
@@ -61,9 +61,9 @@ const MatchInfoModal = (props) => {
   const description = props.matches.query_info[1];
   const salary = props.matches.query_info[2];
   const date = props.matches.query_info[3];
-  const recruiter_email = props.matches.recruiter_info[0];
-  const recruiter_firstName = props.matches.recruiter_info[1];
-  const recruiter_lastName = props.matches.recruiter_info[2];
+  const recruiter_email = props.matches.recruiter_info ? props.matches.recruiter_info[0] : props.matches.candidate_info[0];
+  const recruiter_firstName = props.matches.recruiter_info ? props.matches.recruiter_info[1] : props.matches.candidate_info[1];
+  const recruiter_lastName = props.matches.recruiter_info ? props.matches.recruiter_info[2] : props.matches.candidate_info[2];
   const skills = props.matches.skills;
 
   return (
