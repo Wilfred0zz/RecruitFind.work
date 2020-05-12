@@ -14,7 +14,7 @@ def deleteQuery():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 queryId = data['query_id']
                 

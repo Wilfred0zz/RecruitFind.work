@@ -14,7 +14,7 @@ def updateCandidateExperiences():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 roleTitle1 = data['role_title_1']
                 description1 = data['description_1']

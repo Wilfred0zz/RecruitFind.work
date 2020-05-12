@@ -15,7 +15,7 @@ def acceptMatch():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
                 matchId = data['match_id']
 
                 if matchId <= 0:

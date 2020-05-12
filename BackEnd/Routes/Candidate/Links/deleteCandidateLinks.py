@@ -14,7 +14,7 @@ def deleteCandidateLinks():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 isDeleted1 = data['is_deleted_1']
                 isDeleted2 = data['is_deleted_2']

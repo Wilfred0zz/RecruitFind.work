@@ -18,7 +18,7 @@ def fetchCandidateMatches():
             skills = []
             matches = []
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
                 currentCandidateId = current_user.get_id()
 
                 if currentCandidateId:
