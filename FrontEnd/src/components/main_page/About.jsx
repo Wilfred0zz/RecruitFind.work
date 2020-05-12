@@ -10,12 +10,18 @@ import Card from '@material-ui/core/Card';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    position: "absolute",
+    top: '100vh',
+    left: 0,
+    textAlign: 'center',
+    height: '100vh',
   },
   abtUs: {
-    height: '18vh',
-    padding: theme.spacing(2),
+    height: '12vh',
+    paddingTop: '12vh',
     textAlign: 'center',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    color: 'white',
+    background: 'linear-gradient(to bottom left, #2b5876 30%, #4e4376 90%)',
   },
   abtUsDes:{
     backgroundColor: 'white',
@@ -54,7 +60,7 @@ const AboutUs = () => {
       <Grid container>
         {/* Top half */}
         <Grid item xs={12}>
-          <Typography className={classes.abtUs}>About US</Typography>
+          <Typography variant="h2" className={classes.abtUs}>About Us</Typography>
         </Grid>
         {/* Text in middle */}
         <Grid item xs={12} className={classes.abtUsDes}>
