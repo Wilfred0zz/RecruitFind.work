@@ -4,10 +4,17 @@ import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
 import officeImg from './static/images/office.jpeg';
 import AboutUs from './About'
+import { withStyles } from "@material-ui/core/styles";
 //import DisplayPastQueries from './../all_queries/QueriesPage';
 //import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
 
 import { Redirect } from 'react-router-dom';
+
+const styles = theme => ({
+  root: {
+    backgroundColor: "red"
+  }
+});
 
 class MainPage extends Component {
   constructor(props){
@@ -108,7 +115,6 @@ class MainPage extends Component {
                     <button className='log-in-button' onClick={this.confirmLogIn}>Log In</button>
                     <button className='log-in-button' onClick={this.handleLogOut}>Log Out</button>
                   </form>
-                  <h3 className='OR-option'>================== OR ==================</h3>
                 </div>
                 <div id = 'registerForm'> <RegisterForm/> </div>
                 <AboutUs/>
@@ -122,4 +128,4 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+export default withStyles(styles, { withTheme: true })(MainPage);
