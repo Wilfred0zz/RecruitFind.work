@@ -86,7 +86,7 @@ const MatchInfoModal = (props) => {
               <div className={classes.div}>
                 {"Description"}<br/>{description}<br/>
                 {"Salary"}<br/>{salary}<br/>
-                {"Skills"}<br/>{skills}<br/>
+                {"Skills"}<br/>{skills.join(', ')}<br/>
               </div>
             </Paper>
           </Grid>
@@ -99,12 +99,18 @@ const MatchInfoModal = (props) => {
             </Paper>
           </Grid>
           <Grid item xs={12}>
-            <Paper className={classes.paper}>
+            { match_status === 'PENDING' && <Paper className={classes.paper}>
               Would you like to accept {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
                   request?'
               <br/>
               <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
-            </Paper>
+            </Paper> }
+            { match_status === 'ACCEPTED' && <Paper className={classes.paper}>
+              You have accepted {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
+                  request.
+              <br/>
+              {'Contact Info'}<br/>{recruiter_email}
+            </Paper> }
           </Grid>
       </Grid>
       </DialogContent>

@@ -91,7 +91,7 @@ const MatchesPage = (props) => {
                     <br />
                     <Typography > {'Description: '}{description}</Typography>
                     <br />
-                    <Typography > {'Matched skills: '}{skills}</Typography>
+                    <Typography > {'Matched skills: '}{skills.join(', ')}</Typography>
                   </CardContent>
                   
                   <CardActions>
@@ -131,7 +131,7 @@ const MatchesPage = (props) => {
                     <br />
                     <Typography > {'Description: '}{description}</Typography>
                     <br />
-                    <Typography > {'Skills: '}{skills}</Typography>
+                    <Typography > {'Skills: '}{skills.join(', ')}</Typography>
                     <br />
                     <Typography > {'Contact: '}{recruiter_email}</Typography>
                   </CardContent>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 // import './css/NavigationBarCandidate.css';
 
 class NavigationBarCandidate extends Component {
@@ -19,7 +20,8 @@ class NavigationBarCandidate extends Component {
       if (status === 400 || status === 500) {
         alert(result.error);
       } else {
-        this.props.updateLogout();
+        console.log(this.props);
+        //this.props.updateLogout();
         console.log("Successfully logged out");
       }
     } catch (error) {

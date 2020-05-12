@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MatchesPage from './MatchesPage';
+import NavigationBarCandidate from './../candidate_profile/navigation_bar_candidate/NavigationBarCandidate'
 
 class Matches extends Component {
   constructor(props){
@@ -41,7 +42,10 @@ class Matches extends Component {
 
   render() {
     return (
-      <MatchesPage matches={this.state.matches}/>
+      <div>
+        <NavigationBarCandidate/>
+        <MatchesPage matches={this.state.matches}/>
+      </div>
     )
   }
 

@@ -156,12 +156,12 @@ class RecruiterQueryResults extends Component{
                 <br />
                 <Typography > {'Email: '} {candidate[2]} </Typography>
                 <br />
+                <Typography > {'Interests: '}
+                  { candidate[3] ? candidate[3] : '' }
+                </Typography>
+                <br />
                 <Typography > {'Relevant Skills: '} 
-                  {candidate[3]} {" "}
-                  {
-                    candidate[4] ? candidate[4].map((skills) =>
-                    (<span key={skills}> {skills} </span>)) : ''
-                  }
+                  { candidate[4] ? candidate[4].join(', ') : '' }
                 </Typography>
               </CardContent>
               <CardActions>
