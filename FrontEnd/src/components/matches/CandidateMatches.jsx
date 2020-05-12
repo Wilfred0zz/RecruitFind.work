@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import MatchesPage from './MatchesPage'
 
 class Matches extends Component {
   constructor(props){
     super(props);
     this.state = {
       matches: {},
+      loading: false,
     }
   }
 
   fetchAllMatches = async () => {
+    this.setState({
+      loading: true,
+    })
     const response = await fetch ('/api/fetchCandidateMatches',{
       headers:{
         'Accept': 'application/json',
@@ -18,21 +23,24 @@ class Matches extends Component {
     })
 
     const status =  response.status;
+    console.log(status);
+
     if(status >= 400){
       console.log('error', response);
     } else {
       var result = await response.json();
-      if(values){
+      if(result){
         this.setState({
-          matches: result
+          matches: result,
+          loading: false,
         })
       }
     }
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     try{
-      await this.fetchAllMatches();
+      this.fetchAllMatches();
     } catch(error) {
       console.log(error);
     }
@@ -40,7 +48,9 @@ class Matches extends Component {
 
   render() {
     return (
-      <MatchesPage matches={this.state.matches}/>
+      <div>
+      { this.state.loading ? <div> lodaing </div> : <MatchesPage matches={this.state.matches}/> }
+      </div>
     )
   }
 

@@ -6,6 +6,7 @@ import officeImg from './static/images/office.jpeg';
 //import DisplayPastQueries from './../all_queries/QueriesPage';
 import MatchInfoModal from './../match_info_modal/MatchInfoModal';
 //import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
+import Matches from './../matches/CandidateMatches'
 
 import { Redirect } from 'react-router-dom';
 
@@ -113,7 +114,8 @@ class MainPage extends Component {
                 <div id = 'registerForm'> <RegisterForm/> </div>
               </div>
             </main>
-            <MatchInfoModal/>
+            {/* <MatchInfoModal/> */}
+            <Matches/>
             <img src={officeImg} alt="officeImg"/>
           </div>
         }

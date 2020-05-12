@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MatchesPage from './MatchesPage'
 
 class Matches extends Component {
   constructor(props){
@@ -22,7 +23,7 @@ class Matches extends Component {
       console.log('error', response);
     } else {
       var result = await response.json();
-      if(values){
+      if(result){
         this.setState({
           matches: result
         })
