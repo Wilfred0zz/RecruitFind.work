@@ -77,7 +77,7 @@ export default props => {
             id="select-status"
             select
             variant='outlined'
-            label="WHAT ARE YOU"
+            label="Are you a Recruiter of a Candidate?"
             name='select-status'
             InputLabelProps={{
               shrink: true

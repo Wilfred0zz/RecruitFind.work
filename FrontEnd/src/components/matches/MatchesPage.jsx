@@ -62,55 +62,52 @@ const MatchesPage = (props) => {
         </Grid>
         <Grid item xs={12} sm={6}>
           {/* handles rendering of pending matches */}
-        {
-            [(
+          {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
               ? <p key={1}>No Pending Matches</p>
               : Object.keys(matches).map((match, i) => {
 
-                // console.log("the matches are", matches);
-  
-                const match_id = matches[match].match_id;
-                const match_status = matches[match].match_status;
-                const title = matches[match].query_info[0];
-                const description = matches[match].query_info[1];
-                const salary = matches[match].query_info[2];
-                const date = matches[match].query_info[3];
-                const recruiter_email = matches[match].recruiter_info ? matches[match].recruiter_info[0] : matches[match].candidate_info[0];
-                const recruiter_firstName = matches[match].recruiter_info ? matches[match].recruiter_info[1] : matches[match].candidate_info[1]; 
-                const recruiter_lastName = matches[match].recruiter_info ? matches[match].recruiter_info[2] : matches[match].candidate_info[2];
-                const skills = matches[match].skills;
-  
-                //lmao it works
-                // console.log(match_id + match_status + title + description+
-                //   salary + date + recruiter_email+recruiter_firstName+recruiter_lastName+skills);
-  
-                return(match_status === "PENDING" ? 
-                  <Card key = {match_id}>
-                    <CardContent>
-                      <Typography > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
-                      <br />
-                      <Typography > {'Role: '}{title}</Typography>
-                      <br />
-                      <Typography > {'Description: '}{description}</Typography>
-                      <br />
-                      <Typography > {'Matched skills: '}{skills}</Typography>
-                    </CardContent>
-                    
-                    <CardActions>
-                      <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
-                    </CardActions>
-                  </Card> : null
-                )
-              })
-            )]
+              //console.log(match);
+
+              const match_id = matches[match].match_id;
+              const match_status = matches[match].match_status;
+              const title = matches[match].query_info[0];
+              const description = matches[match].query_info[1];
+              const salary = matches[match].query_info[2];
+              const date = matches[match].query_info[3];
+              const recruiter_email = matches[match].recruiter_info ? matches[match].recruiter_info[0] : matches[match].candidate_info[0];
+              const recruiter_firstName = matches[match].recruiter_info ? matches[match].recruiter_info[1] : matches[match].candidate_info[1]; 
+              const recruiter_lastName = matches[match].recruiter_info ? matches[match].recruiter_info[2] : matches[match].candidate_info[2];
+              const skills = matches[match].skills;
+
+              //lmao it works
+              // console.log(match_id + match_status + title + description+
+              //   salary + date + recruiter_email+recruiter_firstName+recruiter_lastName+skills);
+
+              return(match_status === "PENDING" ? 
+                <Card key = {match_id}>
+                  <CardContent>
+                    <Typography > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
+                    <br />
+                    <Typography > {'Role: '}{title}</Typography>
+                    <br />
+                    <Typography > {'Description: '}{description}</Typography>
+                    <br />
+                    <Typography > {'Matched skills: '}{skills.join(', ')}</Typography>
+                  </CardContent>
+                  
+                  <CardActions>
+                    <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
+                  </CardActions>
+                </Card> : null
+              )
+            })
           }
           
         </Grid>
         <Grid item xs={12} sm={6}>
           {/* Handles rendering of accepted matches */}
           {
-            [(
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
               ? <p key={1}>No Accepted Matches</p>
               : Object.keys(matches).map((match, i) => {
@@ -129,27 +126,27 @@ const MatchesPage = (props) => {
                   // console.log(match_id + match_status + title + description+
                   //   salary + date + recruiter_email+recruiter_firstName+recruiter_lastName+skills);
 
-                  return(match_status === "ACCEPTED" ? 
-                    <Card key = {match_id}>
-                      <CardContent>
-                        <Typography > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
-                        <br />
-                        <Typography > {'Role: '}{title}</Typography>
-                        <br />
-                        <Typography > {'Description: '}{description}</Typography>
-                        <br />
-                        <Typography > {'Skills: '}{skills}</Typography>
-                        <br />
-                        <Typography > {'Contact: '}{recruiter_email}</Typography>
-                      </CardContent>
-                      
-                      <CardActions>
-                      <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
-                      </CardActions>
-                    </Card> : null
-                  )
-                })
-            )]
+              return(match_status === "ACCEPTED" ? 
+                <Card key = {match_id}>
+                  <CardContent>
+                    <Typography > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
+                    <br />
+                    <Typography > {'Role: '}{title}</Typography>
+                    <br />
+                    <Typography > {'Description: '}{description}</Typography>
+                    <br />
+                    <Typography > {'Skills: '}{skills.join(', ')}</Typography>
+                    <br />
+                    <Typography > {'Contact: '}{recruiter_email}</Typography>
+                  </CardContent>
+                  
+                  <CardActions>
+                  <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
+                  </CardActions>
+                </Card> : null
+              )
+            }//end map
+          )
           }
         </Grid>
       </Grid>

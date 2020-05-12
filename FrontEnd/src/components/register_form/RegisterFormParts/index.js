@@ -34,7 +34,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2, 0)
   },
   button: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    marginTop: '3vh'
   },
   error: {
     backgroundColor: theme.palette.error.dark

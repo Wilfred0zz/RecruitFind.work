@@ -51,6 +51,11 @@
     float: left;
 }
 
+<<<<<<< HEAD
+.MainNavBar{
+    position: fixed;
+}
+=======
 img{
     position: absolute;
     left: -3.5%;
@@ -58,3 +63,4 @@ img{
     height: 204px;
     width: 204px;
 }
+>>>>>>> master

@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     },
     width: '75%',
     borderRadius:"1%",
+    textAlign: 'center',
   }
 }));
 
