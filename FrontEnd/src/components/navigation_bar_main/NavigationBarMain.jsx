@@ -4,10 +4,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import { TextField } from "@material-ui/core";
 import { Redirect } from 'react-router-dom';
+import Logo from './static/images/text.jpeg'
 
 const styles = theme => ({
   toolBar: {
@@ -18,12 +17,17 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: 'black',
   },
-  menuButton: {
-    marginRight: '2vh'
+  logo: {
+    position: "absolute",
+    left: -40,
+    maxWidth:'250%',
+    height: '250%',
+    paddingRight: '100%',
   },
   title: {
     flexGrow: 1,
     textAlign: 'left',
+    paddingLeft: '3.5%'
   },
   buttons: {
     marginRight: '1vh'
@@ -106,11 +110,9 @@ render() {
           ] :  
         <AppBar position="static" className={classes.toolBar}>
         <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit">
-            <MenuIcon />
-            </IconButton>
+            <img src={Logo} className={classes.logo}/>
             <Typography variant="h6" className={classes.title}>
-            RecruitFind
+              RecruitFind
             </Typography>
             <Button className={classes.buttons} color="inherit">
             Home Page
