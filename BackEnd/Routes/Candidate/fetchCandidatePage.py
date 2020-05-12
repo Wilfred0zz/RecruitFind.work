@@ -242,7 +242,7 @@ def fetchCandidateProfileInfo():
     return response
 
 def constructInterests(resObj, currRow, itemId):
-    name_of_interest = 'name_of_interst_' + itemId
+    name_of_interest = 'name_of_interest_' + itemId
     is_deleted = 'is_deleted_' + itemId
     resObj[name_of_interest] = currRow[0]
     resObj[is_deleted] = currRow[1]
