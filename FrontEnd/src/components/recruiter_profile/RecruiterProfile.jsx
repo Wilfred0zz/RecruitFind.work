@@ -238,8 +238,7 @@ class RecruiterProfile extends Component{
   }
 
   componentDidMount = async () => {
-    await this.fetchRecruiterCompanyInfo();
-    await this.fetchRecruiterPersonalInfo();
+    await Promise.all([this.fetchRecruiterCompanyInfo(), this.fetchRecruiterPersonalInfo()])
   }
 
   render() {

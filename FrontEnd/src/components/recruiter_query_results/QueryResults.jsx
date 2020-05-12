@@ -99,6 +99,11 @@ class RecruiterQueryResults extends Component{
       is_logged_in: false
     })
   }
+
+  handleMore = (event, link) => {
+    console.log(event);
+    window.open(`/candidate_profile/${link}`, '_blank');
+  }
   
   render(){
     const { classes } = this.props;
@@ -131,7 +136,7 @@ class RecruiterQueryResults extends Component{
               <CardActions>
                 <Button size="small">Accept</Button>
                 <Button size="small">Reject</Button>
-                <Button size="small">More</Button>
+                <Button size="small" onClick={ (event) => this.handleMore(event, candidate[2])}>More</Button>
               </CardActions>
               </Card>
               </Grid>

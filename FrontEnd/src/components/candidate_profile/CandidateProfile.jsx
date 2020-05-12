@@ -295,11 +295,7 @@ class CandidateProfile extends Component {
   componentDidMount = async () => {
     console.log(window.location.href);
     try {
-      await this.fetchCandidateInfo();
-      await this.fetchCandidateLinks();
-      await this.fetchCandidateExperiences();
-      await this.fetchCandidateSkills();
-      await this.fetchCandidatePersonalInfo();
+      await Promise.all([this.fetchCandidateInfo(), this.fetchCandidateLinks(), this.fetchCandidateExperiences(), this.fetchCandidateSkills(), this.fetchCandidatePersonalInfo()])
       this.oldState = this.state;
     } catch(error) {
       console.log(error)
