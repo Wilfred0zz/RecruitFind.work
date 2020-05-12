@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import MatchesPage from './MatchesPage';
+import { Redirect } from 'react-router-dom';
+import NavigationBarCandidate from './../candidate_profile/navigation_bar_candidate/NavigationBarCandidate';
 
 class Matches extends Component {
   constructor(props){
     super(props);
     this.state = {
       matches: {},
+      is_logged_in: true,
     }
   }
 
@@ -39,9 +42,23 @@ class Matches extends Component {
     }
   } 
 
+  updateLogout = () => {
+    this.setState({
+      is_logged_in: false
+    })
+  }
+
   render() {
     return (
-      <MatchesPage matches={this.state.matches}/>
+      <div>
+        {
+          this.state.is_logged_in
+          ? null
+          : <Redirect to='/'/>
+        }
+        <NavigationBarCandidate updateLogout={this.updateLogout}/>
+        <MatchesPage matches={this.state.matches}/>
+      </div>
     )
   }
 
