@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 class PublicCandidateProfile extends Component {
   constructor(props){
     super(props)
     this.state = {
+      redirect: false,
       fetched_data: false,
       email_user: '',
       profileInterests: [],
@@ -95,15 +97,25 @@ class PublicCandidateProfile extends Component {
     const status = response.status;
     if(status >= 400){
       if(status === 401){
-        throw Error(alert("You aren't authoritzed"));
+        alert("Please Login");
+        setTimeout(()=>{
+          this.setState({
+            redirect: true,
+          }        
+        )}, 2000)
       }
       const error = await response.json();
       if(!error.error){
-        throw Error(alert("User doen't exist"))
+        alert("User doen't exist");
       }
       else{
-        throw Error(alert(error.error));
+        alert(error.error);
       }
+      setTimeout(()=>{
+        this.setState({
+          redirect: true,
+        }        
+      )}, 2000)
     }
     const result = await response.json();
     console.log("testing", result);
@@ -163,81 +175,6 @@ class PublicCandidateProfile extends Component {
         fetched_data: true,
       })
     }
-
-
-  }
-  // CANDIDATE PROFILE INFO ––––––––––––––––––
-  fetchCandidateInfo = async () => {
-    const response = await fetch('/api/fetchCandidateProfileInfo')
-    const status = response.status;
-    
-    if(status >= 400) {
-      const result = await response.json();
-      console.log(result);
-      if(result.error === 'Candidate Profile Does Not Exist!'){
-        this.setState({
-          didRegister: false
-        })
-      }
-      else{
-        this.setState({
-          is_logged_in: false
-        }, () => {(alert("There is an error in getting candidate porfile information"))});
-      }
-    } else {
-      const result = await response.json();
-
-      this.setState({
-        candidate_current_position: result.candidate_current_position,
-        candidate_description: result.candidate_description,
-        candidate_highest_level_of_education: result.candidate_highest_level_of_education,
-        candidate_school: result.candidate_school,
-        name_of_interest_1: result.is_deleted_1,
-        name_of_interest_2: result.is_deleted_2,
-        name_of_interest_3: result.is_deleted_3,
-      }, () => {
-        //ensure object contianing number of interests is empty before pushing into it
-        if(this.state.profileInterests){
-          this.state.profileInterests = [];
-        }
-        // ensure we render appropriate number of interests in view
-        this.checkNumberOfInterests();
-      })
-    }
-  }
-
-  fetchCandidatePersonalInfo = async () => {
-    try{
-      let response = await fetch('/api/fetchCandidatePersonalInformation', {
-        headers:{
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'GET'
-      });
-      let status = response.status;
-      let result = await response.json();
-      if(status>= 400){
-        throw Error(alert('There is an error in getting candidate Personal Information'))
-      }else{
-        console.log(result)
-        const{email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
-        this.setState({
-          email:email,
-          first_name: first_name,
-          gender: gender,
-          last_name: last_name,
-          personal_city: personal_city,
-          personal_country: personal_country,
-          personal_postal: personal_postal,
-          personal_state: personal_state,
-          personal_street_address: personal_street_address,
-          phone_number:phone_number,
-        })
-      }
-    }catch(error){
-      console.log(error);
-    }
   }
 
   checkNumberOfInterests = () => {
@@ -253,32 +190,6 @@ class PublicCandidateProfile extends Component {
     })
   }
 
-  // CANDIDATE EXPERIENCES –––––––––––––––––––
-  fetchCandidateExperiences = async () => {
-    const response = await fetch('/api/fetchCandidateExperiences');
-    const status = response.status;
-
-    if(status >= 400) {
-      throw Error(alert('There is an error in getting candidate experiences information'))
-    } else {
-      const result = await response.json();
-      for(let i = 1; i <= 5; i++){
-        this.setState({
-          [`description_${i}`]: result[`description_${i}`],
-          [`end_date_${i}`]: result[`end_date_${i}`],
-          [`present_${i}`]: result[`present_${i}`],
-          [`role_title_${i}`]: result[`role_title_${i}`],
-          [`start_date_${i}`]: result[`start_date_${i}`]
-        })
-      }
-      //ensure object contianing number of experienes is empty before pushing into it
-      if(this.state.experiences){
-        this.state.experiences = [];
-      }
-      this.checkNumberOfExperiences();
-    }
-  }
-
   checkNumberOfExperiences = () => {
     const temp = [];
     for(let i = 1; i < 6; i++) {
@@ -289,58 +200,6 @@ class PublicCandidateProfile extends Component {
     this.setState({
       experiences: temp
     })
-  }
-
-  // Candidate Skills ––––––––––––––––––––––––
-  fetchCandidateSkills = async () => {
-    const response = await fetch ('/api/fetchCandidateSkills')
-    const status = response.status;
-    if(status >= 400){
-      throw Error(alert('There is an error in getting candidate experiences information'));
-    }
-    else {
-      if(this.state.skills){
-        this.setState({
-          skills: []
-        })
-      }
-      this.setState({
-        delete_skills: []
-      })
-      const result = await response.json();
-      if(result.status_info === 'User Has No Skills!'){
-        alert(result.status_info);
-      }
-      const values = Object.values(result);
-      for(let i=1; i <= values.length/2; i++){
-        this.setState({
-          skills: [...this.state.skills, result[`skill_${i}`]]
-        })
-      }
-    }
-  }
-
-  // Candidate Links –––––––––––––––––––––––––
-  fetchCandidateLinks = async () => {
-    const response = await fetch('/api/fetchCandidateLinks');
-    const status = response.status;
-    const result = await response.json();
-
-    if(status >= 400){
-      throw Error(result.error);
-    } else {
-      for(let i = 1; i < 4; i++){
-        this.setState({
-          [`link_${i}`]: result[`link_${i}`],
-          [`type_of_link_${i}`]: result[`type_of_link_${i}`],
-        })
-      }
-      //ensure object contianing number of links is empty before pushing into it
-      if(this.state.profileLinks){
-        this.state.profileLinks = [];
-      }
-      this.checkNumberOfLinks();
-    }
   }
 
   checkNumberOfLinks = () =>{
@@ -356,26 +215,10 @@ class PublicCandidateProfile extends Component {
   }
 
   componentDidMount = async () => {
-    // console.log('props => ' + JSON.stringify(this.props.match.params))
-    // console.log(this.props);
-    // this.setState({
-    //   email_user: 'adad'
-    // }, () => console.log(this.props))
-    // console.log(window.location.href)
-
+    // alternative to getting URL
     // const result= window.location.href.split('/')
     // console.log(result[4]);
-
-    // console.log(values.email) // "top"
-
-
-    // console.log(this.props.match)
-    // const queryString = window.location.search;
-    // const urlParams = new URLSearchParams(queryString);
-    // const email = urlParams['email'];
-    // console.log(email);
     const email = this.props.routeProps.match.params.email;
-
     try {
       await this.getAllInformation(email);
     } catch(error) {
@@ -400,32 +243,14 @@ class PublicCandidateProfile extends Component {
     }
   }
   
-  renderEndDate = (number) => {
-    let end_date= `end_date_${number}`;
-    let present= `present_${number}`;
-    if(this.state[present]){
-      return (
-        <div>
-          <input type='checkbox' name={present} checked onClick={this.handleCheckBox}/>
-          <label>Present</label>
-        </div>
-      )
-    }
-    else{
-      return (
-        <div className='unchecked'>
-          <input type='date' name={end_date} onChange={this.handleChange} value={this.state[end_date]}/>
-          <br/>
-          <input type='checkbox' name={present} onClick={this.handleCheckBox}/>
-          <label>Present</label>
-        </div>
-      )
-    }
-  }
-
   render() {
     return (
       <div>
+        {
+          this.state.redirect
+          ? <Redirect to='/'/>
+          : null
+        }
         {
           !this.state.fetched_data
           ? null
