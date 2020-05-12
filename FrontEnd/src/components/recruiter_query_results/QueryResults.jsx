@@ -97,6 +97,11 @@ class RecruiterQueryResults extends Component{
       is_logged_in: false
     })
   }
+
+  handleMore = (event, link) => {
+    console.log(event);
+    window.open(`/candidate_profile/${link}`, '_blank');
+  }
   
   handleAccept = async (email) => {
     console.log(email);
@@ -161,7 +166,10 @@ class RecruiterQueryResults extends Component{
               </CardContent>
               <CardActions>
                 <Button onClick={() => this.handleAccept(candidate[2])} size="small">Accept</Button>
-                <Button size="small">More</Button>
+                <Button size="small">Reject</Button>
+                <Button size="small" onClick={ (event) => this.handleMore(event, candidate[2])}>More</Button>
+        
+      
               </CardActions>
               </Card>
               </Grid>

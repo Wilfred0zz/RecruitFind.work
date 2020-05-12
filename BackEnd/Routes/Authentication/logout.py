@@ -5,6 +5,7 @@ import bcrypt
 import secrets
 from validate_email import validate_email
 import json
+import os
 from flask_login import logout_user
 
 logout = Blueprint('logout', __name__)
@@ -12,7 +13,7 @@ logout = Blueprint('logout', __name__)
 @logout.route("/api/logout", methods=["PUT"])
 def signUserOut():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1"), port = "5432", database = "recruitfindwork")
         if database:
 
             response = dict()

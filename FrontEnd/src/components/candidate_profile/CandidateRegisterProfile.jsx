@@ -626,8 +626,8 @@ class CandidateRegisterProfile extends Component{
               {
                 this.experiences.map((experience, index)=>{
                   return (
-                    <div key={index+1}>
-                      <p>Experience {index+1}</p>
+                    <div key={index+1} className='Candidate_items'>
+                      <p className="experience_header"><b>Experience {index+1}</b></p>
                       <label>Position</label>
                       <input type='text' name={`role_title_${index+1}`} onChange={this.handleChange}/>
                         <br/>

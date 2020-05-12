@@ -1,0 +1,65 @@
+body{
+    text-align: center;
+}
+
+.candidate_profile_info{
+    position: absolute;
+    left: 15%;
+    text-align:right ;
+}
+
+.candidate_links{
+    position: absolute;
+    top: 25em;
+    left: 19%;
+    width: 30em;
+    height: 10em;
+    text-align: right;
+}
+
+.links_header{
+    text-align: center;
+    
+}
+
+.skills{
+    position: fixed;
+    left: 60%;
+    top:25em;
+    width: 20%;
+}
+
+.experience_header{
+    text-align: center;
+}
+
+.Candidate_Experiences{
+    position: absolute;
+    left: 60%;
+    text-align: right;
+}
+
+
+.Submit_button{
+    margin: 23px;
+    font-family: 'Lucida Sans Regular';
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+    text-transform: none;
+    white-space: normal;
+    cursor: pointer;
+    color: #fff !important;
+    background: gray !important;
+    border-color: #111 !important;
+    position: absolute;
+    top:55%;
+}
+
+img{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    position: absolute;
+}

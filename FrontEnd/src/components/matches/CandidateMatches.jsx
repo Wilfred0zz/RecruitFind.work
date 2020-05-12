@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import MatchesPage from './MatchesPage'
-import NavigationBarCandidate from '../candidate_profile/navigation_bar_candidate/NavigationBarCandidate'
-
+import MatchesPage from './MatchesPage';
 
 class Matches extends Component {
   constructor(props){
     super(props);
     this.state = {
       matches: {},
-      loading: false,
     }
   }
 
@@ -22,23 +19,21 @@ class Matches extends Component {
     })
 
     const status =  response.status;
-    console.log(status);
-
     if(status >= 400){
       console.log('error', response);
     } else {
       var result = await response.json();
       if(result){
         this.setState({
-          matches: result,
+          matches: result
         })
       }
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     try{
-      this.fetchAllMatches();
+      await this.fetchAllMatches();
     } catch(error) {
       console.log(error);
     }
@@ -46,10 +41,7 @@ class Matches extends Component {
 
   render() {
     return (
-      <div>
-        <NavigationBarCandidate/>
-        <MatchesPage matches={this.state.matches}/>
-      </div>
+      <MatchesPage matches={this.state.matches}/>
     )
   }
 

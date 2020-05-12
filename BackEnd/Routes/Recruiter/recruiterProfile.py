@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, request
 import psycopg2
 import traceback
 from flask_login import current_user, login_user, logout_user, login_required
+import os
 
 
 rp = Blueprint('recruiterProfile', __name__)
@@ -10,14 +11,14 @@ rp = Blueprint('recruiterProfile', __name__)
 @login_required
 def createRecruiterProfile():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
         if database:
             print(request.headers)
             cursor = database.cursor()
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
             
                 currentUserId = current_user.get_id()
 
@@ -39,7 +40,7 @@ def createRecruiterProfile():
             error = "Connection To Database Failed!"
             response['error'] = error
             raise Exception(response)
-    except Exception as e:         
+    except Exception:         
         print(traceback.format_exc())        
         return response, 400
     

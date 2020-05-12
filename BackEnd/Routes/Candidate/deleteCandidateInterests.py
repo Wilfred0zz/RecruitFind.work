@@ -3,6 +3,7 @@ import psycopg2
 from passlib.hash import argon2
 import bcrypt
 from flask_login import current_user, login_user, logout_user, login_required
+import os
 
 dci = Blueprint('deleteCandidateInterests', __name__)
 
@@ -10,13 +11,13 @@ dci = Blueprint('deleteCandidateInterests', __name__)
 @login_required
 def deleteCandidateInterests():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
         if database:
             cursor = database.cursor()
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
  
                 nameOfInterest1 = data['name_of_interest_1']
                 isDeleted1 = data['is_deleted_1']

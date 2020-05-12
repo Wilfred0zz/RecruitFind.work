@@ -3,6 +3,7 @@ import psycopg2
 from flask_login import current_user, login_user, logout_user, login_required
 import traceback
 from collections import defaultdict
+import os
 
 frm = Blueprint('fetchRecruiterMatches', __name__)
 
@@ -10,14 +11,14 @@ frm = Blueprint('fetchRecruiterMatches', __name__)
 @login_required
 def fetchRecruiterMatches():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
             skills = []
             matches = []
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
                 recruiterId = current_user.get_id()
 
                 if recruiterId:

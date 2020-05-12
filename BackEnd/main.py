@@ -1,10 +1,7 @@
-from flask import Flask, Blueprint, render_template
+from flask import Flask, Blueprint, render_template, send_from_directory
 import psycopg2
 from flask_login import current_user, login_user, logout_user, login_required, LoginManager
 import os
-APP_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BUILD_PATH = os.path.join(APP_PATH, 'FrontEnd\\build')
-print(BUILD_PATH)
 
 #Connection Route
 from Routes.Connections.connection import connect
@@ -62,7 +59,7 @@ from Routes.Matches.fetchRecruiterMatches import frm
 from Routes.Matches.acceptMatch import acm
 from Routes.Matches.rejectMatch import rm
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='build')
 app.secret_key = b'Y\xf7\xec\xe3m\x99r\x19A\x9d*l[\xdd\xa1\xf9\xe7P\x8a\x88\xd7\x067<'
 authenticationManager = LoginManager(app)
 
@@ -129,7 +126,7 @@ if __name__ == '__main__':
 @authenticationManager.user_loader
 def load_user(id):
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
         if database:
             response = dict()
             cursor = database.cursor()
@@ -147,9 +144,14 @@ def load_user(id):
     except Exception:
         return response, 400
 
-@app.route("/", methods=["GET"])
-def renderClient():
-    return render_template('index')
+
+
+@app.route('/', defaults={'path': ''}, methods=['GET']) 
+@app.route('/<path:path>')
+def index(path):     
+    if path != "" and os.path.exists(app.static_folder + '/' + path):         
+        return send_from_directory(app.static_folder, path)     
+    return send_from_directory(app.static_folder, 'index.html')
 
 
 

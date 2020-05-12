@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, request
 import psycopg2
 from flask_login import current_user, login_user, logout_user, login_required
+import os
 
 dce = Blueprint('deleteCandidateExperiences', __name__)
 
@@ -8,13 +9,13 @@ dce = Blueprint('deleteCandidateExperiences', __name__)
 @login_required
 def deleteCandidateExperiences():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= "34.66.114.193", port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
         if database:
             cursor = database.cursor()
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 isDeleted1 = data['is_deleted_1']
                 isDeleted2 = data['is_deleted_2']
