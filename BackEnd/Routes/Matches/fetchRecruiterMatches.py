@@ -18,7 +18,7 @@ def fetchRecruiterMatches():
             skills = []
             matches = []
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
                 recruiterId = current_user.get_id()
 
                 if recruiterId:

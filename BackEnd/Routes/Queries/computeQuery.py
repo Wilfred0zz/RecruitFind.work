@@ -18,7 +18,7 @@ def computeQueryResult():
             skills = []
             candidatesWithDesiredSkills = defaultdict(list)
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 queryTitle = data['query_title']
                 queryDescription = data['query_description']

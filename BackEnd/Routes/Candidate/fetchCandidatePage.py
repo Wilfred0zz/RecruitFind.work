@@ -14,13 +14,15 @@ def fetchCandidateProfileInfo():
             data = request.get_json()
             response = dict()
 
-            if current_user.is_authenticated:
-
-                currentUserId = current_user.get_id()
+            if current_user.is_authenticated():
+                currentUserID = current_user.get_id()
                 email = data['email']
 
-                if currentUserId:
-                    cursor.execute(f"""SELECT candidate_school, candidate_highest_level_of_education, candidate_description, candidate_current_position, is_candidate_profile_deleted FROM public."Candidate Information" WHERE user_id={currentUserId} AND is_candidate_profile_deleted={False}""")
+                if currentUserID:
+                    cursor.execute(f"""SELECT user_id FROM "Personal Information" WHERE email='{email}'""")
+                    userID = cursor.fetchone()[0]
+
+                    cursor.execute(f"""SELECT candidate_school, candidate_highest_level_of_education, candidate_description, candidate_current_position, is_candidate_profile_deleted FROM public."Candidate Information" WHERE user_id={userID} AND is_candidate_profile_deleted={False}""")
                     queryResult = cursor.fetchall()
                     
                     if len(queryResult) != 0:
@@ -30,7 +32,7 @@ def fetchCandidateProfileInfo():
                         response['candidate_current_position'] = queryResult[0][3]
                         response['is_candidate_profile_deleted'] = queryResult[0][4]
 
-                        cursor.execute(f"""SELECT name_of_interest, is_deleted FROM public."Candidate Interests" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                        cursor.execute(f"""SELECT name_of_interest, is_deleted FROM public."Candidate Interests" WHERE user_id={userID} AND is_deleted={False}""")
                         queryResult = cursor.fetchall()
                         if len(queryResult) != 0:
                             if len(queryResult) == 1:
@@ -39,7 +41,7 @@ def fetchCandidateProfileInfo():
                                 queryResultFromLinkId = cursor.fetchall()
                                 constructInterests(response, queryResultFromLinkId[0], '1')
 
-                                cursor.execute(f"""SELECT name_of_interest, is_deleted FROM public."Candidate Interests" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                                cursor.execute(f"""SELECT name_of_interest, is_deleted FROM public."Candidate Interests" WHERE user_id={userID} AND is_deleted={True}""")
                                 queryResultForDeletedLinks = cursor.fetchall()
                                 constructInterests(response, queryResultForDeletedLinks[0], '2')
                                 constructInterests(response, queryResultForDeletedLinks[1], '3')
@@ -52,7 +54,7 @@ def fetchCandidateProfileInfo():
                                 constructInterests(response, queryResultFromLinkId[0], '1')
                                 constructInterests(response, queryResultFromLinkId[1], '2')
 
-                                cursor.execute(f"""SELECT name_of_interest, is_deleted FROM public."Candidate Interests" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                                cursor.execute(f"""SELECT name_of_interest, is_deleted FROM public."Candidate Interests" WHERE user_id={userID} AND is_deleted={True}""")
                                 queryResultForDeletedLinks = cursor.fetchall()
                                 constructInterests(response, queryResultForDeletedLinks[0], '3')
 
@@ -72,7 +74,7 @@ def fetchCandidateProfileInfo():
                         raise Exception(response)
 
 
-                cursor.execute(f"""SELECT first_name, last_name, email, phone_number, personal_street_address, personal_state, personal_city, personal_postal, personal_country, gender, status FROM public."Personal Information" WHERE user_id={currentUserId} AND status='candidate' AND email='{email}'""")
+                cursor.execute(f"""SELECT first_name, last_name, email, phone_number, personal_street_address, personal_state, personal_city, personal_postal, personal_country, gender, status FROM public."Personal Information" WHERE user_id={userID} AND status='candidate' AND email='{email}'""")
                 queryResult = cursor.fetchall()
 
                 if len(queryResult) != 0:
@@ -93,7 +95,7 @@ def fetchCandidateProfileInfo():
                     response['error'] = error
                     raise Exception(response)
 
-                cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={userID} AND is_deleted={False}""")
                 queryResult = cursor.fetchall()
 
                 if len(queryResult) != 0:
@@ -103,7 +105,7 @@ def fetchCandidateProfileInfo():
                         queryResultFromExperienceId = cursor.fetchall()
                         constructExperienceResponse(response, queryResultFromExperienceId[0], '1')
 
-                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={userID} AND is_deleted={True}""")
                         queryResultForDeletedLinks = cursor.fetchall()
                         constructExperienceResponse(response, queryResultForDeletedLinks[0], '2')
                         constructExperienceResponse(response, queryResultForDeletedLinks[1], '3')
@@ -117,7 +119,7 @@ def fetchCandidateProfileInfo():
                         constructExperienceResponse(response, queryResultFromExperienceId[0], '1')
                         constructExperienceResponse(response, queryResultFromExperienceId[1], '2')
 
-                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={userID} AND is_deleted={True}""")
                         queryResultForDeletedLinks = cursor.fetchall()
                         constructExperienceResponse(response, queryResultForDeletedLinks[0], '3')
                         constructExperienceResponse(response, queryResultForDeletedLinks[1], '4')
@@ -132,7 +134,7 @@ def fetchCandidateProfileInfo():
                         constructExperienceResponse(response, queryResultFromExperienceId[1], '2')
                         constructExperienceResponse(response, queryResultFromExperienceId[2], '3')
 
-                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={userID} AND is_deleted={True}""")
                         queryResultForDeletedLinks = cursor.fetchall()
                         constructExperienceResponse(response, queryResultForDeletedLinks[0], '4')
                         constructExperienceResponse(response, queryResultForDeletedLinks[1], '5')
@@ -150,7 +152,7 @@ def fetchCandidateProfileInfo():
                         constructExperienceResponse(response, queryResultFromExperienceId[2], '3')
                         constructExperienceResponse(response, queryResultFromExperienceId[3], '4')
 
-                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                        cursor.execute(f"""SELECT role_title, description, start_date, end_date, present, is_deleted FROM public."Candidate Experiences" WHERE user_id={userID} AND is_deleted={True}""")
                         queryResultForDeletedLinks = cursor.fetchall()
                         constructExperienceResponse(response, queryResultForDeletedLinks[0], '5')
                     else:
@@ -166,7 +168,7 @@ def fetchCandidateProfileInfo():
                     raise Exception(response)
 
 
-                cursor.execute(f"""SELECT skill_id, is_deleted FROM public."Candidate Skills" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                cursor.execute(f"""SELECT skill_id, is_deleted FROM public."Candidate Skills" WHERE user_id={userID} AND is_deleted={False}""")
                 queryResult = cursor.fetchall()
 
                 if len(queryResult) != 0:
@@ -189,7 +191,7 @@ def fetchCandidateProfileInfo():
                 
 
 
-                cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={False}""")
+                cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={userID} AND is_deleted={False}""")
                 queryResult = cursor.fetchall()
                 print("this is query result: ", queryResult)
 
@@ -201,7 +203,7 @@ def fetchCandidateProfileInfo():
                         print(queryResultFromLinkId)
                         constructLinksResponse(response, queryResultFromLinkId[0], '1')
 
-                        cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                        cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={userID} AND is_deleted={True}""")
                         queryResultForDeletedLinks = cursor.fetchall()
                         constructLinksResponse(response, queryResultForDeletedLinks[0], '2')
                         constructLinksResponse(response, queryResultForDeletedLinks[1], '3')
@@ -214,7 +216,7 @@ def fetchCandidateProfileInfo():
                         constructLinksResponse(response, queryResultFromLinkId[0], '1')
                         constructLinksResponse(response, queryResultFromLinkId[1], '2')
 
-                        cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={True}""")
+                        cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={userID} AND is_deleted={True}""")
                         queryResultForDeletedLinks = cursor.fetchall()
                         constructLinksResponse(response, queryResultForDeletedLinks[0], '3')
 

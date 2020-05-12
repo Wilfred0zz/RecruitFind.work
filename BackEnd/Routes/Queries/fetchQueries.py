@@ -14,7 +14,7 @@ def fetchAllQueriesForAUser():
             cursor = database.cursor()
             response = defaultdict(list)
             
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
             
                 currentUserId = current_user.get_id()
 

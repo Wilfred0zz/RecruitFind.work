@@ -14,7 +14,7 @@ def updateCandidateLinks():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 typeOfLink1 = data['type_of_link_1']
                 link1 = data['link_1']

@@ -293,6 +293,7 @@ class CandidateProfile extends Component {
   }
 
   componentDidMount = async () => {
+    console.log(window.location.href);
     try {
       await this.fetchCandidateInfo();
       await this.fetchCandidateLinks();

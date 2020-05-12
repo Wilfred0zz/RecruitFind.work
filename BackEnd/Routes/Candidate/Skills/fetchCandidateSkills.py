@@ -13,7 +13,7 @@ def fetchCandidateSkills():
             cursor = database.cursor()
             response = dict()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 currentUserId = current_user.get_id()
 

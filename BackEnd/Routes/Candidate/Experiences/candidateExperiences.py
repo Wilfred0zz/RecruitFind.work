@@ -15,7 +15,7 @@ def storeCandidateExperiences():
             data = request.get_json()
 
             
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
             
 
                 roleTitle1 = data['role_title_1']

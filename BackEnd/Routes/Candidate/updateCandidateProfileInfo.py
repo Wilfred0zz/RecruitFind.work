@@ -16,7 +16,7 @@ def updateCandidateProfileInfo():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
 
                 candidateSchool = data['candidate_school']
                 candidateHighestLevelOfEducation = data['candidate_highest_level_of_education']

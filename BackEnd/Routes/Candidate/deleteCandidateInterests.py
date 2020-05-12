@@ -16,7 +16,7 @@ def deleteCandidateInterests():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
  
                 nameOfInterest1 = data['name_of_interest_1']
                 isDeleted1 = data['is_deleted_1']

@@ -9,7 +9,8 @@ import RecruiterRegisterProfile from './components/recruiter_profile/RecruiterRe
 import RecruiterProfile from './components/recruiter_profile/RecruiterProfile';
 import QueriesPage from './components/all_queries/QueriesPage';
 import NewQueriesPage from './components/all_queries/NewQueriesPage';
-import RecruiterQueryResults from './components/recruiter_query_results/QueryResults'
+import RecruiterQueryResults from './components/recruiter_query_results/QueryResults';
+import PublicCandidateProfile from './components/candidate_profile/PublicCandidateProfile';
 // import CandidateRegister from './components/';
 //import RecruiterRegister from './components/register_recruiter/RegisterRecruiter';
 
@@ -48,6 +49,8 @@ class App extends Component{
     const QueriesPageComponent = () => <QueriesPage/>
     const NewQueriesPageComponent = () => <NewQueriesPage state={this.state} updateState={this.updateState}/>
     const RecruiterQueryResultsComponent = () => <RecruiterQueryResults state={this.state} />
+    // need to pass in this to get access to history, otherwise need to use window.location.href
+    const PublicCandidateProfileComponent = (routerProps) => <PublicCandidateProfile routeProps={routerProps}/>
 
     return (
       <div className="App">
@@ -56,13 +59,14 @@ class App extends Component{
         {/* Listing all routes that will be used in our application */}
         <Switch> 
           <Route exact path="/" render={MainPageComponent}/>
-          <Route exact path="/candidate_register_profile" render={CandidateRegisterProfileComponent}/>
           <Route exact path="/candidate_profile" render={CandidateProfileComponent}/>
-          <Route exact path='/recruiter_register_profile' render={RecruiterRegisterProfileComponent}/>
-          <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
-          <Route exact path= '/all_queries' render={QueriesPageComponent}/>
-          <Route exact path= '/new_query_page' render={NewQueriesPageComponent}/>
-          <Route exact path= '/query_results_page' render={RecruiterQueryResultsComponent}/>
+          <Route path="/candidate_profile/:email" component={PublicCandidateProfileComponent}/>
+          <Route exact path="/candidate_register_profile" render={CandidateRegisterProfileComponent}/>
+          <Route exact path="/recruiter_register_profile" render={RecruiterRegisterProfileComponent}/>
+          <Route exact path="/recruiter_profile" render={RecruiterProfileComponent}/>
+          <Route exact path="/all_queries" render={QueriesPageComponent}/>
+          <Route exact path="/new_query_page" render={NewQueriesPageComponent}/>
+          <Route exact path="/query_results_page" render={RecruiterQueryResultsComponent}/>
         </Switch>
       </div>
     );

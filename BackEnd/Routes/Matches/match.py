@@ -15,7 +15,7 @@ def storeMatch():
             response = dict()
             data = request.get_json()
 
-            if current_user.is_authenticated:
+            if current_user.is_authenticated():
                 candidateEmail = data['candidate_email']
 
                 if len(candidateEmail) == 0:
