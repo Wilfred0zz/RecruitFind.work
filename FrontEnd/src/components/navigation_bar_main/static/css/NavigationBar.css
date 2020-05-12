@@ -50,3 +50,7 @@
     padding-top: 20%;
     float: left;
 }
+
+.MainNavBar{
+    position: fixed;
+}

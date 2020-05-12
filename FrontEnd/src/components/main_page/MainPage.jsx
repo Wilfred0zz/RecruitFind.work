@@ -3,11 +3,7 @@ import './static/css/MainPageCSS.css';
 import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import RegisterForm from './../register_form/Register';
 import officeImg from './static/images/office.jpeg';
-//import DisplayPastQueries from './../all_queries/QueriesPage';
-import MatchInfoModal from './../match_info_modal/MatchInfoModal';
-//import RecruiterQueryResults from './../recruiter_query_results/QueryResults';
-import Matches from './../matches/CandidateMatches'
-
+import AboutUs from './About'
 import { Redirect } from 'react-router-dom';
 
 class MainPage extends Component {
@@ -112,6 +108,7 @@ class MainPage extends Component {
                   <h3 className='OR-option'>================== OR ==================</h3>
                 </div>
                 <div id = 'registerForm'> <RegisterForm/> </div>
+                <AboutUs/>
               </div>
             </main>
             <img src={officeImg} alt="officeImg"/>
