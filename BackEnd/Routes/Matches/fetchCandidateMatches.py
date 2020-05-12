@@ -14,7 +14,6 @@ def fetchCandidateMatches():
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
-            
             skills = []
             matches = []
 
@@ -25,7 +24,7 @@ def fetchCandidateMatches():
                     # print()
                     cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_candidate_deleted=False AND candidate_id={currentCandidateId}""")
                     queryResult = cursor.fetchall()
-                    print("RESTUL: ", queryResult)
+                    print("Result: ", queryResult)
                     if len(queryResult) != 0:
                         # Need to make an outer for loop, the issue is it is taking skill results from all queries and combining it into one
                         
@@ -59,7 +58,10 @@ def fetchCandidateMatches():
                                 #print('Skills at this point: ', skills)
                             #print("The Content of Matches: ", matches)
                             
-                            constructReponse(response, recruiterInfo, queryInfo, skills, matchId, status, i)
+                            matchObj = { i : constructReponse(response, recruiterInfo, queryInfo, skills, matchId, status)}
+
+                            response.update(matchObj)
+                            #print("this is reponse rn: ", response)
                             skills = []
                     else:
                         response['status'] = True
@@ -76,7 +78,7 @@ def fetchCandidateMatches():
     return response
 
 
-def constructReponse(respObj, recruiter, query, skills, match, status, number):
+def constructReponse(respObj, recruiter, query, skills, match, status):
     recruiterInfo = []
     queryInfo = []
     recruiter = recruiter[::-1]
@@ -88,4 +90,7 @@ def constructReponse(respObj, recruiter, query, skills, match, status, number):
     for item in query:
         queryInfo.insert(0, item)
 
-    respObj['match_'+str(number)] = [{'recruiter_info': recruiterInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status} for x in range(1)]
+    for x in range(1):
+        respOb = {'recruiter_info': recruiterInfo, 'query_info': queryInfo, 'skills': skills, 'match_id': match, 'match_status': status }
+
+    return respOb

@@ -42,8 +42,7 @@ const MatchesPage = (props) => {
     setOpen(true);
     console.log(matches);
     return (
-      <MatchInfoModal hi={'hi'} matches={matches}/>
-
+      <MatchInfoModal matches={matches}/>
     )
   };
   

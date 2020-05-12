@@ -11,9 +11,6 @@ class Matches extends Component {
   }
 
   fetchAllMatches = async () => {
-    this.setState({
-      loading: true,
-    })
     const response = await fetch ('/api/fetchCandidateMatches',{
       headers:{
         'Accept': 'application/json',
@@ -32,7 +29,6 @@ class Matches extends Component {
       if(result){
         this.setState({
           matches: result,
-          loading: false,
         })
       }
     }
@@ -49,7 +45,7 @@ class Matches extends Component {
   render() {
     return (
       <div>
-      { this.state.loading ? <div> lodaing </div> : <MatchesPage matches={this.state.matches}/> }
+        <MatchesPage matches={this.state.matches}/>
       </div>
     )
   }

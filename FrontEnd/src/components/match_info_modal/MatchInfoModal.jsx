@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MatchInfoModal = props => {
+const MatchInfoModal = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   console.log(props);
