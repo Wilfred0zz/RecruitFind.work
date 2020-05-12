@@ -66,6 +66,11 @@ const MatchInfoModal = (props) => {
   const recruiter_lastName = props.matches.recruiter_info ? props.matches.recruiter_info[2] : props.matches.candidate_info[2];
   const skills = props.matches.skills;
 
+  const handleMore = (event, link) => {
+    console.log(event);
+    window.open(`/candidate_profile/${link}`, '_blank');
+  }
+
   return (
     <Dialog
       open={props.open}
@@ -91,18 +96,19 @@ const MatchInfoModal = (props) => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <div className={classes.div}>
                 {"INSERT CANDIDATE PROFILE HERE"}
               </div>
             </Paper>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             { match_status === 'PENDING' && <Paper className={classes.paper}>
               Would you like to accept {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
                   request?'
               <br/>
+              <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
               <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
             </Paper> }
             { match_status === 'ACCEPTED' && <Paper className={classes.paper}>

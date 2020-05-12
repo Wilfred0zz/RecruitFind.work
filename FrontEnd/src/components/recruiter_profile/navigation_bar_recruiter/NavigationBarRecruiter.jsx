@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './css/NavigationBarRecruiter.css';
+import Logo from './images/text.jpeg'
 
 class NavigationBarRecruiter extends Component {
   
@@ -34,6 +35,7 @@ class NavigationBarRecruiter extends Component {
       <nav className='navbar-options'>
         <div className='navbar-items'>
           <ul>
+            <li ><a><img className='logo' src={Logo} alt="logo"></img></a></li>
             <li><a href='/recruiter_profile'> Profile </a></li>
             <li><a href='/all_queries'> Searches </a></li>
             <li><a href='/recruiter_matches'> Matches </a></li>

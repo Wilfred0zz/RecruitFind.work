@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { Component } from "react";
 import MainNavBar from '../navigation_bar_main/NavigationBarMain';
 import {Link, Redirect} from 'react-router-dom';
 
-const AboutUs = {
+class AboutUs extends Component{
     render() {
       return (
         <div>
-          AboutUs
+          <h1>AboutUs</h1>
+          
         </div>
       );
     }
   }
+
+export default AboutUs;

@@ -31,7 +31,7 @@ class RecruiterQueryResults extends Component{
 
   componentDidMount = async () => {
     const queryInfo = {...this.props.state, query_date : new Date(Date.now()).toLocaleDateString()};
-    console.log(queryInfo);
+    
 
     const queryResponse =  await fetch('/api/query', {
       headers: {
@@ -69,13 +69,13 @@ class RecruiterQueryResults extends Component{
         const result = await computeQueryResponse.json();
         const value = Object.values(result);
         const query_id = value.pop();
-        console.log("Query_ID: " + query_id);
+        
         
         this.setState({
           query_id : query_id
         })
 
-        console.log("Value " , value);
+        
 
         if (status === 400 || status === 500) {
           alert("Problem with computing: ")

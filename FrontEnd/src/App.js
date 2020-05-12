@@ -55,7 +55,7 @@ class App extends Component{
     const RecruiterQueryResultsComponent = () => <RecruiterQueryResults state={this.state} />
     // need to pass in this to get access to history, otherwise need to use window.location.href
     const PublicCandidateProfileComponent = (routerProps) => <PublicCandidateProfile routeProps={routerProps}/>
-    const AboutUs = () => <AboutUs/>
+    const AboutUsComponent = () => <AboutUs/>
     const CandidateMatchesComponent = () => <CandidateMatches/>
     const RecruiterMatchesComponent = () => <RecruiterMatches/>
 
@@ -78,7 +78,7 @@ class App extends Component{
           <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
           <Route exact path= '/all_queries' render={QueriesPageComponent}/>
           <Route exact path= '/new_query_page' render={NewQueriesPageComponent}/>
-          <Route exact path= '/about_us' render={AboutUs} />
+          <Route exact path= '/about_us' render={AboutUsComponent}/>
           <Route exact path= '/candidate_matches' render={CandidateMatchesComponent}/>
           <Route exact path= '/recruiter_matches' render={RecruiterMatchesComponent}/>
          
