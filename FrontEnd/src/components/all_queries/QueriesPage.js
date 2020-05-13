@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './NewQueriesPage';
-import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
-import { Link } from 'react-router-dom';
+import NavigationBarRecruiter from '../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
 import { Redirect } from 'react-router-dom';
-
+import QueriesPageView from './QueriesPageView';
 
 class DisplayPastQueries extends Component {
   constructor(props) {
@@ -28,12 +27,11 @@ class DisplayPastQueries extends Component {
         })
         return;
       }
-      const result = await response.json(); console.log(result);
+      const result = await response.json();
 
       if (status === 400 || status === 500) {
         console.log(result.error)
       } else {
-        console.log(result);
         this.setState({
           PastQueries: result.queries
         })
@@ -56,30 +54,18 @@ class DisplayPastQueries extends Component {
   render() {
     return (
       <div>
-        <NavigationBarRecruiter updateLogout={this.updateLogout}/>
-        {/* handle logout */}
         {
           this.state.is_logged_in
           ? null
           : <Redirect to='/'/>
         }
-        <div>
-          <Link to="/new_query_page"><button>New Query?</button></Link>
-          {this.state.PastQueries.length > 0 
-          ? <div>
-                <ul>
-                  {this.state.PastQueries.map((query) => (
-                    <li key={query.query_id}>
-                      {query.queryDate} {" "}
-                      {query.queryDescription} {" "}
-                      {query.queryPayment}{" "}
-                      {query.queryTitle}
-                    </li>
-                  ))}
-                </ul>
-            </div>
-          : <p>No Past Queries</p>}
-        </div>
+        <NavigationBarRecruiter updateLogout={this.updateLogout}/>
+        {
+          this.state.is_logged_in
+          ? null
+          : <Redirect to='/'/>
+        }
+        <QueriesPageView PastQueries={this.state.PastQueries}/>
       </div>
     )
   }

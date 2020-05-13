@@ -85,7 +85,6 @@ class PublicCandidateProfile extends Component {
     const data = {
       email: email
     }
-    // console.log(email)
     const response = await fetch('/api/fetchCandidatePage', {
       headers: {
         'Content-Type': 'application/json'
@@ -93,8 +92,9 @@ class PublicCandidateProfile extends Component {
       method: 'POST',
       body: JSON.stringify(data)
     });
-
+    console.log(response);
     const status = response.status;
+    console.log(status);
     if(status >= 400){
       if(status === 401){
         alert("Please Login");
@@ -105,21 +105,19 @@ class PublicCandidateProfile extends Component {
         )}, 2000)
       }
       const error = await response.json();
+      console.log(error);
       if(!error.error){
-        alert("User doen't exist");
+        console.log("User doen't exist");
+        return;
       }
       else{
-        alert(error.error);
+        console.log(" I am in here", error.error);
+        return;
       }
-      setTimeout(()=>{
-        this.setState({
-          redirect: true,
-        }        
-      )}, 2000)
     }
     const result = await response.json();
-    console.log("testing", result);
-    console.log("the result", result[`name_of_interest_1`])
+    // console.log("testing", result);
+    // console.log("the result", result[`name_of_interest_1`])
     // Candidate Info
     this.setState({
       email: result.email,
@@ -218,7 +216,17 @@ class PublicCandidateProfile extends Component {
     // alternative to getting URL
     // const result= window.location.href.split('/')
     // console.log(result[4]);
-    const email = this.props.email;
+    console.log(this.props);
+    if(this.props.email){
+      var email = this.props.email;
+      console.log("THe email at this point is: ", email)
+    }
+    else{
+      var email = this.props.routeProps.match.params.email;
+    }
+    // const email = this.props.routeProps.match.params.email;
+    // console.log(this.props.routeProps.match.params.email);
+    console.log(email);
     try {
       await this.getAllInformation(email);
     } catch(error) {
