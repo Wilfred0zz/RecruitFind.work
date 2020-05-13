@@ -60,9 +60,8 @@ def fetchCandidateMatches():
                             #print("The Content of Matches: ", matches)
                             
                             matchObj = { i : constructReponse(response, recruiterInfo, queryInfo, skills, matchId, status)}
-
                             response.update(matchObj)
-                            #print("this is reponse rn: ", response)
+
                             skills = []
                     else:
                         response['status'] = True
