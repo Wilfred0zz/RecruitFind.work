@@ -40,7 +40,6 @@ const styles = theme => ({
     backgroundColor: 'white',
     borderRadius: 0,
     marginRight: '2vh',
-    backgroundColor: 'white'
   }
 });
 
@@ -110,7 +109,7 @@ render() {
           ] :  
         <AppBar position="static" className={classes.toolBar}>
         <Toolbar>
-            <img src={Logo} className={classes.logo}/>
+            <img src={Logo} className={classes.logo} alt='RecruitFind.work'/>
             <Typography variant="h6" className={classes.title}>
               RecruitFind
             </Typography>

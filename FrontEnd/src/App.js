@@ -74,13 +74,9 @@ class App extends Component{
           <Route exact path="/all_queries" render={QueriesPageComponent}/>
           <Route exact path="/new_query_page" render={NewQueriesPageComponent}/>
           <Route exact path="/query_results_page" render={RecruiterQueryResultsComponent}/>
-          <Route exact path='/recruiter_register_profile' render={RecruiterRegisterProfileComponent}/>
-          <Route exact path='/recruiter_profile' render={RecruiterProfileComponent}/>
-          <Route exact path= '/all_queries' render={QueriesPageComponent}/>
-          <Route exact path= '/new_query_page' render={NewQueriesPageComponent}/>
-          <Route exact path= '/about_us' render={AboutUsComponent}/>
-          <Route exact path= '/candidate_matches' render={CandidateMatchesComponent}/>
-          <Route exact path= '/recruiter_matches' render={RecruiterMatchesComponent}/>
+          <Route exact path="/about_us" render={AboutUsComponent}/>
+          <Route exact path="/candidate_matches" render={CandidateMatchesComponent}/>
+          <Route exact path="/recruiter_matches" render={RecruiterMatchesComponent}/>
         </Switch>
       </div>
     );

@@ -808,7 +808,7 @@ class CandidateProfile extends Component {
   render() {
     return (
       <div className='candidate_profile'>
-        <NavigationBarCandidate updateLogout={this.updateLogout}/>
+        <NavigationBarCandidate/>
         {/* handle logout if candidate information not provided*/}
         {
           this.state.is_logged_in

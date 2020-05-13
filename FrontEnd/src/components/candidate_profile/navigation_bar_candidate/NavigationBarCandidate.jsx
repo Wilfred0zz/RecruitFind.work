@@ -39,7 +39,6 @@ const styles = theme => ({
     backgroundColor: 'white',
     borderRadius: 0,
     marginRight: '2vh',
-    backgroundColor: 'white'
   }
 });
 
@@ -91,7 +90,7 @@ class NavigationBarMain extends Component {
           this.state.is_logged_in 
           ? <AppBar position="static" className={classes.toolBar}>
             <Toolbar>
-              <img src={Logo} className={classes.logo}/>
+              <img src={Logo} className={classes.logo} alt='RecruitFind'/>
               <Typography variant="h6" className={classes.title}>
                 RecruitFind
               </Typography>
