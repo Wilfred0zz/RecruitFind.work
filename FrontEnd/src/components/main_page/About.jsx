@@ -57,7 +57,7 @@ const AboutUs = () => {
   //console.log(teamArr);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id='about'>
       <Grid container>
         {/* Top half */}
         <Grid item xs={12}>
