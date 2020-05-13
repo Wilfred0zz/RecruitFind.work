@@ -26,7 +26,8 @@ class RecruiterQueryResults extends Component{
       is_logged_in: true,
       query_id: '',
       qualifiedCandidates : [],
-      didRegister: true
+      didRegister: true,
+      redirect: false,
     };
   }
 
@@ -52,12 +53,24 @@ class RecruiterQueryResults extends Component{
       return;
     }
     if (status === 400 || status === 500) {
-      this.setState({
-        didRegister: false,
-      })
-      return;
       const result = await queryResponse.json();
-      console.log(result.error);
+      if(result.error === 'No Users Have Any of the Skills That Were Entered!'){
+        alert(result.error);
+        setTimeout(()=>{
+          this.setState({
+            redirect: true,
+          }        
+        )}, 2000)
+        return;
+      }
+      else { 
+        this.setState({
+          didRegister: false,
+        })
+      }
+      return;
+      // const result = await queryResponse.json();
+      // console.log(result.error);
       // alert(result.error);
     } else {
       // console.log(result);  
@@ -104,13 +117,13 @@ class RecruiterQueryResults extends Component{
   };
 
   handleMore = (event, link) => {
-    console.log(event);
+    // console.log(event);
     window.open(`/candidate_profile/${link}`, '_blank');
   }
   
   handleAccept = async (email) => {
-    console.log(email);
-    console.log(this.state.query_id);
+    // console.log(email);
+    // console.log(this.state.query_id);
 
     const data = {
       "candidate_email" : email,
@@ -151,6 +164,11 @@ class RecruiterQueryResults extends Component{
             this.state.is_logged_in
             ? null
             : <Redirect to='/'/>
+          }
+          {
+            this.state.redirect
+            ? null
+            : <Redirect to='/all_queries'/>
           }
           <br/>
           <br/>

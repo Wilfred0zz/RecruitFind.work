@@ -67,27 +67,31 @@ export default function QueriesPageView (props) {
       {PastQueries.length > 0 
       ? <div>
           <ul>
-            {PastQueries.map((query) => (
-              <div key={query.query_id}>
-              <Card className={classes.root} variant="outlined">
-                <CardContent className={classes.cardcontent}>
-                  <Typography className={classes.date} color="textSecondary">
-                  {query.queryDate} 
-                  </Typography>
-                  <Typography className={classes.title}>
-                  {query.queryTitle}
-                  </Typography>
-                  <Typography className={classes.description} component="p">
-                  {query.queryDescription}
-                  </Typography>
-                  <Typography className={classes.payement} color="textSecondary" component="p">
-                    Payement: {query.queryPayment}
-                  </Typography>
-                </CardContent>
-              </Card>
-              <br/>
-              </div>
-            ))}
+            {PastQueries.map((query) => {
+              if(query.queryTitle!==''){
+                return (<div key={query.query_id}>
+                    <Card className={classes.root} variant="outlined">
+                      <CardContent className={classes.cardcontent}>
+                        <Typography className={classes.date} color="textSecondary">
+                        {query.queryDate} 
+                        </Typography>
+                        <Typography className={classes.title}>
+                        {query.queryTitle}
+                        </Typography>
+                        <Typography className={classes.description} component="p">
+                        {query.queryDescription}
+                        </Typography>
+                        <Typography className={classes.payement} color="textSecondary" component="p">
+                          Payement: {query.queryPayment}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                    <br/>
+                  </div>
+                )
+              }
+            }
+            )}
           </ul>
         </div>
       : <p id="no-queries" style={{textAlign:"center"}}>No Past Queries</p>}

@@ -27,12 +27,11 @@ class DisplayPastQueries extends Component {
         })
         return;
       }
-      const result = await response.json(); console.log(result);
+      const result = await response.json();
 
       if (status === 400 || status === 500) {
         console.log(result.error)
       } else {
-        console.log(result);
         this.setState({
           PastQueries: result.queries
         })

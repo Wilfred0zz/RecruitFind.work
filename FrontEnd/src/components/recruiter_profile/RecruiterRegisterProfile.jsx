@@ -195,7 +195,7 @@ class RecruiterRegisterProfile extends Component{
           return;
         }
       } else { // user already has info so not the first time they are registering, so redirect them
-        console.log(result);
+        // console.log(result);
         const { email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
         this.setState({
           email: email,
@@ -209,7 +209,7 @@ class RecruiterRegisterProfile extends Component{
           personal_street_address: personal_street_address,
           phone_number: phone_number
 
-        }, () => console.log(this.state.first_name, this.state.last_name))
+        })
         
       }
 
@@ -252,7 +252,7 @@ class RecruiterRegisterProfile extends Component{
         // const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
         this.setState({
           recruiter_company_update: true
-        }, () => console.log(this.state))
+        })
       }
     } catch (error) {
       console.log(error);
@@ -262,7 +262,7 @@ class RecruiterRegisterProfile extends Component{
   // need a fetch for candidate name, and description, etc.
 
   componentDidMount = async () => {
-    await this.fetchRecruiterCompanyInfo();
+    await Promise.all([this.fetchRecruiterCompanyInfo(), this.fetchRecruiterPersonalInfo()]);
   }
 
   render() {
@@ -275,7 +275,7 @@ class RecruiterRegisterProfile extends Component{
           ? <Redirect to='/'/>
           : null
         }
-        <h1>Welcome Recruiter{/** Need to add name, API doesn't exist yet*/}</h1>
+        <h1 style={{textAlign: 'center'}}>Welcome Recruiter{/** Need to add name, API doesn't exist yet*/}</h1>
         {/* Check if the user registered for the first time by looking at update state*/}
         {!this.state.recruiter_company_update ? 
           <div className='create_recruiter_profile'>
@@ -285,14 +285,14 @@ class RecruiterRegisterProfile extends Component{
                     className={"MuiTypography--heading"}
                     variant={"h4"}
                     gutterBottom>
-                      <p>{this.state.first_name} {" "} {this.state.last_name}</p> 
+                    {this.state.first_name} {" "} {this.state.last_name}
                 </Typography>
                 <Divider className={"MuiDivider-root"} light />
               <form className='recruiter_company_info'>
-                <TextField id="outlined-helperText" className='' label="Company Name" defaultValue="Enter Company"  variant="outlined" name='recruiter_company' onChange={this.handleChange}/>
+                <TextField id="outlined-helperText" className='' label="Company Name" placeholder="Enter Company"  variant="outlined" name='recruiter_company' onChange={this.handleChange}/>
                   <br/>
                   <br/>
-                <TextField id="outlined-helperText" className='' label="Position" defaultValue="Position in Company" variant="outlined" name='recruiter_position' onChange={this.handleChange}/>
+                <TextField id="outlined-helperText" className='' label="Position" placeholder="Position in Company" variant="outlined" name='recruiter_position' onChange={this.handleChange}/>
                   <br/>
                   <br/>
                 <Autocomplete

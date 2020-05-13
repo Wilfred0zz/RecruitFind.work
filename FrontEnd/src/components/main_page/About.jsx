@@ -57,6 +57,9 @@ const AboutUs = () => {
 
   return (
     <div className={classes.root}>
+      <br/>
+      <br/>
+      <br/>
       <Grid container>
         {/* Top half */}
         <Grid item xs={12}>

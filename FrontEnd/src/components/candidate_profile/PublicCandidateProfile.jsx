@@ -85,7 +85,7 @@ class PublicCandidateProfile extends Component {
     const data = {
       email: email
     }
-    console.log("the data is: ", JSON.stringify(data))
+
     const response = await fetch('/api/fetchCandidatePage', {
       headers: {
         'Content-Type': 'application/json'
@@ -115,8 +115,8 @@ class PublicCandidateProfile extends Component {
       }
     }
     const result = await response.json();
-    console.log("testing", result);
-    console.log("the result", result[`name_of_interest_1`])
+    // console.log("testing", result);
+    // console.log("the result", result[`name_of_interest_1`])
     // Candidate Info
     this.setState({
       email: result.email,

@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 });
 
 const handleAccept = async (match_id) => {
-  console.log(match_id);
+  // console.log(match_id);
 
   const match_id_obj = {
     "match_id": match_id
@@ -68,7 +68,7 @@ const MatchInfoModal = (props) => {
   const skills = props.matches.skills;
   const role = props.isrecruiter;
 
-  console.log(role);
+  // console.log(role);
 
   const handleMore = (event, link) => {
     console.log("the status is: ", status)
@@ -115,10 +115,9 @@ const MatchInfoModal = (props) => {
               Would you like to accept {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
                   request?'
               <br/>
-              <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
               {
                 status === 'candidate'
-                ? null
+                ? <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
                 : <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
               }
               </Paper> }
@@ -127,6 +126,12 @@ const MatchInfoModal = (props) => {
                   request.
               <br/>
               {'Contact Info'}<br/>{recruiter_email}
+              <br/>
+              {
+                status === 'candidate'
+                ? null
+                : <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
+              }
             </Paper> }
           </Grid>
       </Grid>
