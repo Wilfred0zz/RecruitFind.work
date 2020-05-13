@@ -354,7 +354,6 @@ class CandidateProfile extends Component {
   }
 
   componentDidMount = async () => {
-    console.log(window.location.href);
     try {
       await this.fetchCandidateSkills();
       await Promise.all([ this.fetchCandidateInfo(), this.fetchCandidateLinks(), this.fetchCandidateExperiences(), this.fetchCandidatePersonalInfo()])
@@ -854,10 +853,60 @@ class CandidateProfile extends Component {
     })
   }
 
-  handleSubmit = async () => {
-    await Promise.all([this.handleLinkSubmission(), this.handleExperiencesSubmission(),
-       this.handleSkillSubmission(), this.handleCandidateProfileSubmission()]);
-  }
+  handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(this.state);
+
+      for(let i = 1; i <= this.state.profileLinks.length; i++){
+        if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
+          if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
+            (alert(`Please fill in both fields for link ${i}`));
+            return;
+          }
+        }
+      }  
+    
+
+      for(let i = 1; i <= this.state.experiences.length; i++){
+        if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
+          if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
+            if(this.state[`end_date_${i}`].length > 0 && this.state[`end_date_${i}`]<this.state[`start_date_${i}`]){
+              alert('End Date must be after Start Date');
+              return;
+            }
+            continue;
+          }  
+          else {
+            (alert(`Please fill out all the fields in Experience ${i}`));
+            return;
+          }
+        }
+      }
+    
+
+    if(!this.state.skills || this.state.skills.length < 1){
+      alert("Please enter atleast one skill");
+      return;
+    }
+
+    this.setState({
+      submit_pushed: true,
+    })
+
+    try {
+      await this.handleExperiencesSubmission();
+      await this.handleLinkSubmission();
+      await this.handleCandidateProfileSubmission();
+      await this.handleSkillSubmission();
+      this.setState({
+        candidate_info_update: true
+      });
+    }catch(error){
+      this.setState({
+        submit_pushed: false
+      }, () =>  console.log("Please be sure all inputs are appropraitely entered"));
+    }
+
 
   render() {
     const { classes } = this.props;
