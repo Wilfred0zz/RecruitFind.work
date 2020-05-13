@@ -127,7 +127,7 @@ class RecruiterQueryResults extends Component{
       console.log("400 or 500 error")
     }
     else{
-      console.log("successfully set match")
+      console.log("successfully set match to " + email)
     }
 
   }

@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-
+import CandidateProf from './../candidate_profile/PublicCandidateProfile'
 
 const useStyles = makeStyles({
   root: {
@@ -65,6 +65,9 @@ const MatchInfoModal = (props) => {
   const recruiter_firstName = props.matches.recruiter_info ? props.matches.recruiter_info[1] : props.matches.candidate_info[1];
   const recruiter_lastName = props.matches.recruiter_info ? props.matches.recruiter_info[2] : props.matches.candidate_info[2];
   const skills = props.matches.skills;
+  const role = props.isrecruiter;
+
+  console.log(role);
 
   const handleMore = (event, link) => {
     console.log(event);
@@ -96,20 +99,20 @@ const MatchInfoModal = (props) => {
             </Paper>
           </Grid>
 
-          {/* <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <div className={classes.div}>
-                {"INSERT CANDIDATE PROFILE HERE"}
+                  <CandidateProf email={recruiter_email}/>
               </div>
             </Paper>
-          </Grid> */}
+          </Grid>
           <Grid item xs={12}>
             { match_status === 'PENDING' && <Paper className={classes.paper}>
               Would you like to accept {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
                   request?'
               <br/>
-              <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
               <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
+              <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
             </Paper> }
             { match_status === 'ACCEPTED' && <Paper className={classes.paper}>
               You have accepted {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}

@@ -81,7 +81,6 @@ class App extends Component{
           <Route exact path= '/about_us' render={AboutUsComponent}/>
           <Route exact path= '/candidate_matches' render={CandidateMatchesComponent}/>
           <Route exact path= '/recruiter_matches' render={RecruiterMatchesComponent}/>
-         
         </Switch>
       </div>
     );
