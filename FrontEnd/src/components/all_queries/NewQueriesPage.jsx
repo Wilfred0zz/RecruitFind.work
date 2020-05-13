@@ -127,6 +127,9 @@ class NewQueries extends Component{
           this.state.moveOn 
           ? <Redirect push to = "/query_results_page"/> 
           : <div> 
+            <br/>
+            <br/>
+            <br/>
               <div>
                 <Paper elevation={2}  className={classes.form}>
                   <br/>
@@ -162,7 +165,6 @@ class NewQueries extends Component{
                       />                 
                     )}               
                   />
-                  <br/>
                   <br/>
                   <br/>
                   <br/>

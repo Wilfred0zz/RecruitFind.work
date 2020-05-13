@@ -6,7 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { Redirect } from 'react-router-dom';
-import Logo from './static/images/text.jpeg'
+import Logo from './static/images/text.jpeg';
+import {Link} from 'react-scroll';
 
 const styles = theme => ({
   toolBar: {
@@ -98,7 +99,7 @@ render() {
     const { classes } = this.props;
     
     return (
-    <div>
+    <div id="main">
       { this.state.isLoggedIn === true  ? 
             [
             (
@@ -113,10 +114,21 @@ render() {
             <Typography variant="h6" className={classes.title}>
               RecruitFind
             </Typography>
+            <Link activeClass= "active"
+            to ="main"
+            spy={true}
+            smooth={true}
+            offset ={0}
+            duration={500}>
             <Button className={classes.buttons} color="inherit">
             Home Page
-            </Button>
-            <Button className={classes.buttons} color="inherit">About</Button>
+            </Button> </Link>
+            <Link activeClass= "active"
+            to ="about"
+            spy={true}
+            smooth={true}
+            offset ={-50}
+            duration={500}><Button className={classes.buttons} color="inherit">About</Button> </Link>
             <Button className={classes.buttons} color="inherit">Contact</Button>
             <TextField
                 InputProps={{

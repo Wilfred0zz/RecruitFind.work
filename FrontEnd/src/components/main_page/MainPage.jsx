@@ -11,6 +11,7 @@ import { Redirect } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
+
 const styles = () => ({
   root:{
     height: '100vh',
@@ -55,6 +56,7 @@ class MainPage extends Component {
           
         </Grid>
         <AboutUs/>
+  
         <img className={classes.img} src={officeImg} alt="officeImg"/>
       </div>
     )

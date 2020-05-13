@@ -93,7 +93,7 @@ class RecruiterQueryResults extends Component{
         const result = await computeQueryResponse.json();
         const value = Object.values(result);
         const query_id = value.pop();
-        
+        console.log(result);
         
         this.setState({
           query_id : query_id
@@ -117,7 +117,6 @@ class RecruiterQueryResults extends Component{
   };
 
   handleMore = (event, link) => {
-    // console.log(event);
     window.open(`/candidate_profile/${link}`, '_blank');
   }
   
@@ -175,6 +174,10 @@ class RecruiterQueryResults extends Component{
           <br/>
           <br/>
           <div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
             <Grid container spacing={4} className={classes.gridContainer} justify="center">
               {this.state.qualifiedCandidates.map((candidate, index) => (
               <Grid item xs={12} sm={6} md={3} name={ candidate[2] } key={ candidate[2] }>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
+import { Typography, Hidden } from '@material-ui/core';
 import AboutUsInfo from './AboutUsInfo'
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -9,7 +9,8 @@ import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
+    zIndex:-1,
+    overflow:"hidden",
     position: "absolute",
     top: '100vh',
     left: 0,
@@ -56,10 +57,14 @@ const AboutUs = () => {
   //console.log(teamArr);
 
   return (
+<<<<<<< HEAD
     <div className={classes.root}>
       <br/>
       <br/>
       <br/>
+=======
+    <div className={classes.root} id='about'>
+>>>>>>> master
       <Grid container>
         {/* Top half */}
         <Grid item xs={12}>
@@ -92,8 +97,6 @@ const AboutUs = () => {
               ))}
             </Grid>
         </Grid>
-
-
       </Grid>
     </div>
   );

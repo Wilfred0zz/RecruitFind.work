@@ -358,11 +358,10 @@ class RecruiterProfile extends Component{
                   <Autocomplete
                     required
                     style={{width:'60%', height:'100', fontSize: "1.2em"}}
-                    value = {this.state.input_address_string}
                     onPlaceSelected={(place) => {
                       this.handleGoogleChange(place);
                     }}
-                    onChange = {(event,value)=> this.setState({input_address_string: value || ""})}
+                    
                     types={['geocode', 'establishment']}
                     componentRestrictions={{country: "us"}}
                   /> 
