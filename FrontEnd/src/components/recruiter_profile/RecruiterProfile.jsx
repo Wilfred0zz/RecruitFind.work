@@ -2,6 +2,81 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Autocomplete from 'react-google-autocomplete';
 import NavigationBarRecruiter from './navigation_bar_recruiter/NavigationBarRecruiter';
+import Button from "@material-ui/core/Button"
+import {MuiThemeProvider,createMuiTheme} from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+import { TextField } from '@material-ui/core';
+
+
+
+const muiBaseTheme = createMuiTheme();
+
+const theme = ({
+  form: {
+    marginTop: '20px',
+    background: '#F2F3F6',
+    width: '600px',
+    flexWrap: 'wrap',
+    height: '35em',
+    alignItems: 'center'
+    },
+  input: {
+    height: 100,
+  },
+  alignItemsAndJustifyContent: {
+    width: 500,
+    height: 80,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
+  },
+  input: {
+    height: 100,
+  },
+  overrides: {
+    MuiCard: {
+      root: {
+        "&.MuiEngagementCard--01": {
+          marginTop: "7em",
+          transition: "0.3s",
+          maxWidth: 550,
+          margin: "auto",
+          boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+          "&:hover": {
+            boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+          },
+          "& .MuiCardMedia-root": {
+            paddingTop: "56.25%"
+          },
+          "& .MuiCardContent-root": {
+            textAlign: "left",
+            padding: muiBaseTheme.spacing.unit * 3
+          },
+          "& .MuiDivider-root": {
+            margin: `${muiBaseTheme.spacing.unit * 3}px 0`
+          },
+          "& .MuiTypography--heading": {
+            fontWeight: "bold"
+          },
+          "& .MuiTypography--subheading": {
+            lineHeight: 1.8
+          },
+          "& .MuiAvatar-root": {
+            display: "inline-block",
+            border: "2px solid white",
+            "&:not(:first-of-type)": {
+              marginLeft: -muiBaseTheme.spacing.unit
+            }
+          }
+        }
+      }
+    }
+  }
+});
 
 class RecruiterProfile extends Component{
   constructor(props){
@@ -30,7 +105,8 @@ class RecruiterProfile extends Component{
       personal_street_address: "",
       phone_number: "",
       status: "recruiter",
-      personal_info : [] 
+      personal_info : [], 
+      input_address_string: "123 sesame street, New York City, NY 10029, USA"
     }
   }
   
@@ -56,8 +132,10 @@ class RecruiterProfile extends Component{
       recruiter_state: state,
       recruiter_city: city,
       recruiter_postal: code,
-      recruiter_country: country
-    })
+      recruiter_country: country,
+      input_address_string:`${address}, ${city}, ${state} ${code} ${country}`
+  
+    },() => console.log(this.state) )
   } 
 
   handleEdit = () => {
@@ -167,8 +245,10 @@ class RecruiterProfile extends Component{
           recruiter_country: recruiter_country,
           recruiter_position: recruiter_position,
           recruiter_postal: recruiter_postal,
-          recruiter_state: recruiter_state
-        },()=> console.log(this.state))
+          recruiter_state: recruiter_state,
+          input_address_string:`${recruiter_company_street_address}, ${recruiter_city}, ${recruiter_state} ${recruiter_postal} ${recruiter_country}`
+        })
+
       }
     } catch (error) {
       console.log(error);
@@ -243,6 +323,7 @@ class RecruiterProfile extends Component{
 
   render() {
     return (
+      <MuiThemeProvider theme={createMuiTheme(theme)}>
       <div className='recruiter-profile'>
         {
           this.state.didRegister 
@@ -257,55 +338,78 @@ class RecruiterProfile extends Component{
         <NavigationBarRecruiter updateLogout = {this.updateLogout}/>
         {this.state.recruiter_company_update ? 
           <div className='create_recruiter_profile'>
-            <form className='recruiter_company_info'>
-              <label> Company </label>
-              <input name='recruiter_company' onChange={this.handleChange} value={this.state.recruiter_company}/>
-              
-              <label> Position </label>
-              <input name='recruiter_position' onChange={this.handleChange} value={this.state.recruiter_position}/>
-
-              <label> Location </label>
-              <Autocomplete
-                required
-                style={{width:'50%'}}
-                onPlaceSelected={(place) => {
-                  this.handleGoogleChange(place);
-                }}
-                types={['geocode', 'establishment']}
-                componentRestrictions={{country: "us"}}
-              /> 
-              <button onClick={this.handleCancel}>Cancel</button>
-              <button onClick={this.handleSubmit}>Submit</button> 
-            </form>
+            <Card className={"MuiEngagementCard--01"}>
+              <CardContent className={"MuiCardContent-root"}>
+                <Typography
+                    className={"MuiTypography--heading"}
+                    variant={"h4"}
+                    gutterBottom>
+                      <p>{this.state.first_name} {" "} {this.state.last_name}</p> 
+                </Typography>
+                <Divider className={"MuiDivider-root"} light />
+                <form className='recruiter_company_info'>
+                  <br></br>
+                  <TextField  className={"form"} label="Enter Company Name"  variant="outlined" name='recruiter_company' onChange={this.handleChange} value={this.state.recruiter_company}/>
+                  <br></br>
+                  <br></br>
+                  <TextField className={"form"} label="Position"  variant="outlined" name='recruiter_position' onChange={this.handleChange} value={this.state.recruiter_position}/>
+                  <br></br>
+                  <br></br>
+                  <Autocomplete
+                    required
+                    style={{width:'60%', height:'100', fontSize: "1.2em"}}
+                    value = {this.state.input_address_string}
+                    onPlaceSelected={(place) => {
+                      this.handleGoogleChange(place);
+                    }}
+                    onChange = {(event,value)=> this.setState({input_address_string: value || ""})}
+                    types={['geocode', 'establishment']}
+                    componentRestrictions={{country: "us"}}
+                  /> 
+                  <br></br>
+                  <br></br>
+                  <Button color="secondary" onClick={this.handleCancel}>Cancel</Button>
+                  {" "}
+                  <Button color="primary" onClick={this.handleSubmit}>Submit</Button> 
+                </form>
+               </CardContent> 
+            </Card>
           </div> 
         :
+        
         <div className='create_recruiter_profile'>
-          <form className="recuriter_personal_info">
-              
-              <label>First Name: </label>
-              <p>{this.state.first_name}</p>
-              
-              <label>Last Name: </label>
-              <p>{this.state.last_name}</p>
+          <Card className={"MuiEngagementCard--01"}>
+            <CardContent className={"MuiCardContent-root"}>
+              <form className="recuriter_personal_info">
+                  <Typography
+                    className={"MuiTypography--heading"}
+                    variant={"h4"}
+                    gutterBottom>
+                      <p>{this.state.first_name} {" "} {this.state.last_name}</p> 
+                    </Typography>
+                    <Typography
+                    className={"MuiTypography--subheading"}
+                    variant={"h5"}>
+                      <p>Email: {this.state.email}</p>
+                    </Typography>
+              </form>
+              <form className='recruiter_company_info'>
+                <Divider className={"MuiDivider-root"} light />
 
-              <label>Email: </label>
-              <p>{this.state.email}</p>
+                  <p>Company: {this.state.recruiter_company}</p>
+                  
+                  <p>Position: {this.state.recruiter_position}</p>
+                
 
-          </form>
-          <form className='recruiter_company_info'>
-            <label> Company </label>
-            <p>{this.state.recruiter_company}</p>
-            
-            <label> Position </label>
-            <p>{this.state.recruiter_position}</p>
-
-            <label> Location </label>
-              <p>{this.state.recruiter_company_street_address}, {this.state.recruiter_city}, {this.state.recruiter_state} {this.state.recruiter_postal} {this.state.recruiter_country}</p>
-            <button onClick={this.handleEdit}>Edit</button> 
-          </form>
+                    <p>Location: {this.state.recruiter_company_street_address}, {this.state.recruiter_city}, {this.state.recruiter_state} {this.state.recruiter_postal} {this.state.recruiter_country}</p>
+                  <Button onClick={this.handleEdit}>Edit</Button> 
+              </form>
+            </CardContent>
+          </Card>
         </div> 
         }
       </div>
+      </MuiThemeProvider> 
     )
   }
 }
