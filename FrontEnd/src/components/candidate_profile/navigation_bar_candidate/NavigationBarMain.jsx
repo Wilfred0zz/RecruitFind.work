@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import { Redirect } from 'react-router-dom';
-import Logo from './static/images/text.jpeg'
+import Logo from './../static/css/images/text.jpeg'
 
 const styles = theme => ({
   toolBar: {

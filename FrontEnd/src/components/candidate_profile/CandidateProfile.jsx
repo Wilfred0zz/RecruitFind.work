@@ -1,8 +1,48 @@
 import React, { Component } from 'react';
-import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate'
+import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarMain'
 import { Redirect } from 'react-router-dom';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from "@material-ui/core/styles";
+import { Typography } from '@material-ui/core';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@material-ui/core/Box';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import FormControl from '@material-ui/core/FormControl';
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  body: {
+    padding: theme.spacing(2),
+    textAlign: 'left',
+    color: theme.palette.text.secondary,
+  },
+  titleCenter: {
+    textAlign: 'center',
+  },
+  icon:{
+    width: 60,
+    height: 60,
+    paddingBottom: '1vh',
+  },
+  buttons:{
+    marginTop: '1vh',
+  },
+  profile: {
+    marginLeft: '10%',
+    marginRight: '10%',
+  },
+  select: {
+    minWidth: '250px',
+  }
+});
+
 
 class CandidateProfile extends Component {
   constructor(props){
@@ -102,6 +142,7 @@ class CandidateProfile extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
+    console.log(event.target.value);
   } 
 
   // CANDIDATE PROFILE INFO ––––––––––––––––––
@@ -323,6 +364,7 @@ class CandidateProfile extends Component {
     }
     this.setState({
       [event.target.name]: !this.state[event.target.name],
+      candidate_edit: false,
     })
   }
 
@@ -791,10 +833,62 @@ class CandidateProfile extends Component {
     })
   }
 
+  handleSubmit = async (event) => {
+    event.preventDefault();
+
+    for(let i = 1; i <= this.profileLinks.length; i++){
+      if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
+        if(!(this.state[`type_of_link_${i}`].length > 0 && this.state[`link_${i}`].length > 0)){
+          (alert(`Please fill in both fields for link ${i}`));
+          return;
+        }
+      }
+    }
+
+    for(let i = 1; i <= this.experiences.length; i++){
+      if (this.state[`role_title_${i}`].length > 0 || this.state[`description_${i}`].length > 0 || this.state[`start_date_${i}`].length > 0 || this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true){
+        if (this.state[`role_title_${i}`].length > 0 && this.state[`description_${i}`].length > 0 && this.state[`start_date_${i}`].length > 0 && (this.state[`end_date_${i}`].length > 0 || this.state[`present_${i}`] === true)){
+          if(this.state[`end_date_${i}`].length > 0 && this.state[`end_date_${i}`]<this.state[`start_date_${i}`]){
+            alert('End Date must be after Start Date');
+            return;
+          }
+          continue;
+        }  
+        else {
+          (alert(`Please fill out all the fields in Experience ${i}`));
+          return;
+        }
+      }
+    }
+
+    if(!this.state.skills || this.state.skills.length < 1){
+      alert("Please enter atleast one skill");
+      return;
+    }
+
+    this.setState({
+      submit_pushed: true,
+    })
+
+    try {
+      await this.handleExperiencesSubmission();
+      await this.handleLinkSubmission();
+      await this.handleCandidateProfileSubmission();
+      await this.handleSkillSubmission();
+      this.setState({
+        candidate_info_update: true
+      });
+    }catch(error){
+      this.setState({
+        submit_pushed: false
+      }, () =>  console.log("Please be sure all inputs are appropraitely entered"));
+    }
+  }
+
   render() {
+    const { classes } = this.props;
     return (
-      <div className='candidate_profile'>
-        <NavigationBarCandidate updateLogout={this.updateLogout}/>
+      <div className={classes.root}>
         {
           this.state.didRegister 
           ? null
@@ -808,242 +902,271 @@ class CandidateProfile extends Component {
         }
         {/* candidate data */}
         {
+        // THIS IS EDIT !!!!!!!!!
           this.state.candidate_edit
-          ? <div className='edit_candidate_profile'>
-              <label> Current Position </label>
-              <input name='candidate_current_position' onChange={this.handleChange} value={this.state.candidate_current_position}/>
-                <br/>
-              <label> Description </label>
-              <input name='candidate_description' onChange={this.handleChange} value={this.state.candidate_description}/>
-                <br/>
-              <label> School </label>
-              <input name='candidate_school' onChange={this.handleChange} value={this.state.candidate_school}/>
-              <select name='candidate_highest_level_of_education' onChange={this.handleChange}>
-                <option value="none" hidden>Select your education level</option> 
-                {this.educationLevels.map((educationLevel) => {
-                  return (
-                    <option key={educationLevel} value={educationLevel}> {educationLevel}</option>
-                  )
-                })}
-                <option value='other'>Other</option>
-              </select>
-              <label> Interests (Note not all of them have to be filled)</label>
-              <div>
+          ? 
+        <Box boxShadow={2} border={1} p={5} className={classes.profile}>
+          <Grid className="edit_candidate_profile" container>
+            <Grid item xs={12} className='topBar'>
+              <Box className={ classes.titleCenter }>
+                <AccountCircleIcon className={classes.icon}/>
+                <Typography>{this.state.first_name} {this.state.last_name}</Typography>
+                <TextField label="Your current position" name='candidate_current_position' onChange={this.handleChange} value={this.state.candidate_current_position}/>
+              </Box>
+            </Grid>
+            <Grid container xs={12} className={ classes.firstRow }>
+              <Grid item xs={12} sm={6} style={{height:'100%', width:'50%'}}>
+                <Box pt={2}>
+                  <Typography>{"Personal Information"}</Typography>
+                  <Typography>{"Gender: "} {this.state.gender}</Typography>
+                  <Typography>{"Address: "} {this.state.personal_street_address}{", "}
+                    {this.state.personal_city}{", "}{this.state.personal_country}{", "}
+                      {this.state.personal_postal}</Typography>
+                  <Typography>{"Links: "}</Typography>
+                  { this.state.profileLinks.length > 0 ?
+                    this.state.profileLinks.map((link, index) => (
+
+                      <div key ={index + 1}>
+                        <Typography>Type of Link </Typography>
+                        <input name={`type_of_link_${index+1}`} onChange={this.handleChange} value={this.state[`type_of_link_${index+1}`]}/>
+                        <Typography>Link</Typography>
+                        <input name={`link_${index+1}`} onChange={this.handleChange} value={this.state[`link_${index+1}`]}/>
+                      </div>
+                    )) : null
+                  }
+                  {
+                    (this.state.profileLinks.length < 3)
+                    ? <button className={classes.buttons} onClick={this.increaseLinks}>+ add a link</button>
+                    : null
+                    }
+                    {/* button to delete most recent link */}
+                    {
+                      (this.state.profileLinks.length > 0)
+                      ? <button className={classes.buttons} onClick={this.deleteRecentLink}>- subtract a link</button>
+                      : null
+                  }
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={6} style={{height:'100%', width:'50%'}}>
+                <Box pt={2}>
+                  <Typography>{"Education"}</Typography>
+                  <TextField label="Enter your School" name='candidate_school' onChange={this.handleChange} value={this.state.candidate_school}/>
+                  <br></br>
+                  <FormControl>
+                  <InputLabel style={{marginTop: '1vh'}} id="candidate_highest_level_of_education">Highest Level of education</InputLabel>
+                  <Select
+                    className={classes.select}
+                    style={{marginTop: '3vh'}}
+                    labelId="candidate_highest_level_of_education"
+                    name="candidate_highest_level_of_education"
+                    value={this.state.candidate_highest_level_of_education}
+                    onChange={this.handleChange}
+                  >
+                    
+                    <MenuItem value={'Lower then High School'}>Lower then High School</MenuItem>
+                    <MenuItem value={'Some High School'}>Some High School</MenuItem>
+                    <MenuItem value={'High School Graduate/GED'}>High School Graduate/GED</MenuItem>
+                    <MenuItem value={'Some College'}>Some College</MenuItem>
+                    <MenuItem value={"Associates Degree"}>Associates Degree</MenuItem>
+                    <MenuItem value={"Bachelors Degree"}>Bachelors Degree</MenuItem>
+                    <MenuItem value={"Masters Degree"}>Masters Degree</MenuItem>
+                    <MenuItem value={"Doctoral or Professional Degree"}>Doctoral or Professional Degree</MenuItem>
+                  </Select>
+                  </FormControl> 
+                  
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Box className={classes.body} pt={2}>
+                <Typography>{"About"}</Typography>
+                <TextField fullWidth label="Give a summary about you" name='candidate_description' onChange={this.handleChange} value={this.state.candidate_description}/>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box className={classes.body}>
+                <Typography>{"Experience"}</Typography>
                 {
-                  this.state.profileInterests.map((interest, index) => {
-                    return (
-                      <input key={index+1} name={`name_of_interest_${index+1}`} onChange={this.handleChange} value={this.state[`name_of_interest_${index+1}`]}/>
-                      )
-                  })
-                }
-              </div>
-              {/* Button to add another interest */}
-              {
-                (this.state.profileInterests.length < 3)
-                ? <button onClick={this.increaseInterests}>+</button>
-                : null
-              }
-              {/* Button to delete most recent interest */}
-              {
-                (this.state.profileInterests.length > 0)
-                ? <button onClick={this.deleteRecentInterest}>-</button>
-                : null
-              }
-              <br/>
-              <button name='candidate_edit' onClick={this.handleEditCancel}>Cancel</button>
-              <button onClick={this.handleCandidateProfileSubmission}>Submit</button>
-            </div>
-          : <div className='no_edit_candidate_profile'>
-              <label>First Name: </label>
-              <p>{this.state.first_name}</p>
-
-              <label>Last Name:</label>
-              <p>{this.state.last_name}</p>
-
-              <label>Email: </label>
-              <p>{this.state.email}</p>
-              
-              <label>Position: </label>
-              <span>{this.state.candidate_current_position}</span>
-              <br/>
-              <label>Description: </label>
-              <span>{this.state.candidate_description}</span>
-              <br/>
-              <label>School: </label>
-              <span>{this.state.candidate_school}</span>
-              <br/>
-              <label>Interests: </label>
-              <br/>
-              {
-                this.state.name_of_interest_1.length > 1
-                ? <span>{this.state.name_of_interest_1} </span>
-                : null
-              }
-              {
-                this.state.name_of_interest_2.length > 1
-                ? <span>{this.state.name_of_interest_2} </span>
-                : null
-              }
-              {
-                this.state.name_of_interest_3.length > 1
-                ? <span>{this.state.name_of_interest_3}</span>
-                : null
-              }
-              <br/>
-              <button name='candidate_edit' onClick={this.handleEditClick}>Edit</button>
-            </div>
-        }
-        <br/>
-        {/* candidate links */}
-        {
-          this.state.links_edit
-          ? <div className='edit_candidate_links'>
-              <p> Links: </p>
-              {
-                this.state.profileLinks.map((link, index) => {
-                  return (
-                    <div key ={index + 1}>
-                      <label>Type of Link </label>
-                      <input name={`type_of_link_${index+1}`} onChange={this.handleChange} value={this.state[`type_of_link_${index+1}`]}/>
-                      <br/>
-                      <label>Link </label>
-                      <input name={`link_${index+1}`} onChange={this.handleChange} value={this.state[`link_${index+1}`]}/>
-                    </div>
-                  )
-                })
-              }
-              {/* Button to add another link */}
-              {
-                (this.state.profileLinks.length < 3)
-                ? <button onClick={this.increaseLinks}>+</button>
-                : null
-              }
-              {/* Button to delete most recent link */}
-              {
-                (this.state.profileLinks.length > 0)
-                ? <button onClick={this.deleteRecentLink}>-</button>
-                : null
-              }
-              <br/>
-              <button name='links_edit' onClick={this.handleEditCancel}>Cancel</button>
-              <button onClick={this.handleLinkSubmission}>Submit</button>
-            </div>
-          : <div className='no_edit_candidate_links'>
-              <label>Links:</label>
-              {this.state.profileLinks.map((links, index) => {
-                return(
-                <div key={`link ${index+1}`}>
-                  <label>{this.state[`type_of_link_${index+1}`]} - </label>
-                  <span>{this.state[`link_${index+1}`]}</span>
-                </div>
-              )})}
-              <button name='links_edit' onClick={this.handleEditClick}>Edit</button>
-            </div>
-        }
-        <br/>
-        {/* candidate experiences */}
-        {
-          this.state.experiences_edit
-          ? <div className='edit_candidate_experiences'>
-              {
-                this.state.experiences.map((experience, index)=>{
-                  return (
+                  this.state.experiences.map((experience, index)=> (
                     <div key={index+1}>
                       <p>Experience {index+1}</p>
-                      <label>Position</label>
+                      <label>Position </label>
                       <input type='text' name={`role_title_${index+1}`} onChange={this.handleChange} value={this.state[`role_title_${index+1}`]}/>
                         <br/>
-                      <label>Decription</label>
+                      <label>Decription </label>
                       <input type='text' name={`description_${index+1}`} onChange={this.handleChange} value={this.state[`description_${index+1}`]}/>
                         <br/>
-                      <label>Start Date</label>
+                      <label>Start Date </label>
                       <input type='date' name={`start_date_${index+1}`} onChange={this.handleChange} value={this.state[`start_date_${index+1}`]}/>
                         <br/>
-                      <label>End Date</label>
+                      <label>End Date </label>
                       {this.renderEndDate(index+1)}
                     </div>
-                  )  
-                })
+                  ))
               }
-              {/* Button to add another experience */}
               {
                 (this.state.experiences.length < 5)
-                ? <button onClick={this.increaseNumberOfExperiences}>+</button>
+                ? <button className={classes.buttons} onClick={this.increaseNumberOfExperiences}>+ add experience</button>
                 : null
               }
-              {/* Button to delete most recent experience */}
+              {/* button to delete most recent experience */}
               {
                 (this.state.experiences.length > 0)
-                ? <button onClick={this.deleteRecentExperience}>-</button>
+                ? <button className={classes.buttons} onClick={this.deleteRecentExperience}>- subtract experience</button>
                 : null
               }
-              <br/>
-              <button name='experiences_edit' onClick={this.handleEditCancel}>Cancel</button>
-              <button onClick={this.handleExperiencesSubmission}>Submit</button>
-            </div>
-          : <div className='no_edit_candidate_experiences'>
-              <label>Experiences: </label>
-              {this.state.experiences.map((experience, index) => {
-                  return (
-                    <div key={index+1}>
-                      <span>Experience {index+1}</span>
-                      <br/>
-                      <label>Position: </label>
-                      <span>{this.state[`role_title_${index+1}`]}</span> 
-                        <br/>
-                      <label>Decription</label>
-                      <span>{this.state[`description_${index+1}`]}</span>
-                        <br/>
-                      <label>Start Date: </label>
-                      <span>{this.state[`start_date_${index+1}`]}</span>
-                        <br/>
-                      {this.renderViewEndDate(index+1)}
-                    </div>
-                  ) 
-                })
-              }
-              <button name='experiences_edit' onClick={this.handleEditClick}>Edit</button>  
-            </div>
-        }
-        <br/>
-        {/* candidate skills */}
-        {
-          this.state.skills_edit
-          ? <div className='edit_candidate_skills'>
-              <Autocomplete
-                multiple // allows multiple entries
-                limitTags={10} // only 10 displayed in input box
-                freeSolo // add entries not in provided options
-                disableClearable={true} // remove delete all option
-                value={this.state.skills} // make sure that the extra inputs more than 10 dont show
-                size='small' // dispaly small
-                id="multiple-limit-tags" // id for this component
-                options={[]} // provide no options
-                onChange={this.modifySkill} // when a user presses enter this function occurs
-                renderInput={params => ( //display for all entered inputs
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="skills"
-                    placeholder="skill"
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
+                <Box className={classes.body}>
+                  <Typography>{"Skills"}</Typography>
+                  <Autocomplete
+                    multiple // allows multiple entries
+                    limitTags={10} // only 10 displayed in input box
+                    freeSolo // add entries not in provided options
+                    disableClearable={true} // remove delete all option
+                    value={this.state.skills} // make sure that the extra inputs more than 10 dont show
+                    size='small' // dispaly small
+                    id="multiple-limit-tags" // id for this component
+                    options={[]} // provide no options
+                    onChange={this.modifySkill} // when a user presses enter this function occurs
+                    renderInput={params => ( //display for all entered inputs
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="skills"
+                        placeholder="skill"
+                      />
+                    )}
                   />
-                )}
-              />
-              <button name='skills_edit' onClick={this.handleEditCancel}>Cancel</button>
-              <button onClick={this.handleSkillSubmission}>Submit</button>
-            </div>
-          : <div className='no_edit_candidate_skills'>
-              <label>Skills: </label>
-              {this.state.skills.map((skill, index) =>{
-                return <span key={index}> {this.state.skills[`${index}`]}</span>
-              })}
-              <br/>
-              <button name='skills_edit' onClick={this.handleEditClick}>Edit</button>
-            </div>
-        }
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box className={classes.body}>
+                  <Typography>{"Interests"}</Typography>
+                  <div>
+                    {
+                      this.state.profileInterests.map((interest, index) => {
+                        return (
+                          <TextField size={'small'} variant="outlined" key={index+1} name={`name_of_interest_${index+1}`} onChange={this.handleChange} value={this.state[`name_of_interest_${index+1}`]}/>
+                          )
+                      })
+                    }
+                  </div>
+                  {/* button to add another interest */}
+                  {
+                    (this.state.profileInterests.length < 3)
+                    ? <button className={classes.buttons} onClick={this.increaseInterests}>+ add interest</button>
+                    : null
+                  }
+                  {/* button to delete most recent interest */}
+                  {
+                    (this.state.profileInterests.length > 0)
+                    ? <button className={classes.buttons} onClick={this.deleteRecentInterest}>- subtract interest</button>
+                    : null
+                  }
+                </Box>
+              </Grid>
+            </Grid>
+            <button className={classes.buttons} name='links_edit' onClick={this.handleEditCancel}>Cancel</button>
+            <button className={classes.buttons} name='experiences_edit' onClick={this.handleSubmit}>Submit</button>
+          </Grid>
+        </Box>
+        : 
+
+        // THIS IS NO EDIT
+        <Box boxShadow={2} border={1} p={5} className={classes.profile}>
+          <Grid className="no_edit_candidate_profile" container>
+            <Grid item xs={12}>
+              <Box className={classes.titleCenter} >
+                <AccountCircleIcon className={classes.icon}/>
+                <Typography>{this.state.first_name} {this.state.last_name}</Typography>
+                <Typography>{this.state.candidate_current_position}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box className={classes.body}>
+                <Typography>{"Personal Information"}</Typography>
+                <Typography>{"Gender: "} {this.state.gender}</Typography>
+                <Typography>{"Address: "} {this.state.personal_street_address}{", "}
+                  {this.state.personal_city}{", "}{this.state.personal_country}{", "}
+                    {this.state.personal_postal}</Typography>
+                <Typography>{"Links: "}</Typography>
+                { this.state.profileLinks.length > 0 ?
+                  this.state.profileLinks.map((link, index) => (
+
+                    <div key ={index + 1}>
+                      <Typography>Type of Link </Typography>
+                      <Typography name={`type_of_link_${index+1}`}> {this.state[`type_of_link_${index+1}`]} </Typography>
+                      <Typography>Link</Typography>
+                      <Typography name={`link_${index+1}`}> {this.state[`link_${index+1}`]} </Typography>
+                    </div>
+                  )) : null
+                }
+              </Box>
+            </Grid>
+          <Grid item xs={12} sm={6}>
+              <Box className={classes.body}>
+                <Typography>{"Education"}</Typography>
+                <Typography>{"School: "} {this.state.candidate_school}</Typography>
+                <Typography>{"Highest level of Education: "} {this.state.candidate_highest_level_of_education}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Box className={classes.body}>
+                <Typography>{"About"}</Typography>
+                <Typography>{this.state.candidate_description}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box className={classes.body}>
+                <Typography>{"Experience"}</Typography>
+                {this.state.experiences.map((experience, index) => {
+                    return (
+                      <div key={index+1}>
+                        <span>Experience {index+1}</span>
+                        <br/>
+                        <label>Position: </label>
+                        <span>{this.state[`role_title_${index+1}`]}</span> 
+                          <br/>
+                        <label>Decription: </label>
+                        <span>{this.state[`description_${index+1}`]}</span>
+                          <br/>
+                        <label>Start Date: </label>
+                        <span>{this.state[`start_date_${index+1}`]}</span>
+                          <br/>
+                        {this.renderViewEndDate(index+1)}
+                      </div>
+                    ) 
+                  })
+                }
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
+                <Box className={classes.body}>
+                  <Typography>{"Skills"}</Typography>
+                    {this.state.skills.join(', ')}
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box className={classes.body}>
+                  <Typography>{"Interests"}</Typography>
+                  {
+                    this.state.profileInterests.map((interest, index) => (
+                        <div key={index+1}> {this.state[`name_of_interest_${index+1}`]} </div>
+                    ))
+                  }
+                </Box>
+              </Grid>
+            </Grid>
+            <button className={classes.buttons} name='candidate_edit' onClick={this.handleEditClick}>Edit</button>
+          </Grid>
+          </Box>
+      }
       </div>
     )
   } 
 }
-
-export default CandidateProfile;
+export default withStyles(styles, { withTheme: true })(CandidateProfile);

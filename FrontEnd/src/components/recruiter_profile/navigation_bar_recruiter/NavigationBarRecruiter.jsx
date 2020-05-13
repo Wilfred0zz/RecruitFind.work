@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './css/NavigationBarRecruiter.css';
 import Logo from './images/text.jpeg'
 
 class NavigationBarRecruiter extends Component {
