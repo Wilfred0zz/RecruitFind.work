@@ -1,6 +1,84 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Autocomplete from 'react-google-autocomplete';
+import { withStyles } from '@material-ui/core/styles';
+import Box from "@material-ui/core/Box";
+import { TextField } from '@material-ui/core';
+import Button from "@material-ui/core/Button";
+import {MuiThemeProvider,createMuiTheme} from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+
+
+
+const muiBaseTheme = createMuiTheme();
+
+const theme = ({
+  form: {
+    marginTop: '20px',
+    background: '#F2F3F6',
+    width: '600px',
+    flexWrap: 'wrap',
+    height: '35em',
+    alignItems: 'center'
+    },
+  input: {
+    height: 100,
+  },
+  alignItemsAndJustifyContent: {
+    width: 500,
+    height: 80,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 50,
+  },
+  input: {
+    height: 100,
+  },
+  overrides: {
+    MuiCard: {
+      root: {
+        "&.MuiEngagementCard--01": {
+          marginTop: "7em",
+          transition: "0.3s",
+          maxWidth: 550,
+          margin: "auto",
+          boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+          "&:hover": {
+            boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+          },
+          "& .MuiCardMedia-root": {
+            paddingTop: "56.25%"
+          },
+          "& .MuiCardContent-root": {
+            textAlign: "left",
+            padding: muiBaseTheme.spacing.unit * 3
+          },
+          "& .MuiDivider-root": {
+            margin: `${muiBaseTheme.spacing.unit * 3}px 0`
+          },
+          "& .MuiTypography--heading": {
+            fontWeight: "bold"
+          },
+          "& .MuiTypography--subheading": {
+            lineHeight: 1.8
+          },
+          "& .MuiAvatar-root": {
+            display: "inline-block",
+            border: "2px solid white",
+            "&:not(:first-of-type)": {
+              marginLeft: -muiBaseTheme.spacing.unit
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
 
 class RecruiterRegisterProfile extends Component{
   constructor(props){
@@ -84,6 +162,64 @@ class RecruiterRegisterProfile extends Component{
     }
   }
 
+  fetchRecruiterPersonalInfo= async () => {
+    try{
+      const response = await fetch('/api/fetchRecruiterPersonalInformation', {
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'GET',
+      });
+      let status = response.status;
+      if(status === 401){
+        this.setState({
+          is_logged_in: false
+        })
+        return;
+      }
+      let result = await response.json();
+  
+      if (status >= 400) {
+        // If I dont get an error it means user isn't logged in
+        if(!result.error || result.error === 'User Not Authenticated!') {
+          console.log("User doesn't exist or isn't logged in and should be redirected to login");
+          this.setState({
+            is_logged_in: false
+          })
+        }
+        else {
+          this.setState({
+            didRegister: false
+          })
+          return;
+        }
+      } else { // user already has info so not the first time they are registering, so redirect them
+        console.log(result);
+        const { email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
+        this.setState({
+          email: email,
+          first_name: first_name,
+          gender: gender,
+          last_name: last_name,
+          personal_city: personal_city,
+          personal_country: personal_country,
+          personal_postal: personal_postal,
+          personal_state: personal_state,
+          personal_street_address: personal_street_address,
+          phone_number: phone_number
+
+        }, () => console.log(this.state.first_name, this.state.last_name))
+        
+      }
+
+    } 
+    catch(error) {
+      console.log(error);
+    }
+  }
+
+
   // Fetch All Data, and see if any information exists
   // if it does set company_update tot rue cause it already exists
   fetchRecruiterCompanyInfo = async () => {
@@ -125,7 +261,9 @@ class RecruiterRegisterProfile extends Component{
   }
 
   render() {
+    const{ classes } =this.props
     return (
+      <MuiThemeProvider theme={createMuiTheme(theme)}>
       <div className='recruiter_profile'>
         { // Redirect them to main page to log in, if they aren't logged in
           !this.state.is_logged_in 
@@ -136,30 +274,43 @@ class RecruiterRegisterProfile extends Component{
         {/* Check if the user registered for the first time by looking at update state*/}
         {!this.state.recruiter_company_update ? 
           <div className='create_recruiter_profile'>
-            <form className='recruiter_company_info'>
-              <label> Company </label>
-              <input name='recruiter_company' onChange={this.handleChange}/>
-              
-              <label> Position </label>
-              <input name='recruiter_position' onChange={this.handleChange}/>
-
-              <label> Location </label>
-              <Autocomplete
-                required
-                style={{width:'50%'}}
-                onPlaceSelected={(place) => {
-                  this.handleGoogleChange(place);
-                }}
-                types={['geocode', 'establishment']}
-                componentRestrictions={{country: "us"}}
-              /> 
-              <button onClick={this.handleSubmit}>Submit</button> 
-            </form>
+             <Card className={"MuiEngagementCard--01"}>
+              <CardContent className={"MuiCardContent-root"}>
+                <Typography
+                    className={"MuiTypography--heading"}
+                    variant={"h4"}
+                    gutterBottom>
+                      <p>{this.state.first_name} {" "} {this.state.last_name}</p> 
+                </Typography>
+                <Divider className={"MuiDivider-root"} light />
+              <form className='recruiter_company_info'>
+                <TextField id="outlined-helperText" className='' label="Company Name" defaultValue="Enter Company"  variant="outlined" name='recruiter_company' onChange={this.handleChange}/>
+                  <br/>
+                  <br/>
+                <TextField id="outlined-helperText" className='' label="Position" defaultValue="Position in Company" variant="outlined" name='recruiter_position' onChange={this.handleChange}/>
+                  <br/>
+                  <br/>
+                <Autocomplete
+                  required
+                  style={{width:'60%', height:'100', fontSize: "1.2em"}}
+                  onPlaceSelected={(place) => {
+                    this.handleGoogleChange(place);
+                  }}
+                  types={['geocode', 'establishment']}
+                  componentRestrictions={{country: "us"}}
+                /> 
+                  <br/>
+                  <br/>
+                <Button variant="outlined" onClick={this.handleSubmit}>Submit</Button> 
+              </form>
+              </CardContent>
+            </Card>
           </div> 
         :
           <Redirect to="/recruiter_profile"/>
         }
       </div>
+      </MuiThemeProvider> 
     )
   }
 }
