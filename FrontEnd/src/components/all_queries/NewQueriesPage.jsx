@@ -103,7 +103,6 @@ class NewQueries extends Component{
     if(this.state.skills.length === 0 || !this.state.skills){
       return(alert('Need at least one skill'));
     }
-    
     this.setState({
       moveOn : true
     });

@@ -40,8 +40,7 @@ class App extends Component{
   }
 
   updateState = (object) =>{
-    this.setState({...object}
-      )
+    this.setState({...object})
   }
 
   render(){
