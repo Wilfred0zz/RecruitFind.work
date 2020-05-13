@@ -10,17 +10,21 @@ import Logo from '../../navigation_bar_main/static/images/text.jpeg'
 const styles = theme => ({
   toolBar: {
     position: "fixed",
+    // display: 'block',
     width: "100%",
+    marginBottom: '',
     left: 0,
     top: 0,
     flexGrow: 1,
     backgroundColor: 'black',
+    padding: 0,
+    margin: 0,
   },
   logo: {
     position: "absolute",
     left: -40,
-    maxWidth:'250%',
-    height: '250%',
+    maxWidth:'220%',
+    height: '220%',
     paddingRight: '100%',
   },
   title: {

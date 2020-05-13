@@ -120,6 +120,10 @@ class NewQueries extends Component{
           ? null
           : <Redirect to='/'/>
         }
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         {
           this.state.moveOn 
           ? <Redirect push to = "/query_results_page"/> 
@@ -127,7 +131,7 @@ class NewQueries extends Component{
               <div>
                 <Paper elevation={2}  className={classes.form}>
                   <br/>
-                <h3>Job Posting</h3>
+                <h3 style={{textAlign: 'center'}}>Job Posting</h3>
                 <form onSubmit={this.onSubmit} >
                   <br/>
                   <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_title} name="query_title" label="Title"/>
@@ -164,7 +168,7 @@ class NewQueries extends Component{
                   <br/>
                   <br/>
                   <br/>
-                  <Button onClick = {this.onSubmit} >Submit</Button>
+                  <Button style={{marginLeft: '220px'}} onClick = {this.onSubmit} >Submit</Button>
                   <Button href='/all_queries'>Cancel</Button>
                 </form>
                 </Paper>
