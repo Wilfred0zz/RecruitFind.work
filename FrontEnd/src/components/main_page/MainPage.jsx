@@ -47,7 +47,7 @@ class MainPage extends Component {
         <MainNavBar/>
         <Grid container>
         <Grid item xs={12} sm={6} className={classes.slogan}>
-          <Typography variant="h1"> Don't be a slob, get a job </Typography>
+          <Typography variant="h2"> Don't be a slob, get a job </Typography>
         </Grid>
         <Grid item xs={12} sm={6} className={classes.form}>
           <RegisterForm/>

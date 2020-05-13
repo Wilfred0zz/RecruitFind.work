@@ -218,7 +218,7 @@ class PublicCandidateProfile extends Component {
     // alternative to getting URL
     // const result= window.location.href.split('/')
     // console.log(result[4]);
-    const email = this.props.routeProps.match.params.email;
+    const email = this.props.email;
     try {
       await this.getAllInformation(email);
     } catch(error) {

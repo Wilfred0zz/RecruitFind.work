@@ -23,7 +23,7 @@ def fetchCandidateMatches():
 
                 if currentCandidateId:
                     # print()
-                    cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE status='PENDING' OR status='ACCEPTED' AND is_candidate_deleted=False AND candidate_id={currentCandidateId}""")
+                    cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE (status='PENDING' OR status='ACCEPTED') AND (is_candidate_deleted=False AND candidate_id={currentCandidateId})""")                    
                     queryResult = cursor.fetchall()
                     #print("Result: ", queryResult)
                     if len(queryResult) != 0:

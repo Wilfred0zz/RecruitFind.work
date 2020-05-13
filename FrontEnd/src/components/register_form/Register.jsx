@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down("sm")]: {
       alignContent: "flex-start"
     },
-    width: '75%',
+    width: '90%',
     borderRadius:"1%",
     textAlign: 'center',
   }
