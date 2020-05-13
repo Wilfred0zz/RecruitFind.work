@@ -92,9 +92,8 @@ class PublicCandidateProfile extends Component {
       method: 'POST',
       body: JSON.stringify(data)
     });
-    console.log(response);
+    
     const status = response.status;
-    console.log(status);
     if(status >= 400){
       if(status === 401){
         alert("Please Login");
@@ -216,7 +215,7 @@ class PublicCandidateProfile extends Component {
     // alternative to getting URL
     // const result= window.location.href.split('/')
     // console.log(result[4]);
-    console.log(this.props);
+    
     if(this.props.email){
       var email = this.props.email;
       console.log("THe email at this point is: ", email)
@@ -226,7 +225,7 @@ class PublicCandidateProfile extends Component {
     }
     // const email = this.props.routeProps.match.params.email;
     // console.log(this.props.routeProps.match.params.email);
-    console.log(email);
+    
     try {
       await this.getAllInformation(email);
     } catch(error) {

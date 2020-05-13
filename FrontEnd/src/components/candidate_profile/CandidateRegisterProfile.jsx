@@ -230,7 +230,6 @@ class CandidateRegisterProfile extends Component{
     //   event.target.value='';
     //   return alert('Too Many Skills')
     // }
-    console.log( "the value at this moment is ", value)
     if(!event.target.value){
       this.setState({
         skills: value || []
@@ -536,7 +535,7 @@ class CandidateRegisterProfile extends Component{
 
   render() {
     return (
-      <div className='candidate_profile'>
+      <div className='candidate_profile' >
         { // Redirect them to main page to log in, if they aren't logged in
           !this.state.is_logged_in 
           ? <Redirect to='/'/>

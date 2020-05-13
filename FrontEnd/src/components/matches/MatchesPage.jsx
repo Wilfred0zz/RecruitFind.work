@@ -157,14 +157,14 @@ const MatchesPage = (props) => {
 
               return(match_status === "PENDING" ? 
                 <Card key = {match_id}>
-                  <CardContent>
-                    <Typography > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
+                  <CardContent >
+                    <Typography style={{textAlign: 'center'}}> {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
                     <br />
-                    <Typography > {'Role: '}{title}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Role: '}{title}</Typography>
                     <br />
-                    <Typography > {'Description: '}{description}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Description: '}{description}</Typography>
                     <br />
-                    <Typography > {'Matched skills: '}{skills.join(', ')}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Matched skills: '}{skills.join(', ')}</Typography>
                   </CardContent>
                   
                   <CardActions>
@@ -176,7 +176,7 @@ const MatchesPage = (props) => {
                         </div>
                       : null
                     }
-                    <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
+                    <Button style={{float: "right"}} onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
                   </CardActions>
                 </Card> : null
               )
@@ -208,15 +208,15 @@ const MatchesPage = (props) => {
               return(match_status === "ACCEPTED" ? 
                 <Card key = {match_id}>
                   <CardContent>
-                    <Typography > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
+                    <Typography style={{textAlign: 'center'}} > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
                     <br />
-                    <Typography > {'Role: '}{title}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Role: '}{title}</Typography>
                     <br />
-                    <Typography > {'Description: '}{description}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Description: '}{description}</Typography>
                     <br />
-                    <Typography > {'Skills: '}{skills.join(', ')}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Skills: '}{skills.join(', ')}</Typography>
                     <br />
-                    <Typography > {'Contact: '}{recruiter_email}</Typography>
+                    <Typography style={{textAlign: 'center'}}> {'Contact: '}{recruiter_email}</Typography>
                   </CardContent>
                   
                   <CardActions>
