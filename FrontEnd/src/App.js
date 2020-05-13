@@ -40,7 +40,7 @@ class App extends Component{
   }
 
   updateState = (object) =>{
-    this.setState({...object},  () => console.log(this.state)
+    this.setState({...object}
       )
   }
 

@@ -103,7 +103,7 @@ class NewQueries extends Component{
     if(this.state.skills.length === 0 || !this.state.skills){
       return(alert('Need at least one skill'));
     }
-    console.log(this.state.skills);
+    
     this.setState({
       moveOn : true
     });
@@ -128,6 +128,9 @@ class NewQueries extends Component{
           this.state.moveOn 
           ? <Redirect push to = "/query_results_page"/> 
           : <div> 
+            <br/>
+            <br/>
+            <br/>
               <div>
                 <Paper elevation={2}  className={classes.form}>
                   <br/>
@@ -163,7 +166,6 @@ class NewQueries extends Component{
                       />                 
                     )}               
                   />
-                  <br/>
                   <br/>
                   <br/>
                   <br/>

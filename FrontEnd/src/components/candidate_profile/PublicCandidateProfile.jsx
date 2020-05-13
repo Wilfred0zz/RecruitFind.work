@@ -85,7 +85,7 @@ class PublicCandidateProfile extends Component {
     const data = {
       email: email
     }
-    // console.log(email)
+     console.log(email)
     const response = await fetch('/api/fetchCandidatePage', {
       headers: {
         'Content-Type': 'application/json'
@@ -93,8 +93,9 @@ class PublicCandidateProfile extends Component {
       method: 'POST',
       body: JSON.stringify(data)
     });
-
+    console.log(response);
     const status = response.status;
+    console.log(status);
     if(status >= 400){
       if(status === 401){
         alert("Please Login");
@@ -105,6 +106,7 @@ class PublicCandidateProfile extends Component {
         )}, 2000)
       }
       const error = await response.json();
+      console.log(error);
       if(!error.error){
         alert("User doen't exist");
       }
