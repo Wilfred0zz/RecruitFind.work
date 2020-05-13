@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarMain'
+import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate'
 import { Redirect } from 'react-router-dom';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -37,6 +37,7 @@ const styles = theme => ({
   profile: {
     marginLeft: '10%',
     marginRight: '10%',
+    marginTop: '10%',
   },
   select: {
     minWidth: '250px',
@@ -905,22 +906,22 @@ class CandidateProfile extends Component {
         submit_pushed: false
       }, () =>  console.log("Please be sure all inputs are appropraitely entered"));
     }
-  }
+
 
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        {
-          this.state.didRegister 
-          ? null
-          : <Redirect to='/candidate_register_profile'/>
-        }
-        {/* handle logout */}
+          <NavigationBarCandidate/>
         {
           this.state.is_logged_in
           ? null
           : <Redirect to='/'/>
+        }
+        {
+          this.state.didRegister 
+          ? null
+          : <Redirect to='/candidate_register_profile'/>
         }
         {/* candidate data */}
         {

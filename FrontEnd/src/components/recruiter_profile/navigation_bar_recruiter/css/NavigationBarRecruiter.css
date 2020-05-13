@@ -1,36 +1,39 @@
-/* .MainNavBar .navbar{
+/* .navbar{
     position: fixed;
     width: 100%;
     background: rgba(0, 0, 0, 0.9);
     height: 60px;
     top: 0;
     margin: 0px;
+    padding: 0px;
     font-family: sans-serif;
     font-weight: bold; 
     z-index: 100;
+    display: block;
 }
 
-.MainNavBar .navbar-options{
+.navbar-options{
     display: flex;
     height: 100%;
     align-items: center;
     padding: 0 1rem;
+    float: right;
 }
 
-.MainNavBar .navbar-items a{
+.navbar-items a{
    color: blanchedalmond;
    font-family: sans-serif;
    text-decoration: none;
 }
 
-.MainNavBar .navbar-items ul{
+.navbar-items ul{
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
 }
 
-.MainNavBar .navbar-items li{
+.navbar-items li{
   padding: 0 1rem;
 }
 
@@ -39,31 +42,10 @@
     color: steelblue;
 }
 
-#registerForm{
-    padding-top: 4%;
-    position: relative;
-    padding-left: 55%;
-}
-
-#catch-phrase{
-    padding-left: 10%;
-    padding-top: 20%;
-    float: left;
-}
-
-.MainNavBar{
-    position: fixed;
-}
-img{
+.logo{
     position: absolute;
     left: -3.5%;
-    top: -5.0%;
+    top: -7%;
     height: 204px;
     width: 204px;
-<<<<<<< HEAD
-}
->>>>>>> master */
-=======
 } */
-
->>>>>>> master

@@ -8,23 +8,27 @@ import json
 import os
 from flask_login import current_user, login_user, logout_user, login_required
 
-logout = Blueprint('logout', __name__)
+stat = Blueprint('status', __name__)
 
-@logout.route("/api/logout", methods=["PUT"])
+@stat.route("/api/status", methods=["GET"])
 @login_required
-def signUserOut():
+def fetchUserStatus():
     try:
         database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1"), port = "5432", database = "recruitfindwork")
         if database:
-
+            cursor = database.cursor()
             response = dict()
 
             if current_user.is_authenticated():
+                currentUserId = current_user.get_id()
 
-                logout_user()
-                response = make_response(json.dumps({
-                    'status_info': 'User Logged Out!'
-                }))
+                if currentUserId:
+                    cursor.execute(f"""SELECT status FROM public."Personal Information" WHERE user_id={currentUserId}""")
+                    queryResult = cursor.fetchone()
+
+                    response['user_status'] = queryResult[0]
+            
+            
         else:
             error = "Connection to database failed!"
             response['error'] = error

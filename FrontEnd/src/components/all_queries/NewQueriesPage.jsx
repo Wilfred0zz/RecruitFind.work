@@ -1,8 +1,43 @@
 import React, { Component } from 'react';
 import NavigationBarRecruiter from './../recruiter_profile/navigation_bar_recruiter/NavigationBarRecruiter';
-import {Link, Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Autocomplete from '@material-ui/lab/Autocomplete'; 
 import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/styles';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+
+const styles = (theme) => ({
+  root: {
+    width: '14em',
+    float: 'left',
+    marginLeft: '5em',
+    marginRight: '50%',
+    marginBottom: '1em',
+  },
+  form: {
+    marginTop: '20px',
+    background: '#F2F3F6',
+    width: '600px',
+    margin: 'auto',
+    height: '35em'
+  },
+  description: {
+    width: '70%',
+    float: 'left',
+    marginLeft: '5em',
+    marginRight: '50%',
+    marginBottom: '1em',
+  },
+  input: {
+    height: 100,
+  },
+  skill: {
+    marginLeft: '5em',
+    width: '70%',
+  },
+});
 
 class NewQueries extends Component{
   constructor(props){
@@ -68,35 +103,50 @@ class NewQueries extends Component{
     if(this.state.skills.length === 0 || !this.state.skills){
       return(alert('Need at least one skill'));
     }
-    console.log(this.state.skills);
     this.setState({
       moveOn : true
     });
   }
-        
+
   render(){
-    const{query_title, query_description, query_payment} = this.state
+    const { classes } = this.props;
+    const { query_title, query_description, query_payment } = this.state
     return(
-      <div className="NewQuery">
+      <div className="NewQuery" id="background_new_query">
         <NavigationBarRecruiter updateLogout={this.updateLogout}/>
         {
           this.state.is_logged_in
           ? null
           : <Redirect to='/'/>
         }
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         {
           this.state.moveOn 
           ? <Redirect push to = "/query_results_page"/> 
           : <div> 
+            <br/>
+            <br/>
+            <br/>
               <div>
+                <Paper elevation={2}  className={classes.form}>
+                  <br/>
+                <h3 style={{textAlign: 'center'}}>Job Posting</h3>
                 <form onSubmit={this.onSubmit} >
-                  <label htmlFor="query_title"> Title</label>
-                  <input type="text" onChange={this.onChange} value={query_title} name="query_title" />  
-                  <label htmlFor="query_description">Description</label>
+                  <br/>
+                  <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_title} name="query_title" label="Title"/>
+                  <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_payment} name="query_payment" label="Payment"/>                                    
+                  <TextField variant="outlined" className={classes.description} size='small' type="text" onChange={this.onChange} value={query_description} name="query_description" label="Description" InputProps={{className: classes.input,}} multiline/>                  
+                  {/* <label htmlFor="query_title"> Title</label>
+                  <input type="text" onChange={this.onChange} value={query_title} name="query_title" />   */}
+                  {/* <label htmlFor="query_description">Description</label>
                   <input type="text" onChange={this.onChange} value={query_description} name="query_description" />
                   <label htmlFor="query_payment">Payment </label>
-                  <input type="text" onChange={this.onChange} value={query_payment} name="query_payment" />
+                  <input type="text" onChange={this.onChange} value={query_payment} name="query_payment" /> */}
                   <Autocomplete
+                    className={classes.skill}
                     multiple // allows multiple entries                 
                     limitTags={10} // only 10 displayed in input box                 
                     freeSolo // add entries not in provided options                 
@@ -110,14 +160,20 @@ class NewQueries extends Component{
                       <TextField 
                         {...params}                     
                         variant="outlined"                     
-                        label="skills"                     
-                        placeholder="skill"                   
+                        label="Skills"                     
+                        placeholder="skill-Press enter to input skill press submit when done"                   
                       />                 
                     )}               
                   />
-                  <button onClick = {this.onSubmit} >Submit</button>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <Button style={{marginLeft: '220px'}} onClick = {this.onSubmit} >Submit</Button>
+                  <Button href='/all_queries'>Cancel</Button>
                 </form>
-                <Link to="/all_queries"><button>Cancel</button></Link>
+                </Paper>
+                
               </div>
           </div>
         }
@@ -126,4 +182,8 @@ class NewQueries extends Component{
   }
 }
 
-export default NewQueries;
+NewQueries.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(NewQueries);
