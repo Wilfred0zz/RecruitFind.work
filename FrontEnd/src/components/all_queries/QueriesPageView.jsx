@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme)=>({
   root: {
     minWidth: 500,
     width: '70%',
-    margin: 'auto', 
+    margin: 'auto',
   },
   cardcontent: {
     padding: 16,
@@ -59,6 +59,9 @@ export default function QueriesPageView (props) {
   
   return (
     <div>
+      <br/>
+      <br/>
+      <br/>
       <br/>
       <Button href='/new_query_page' variant="outlined" className={classes.button} color="primary">New Query</Button>
       {PastQueries.length > 0 

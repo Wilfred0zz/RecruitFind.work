@@ -1,4 +1,4 @@
-.MainNavBar .navbar{
+/* .MainNavBar .navbar{
     position: fixed;
     width: 100%;
     background: rgba(0, 0, 0, 0.9);
@@ -51,16 +51,13 @@
     float: left;
 }
 
-<<<<<<< HEAD
 .MainNavBar{
     position: fixed;
 }
-=======
 img{
     position: absolute;
     left: -3.5%;
     top: -5.0%;
     height: 204px;
     width: 204px;
-}
->>>>>>> master
+} */
