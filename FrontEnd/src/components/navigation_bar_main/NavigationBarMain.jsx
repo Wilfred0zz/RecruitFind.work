@@ -129,7 +129,7 @@ render() {
             smooth={true}
             offset ={-50}
             duration={500}><Button className={classes.buttons} color="inherit">About</Button> </Link>
-            <Button className={classes.buttons} color="inherit">Contact</Button>
+            {/* <Button className={classes.buttons} color="inherit">Contact</Button> */}
             <TextField
                 InputProps={{
                     className: classes.input,

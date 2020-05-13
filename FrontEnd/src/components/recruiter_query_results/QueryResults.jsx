@@ -93,7 +93,7 @@ class RecruiterQueryResults extends Component{
         const result = await computeQueryResponse.json();
         const value = Object.values(result);
         const query_id = value.pop();
-        console.log(result);
+        // console.log(result);
         
         this.setState({
           query_id : query_id
@@ -108,7 +108,7 @@ class RecruiterQueryResults extends Component{
           this.setState({
             qualifiedCandidates : value
           })
-          console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
+          // console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
           //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
           //const temp = JSON.parse(JSON.stringify(state));
         }
@@ -166,8 +166,8 @@ class RecruiterQueryResults extends Component{
           }
           {
             this.state.redirect
-            ? null
-            : <Redirect to='/all_queries'/>
+            ? <Redirect to='/all_queries'/>
+            : null
           }
           <br/>
           <br/>
