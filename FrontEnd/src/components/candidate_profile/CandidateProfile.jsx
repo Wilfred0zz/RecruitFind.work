@@ -143,7 +143,7 @@ class CandidateProfile extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
-    console.log(event.target.value);
+    // console.log(event.target.value);
   } 
 
   // CANDIDATE PROFILE INFO ––––––––––––––––––
@@ -855,7 +855,7 @@ class CandidateProfile extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
 
       for(let i = 1; i <= this.state.profileLinks.length; i++){
         if(this.state[`type_of_link_${i}`].length > 0 || this.state[`link_${i}`].length > 0){
@@ -906,7 +906,7 @@ class CandidateProfile extends Component {
         submit_pushed: false
       }, () =>  console.log("Please be sure all inputs are appropraitely entered"));
     }
-
+  }
 
   render() {
     const { classes } = this.props;
