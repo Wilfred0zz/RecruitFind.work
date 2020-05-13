@@ -161,7 +161,7 @@ class NewQueries extends Component{
                         {...params}                     
                         variant="outlined"                     
                         label="Skills"                     
-                        placeholder="skill"                   
+                        placeholder="skill-Press enter to input skill press submit when done"                   
                       />                 
                     )}               
                   />
