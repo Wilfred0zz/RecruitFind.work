@@ -34,8 +34,8 @@ const MatchesPage = (props) => {
   const [ matchState, setMatchState ] = React.useState({});
   const [ isRecruiter, setIsRecruiter ] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  console.log("THIS IS MATCHES: ");
-  console.log(matches);
+  // console.log("THIS IS MATCHES: ");
+  // console.log(matches);
 
   const handleOpen = (match) => {
     setOpen(true);
@@ -49,7 +49,7 @@ const MatchesPage = (props) => {
   };
 
   const handleAccept = async (match_id) => {
-    console.log(match_id);
+    // console.log(match_id);
   
     const match_id_obj = {
       "match_id": match_id
