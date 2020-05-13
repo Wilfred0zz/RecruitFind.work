@@ -63,7 +63,7 @@ class Matches extends Component {
           : <Redirect to='/'/>
         }
         <NavigationBarRecruiter updateLogout={this.updateLogout}/>
-        <MatchesPage matches={this.state.matches}/>
+        <MatchesPage matches={this.state.matches} status="recruiter"/>
       </div>
     )
   }

@@ -152,6 +152,10 @@ class RecruiterQueryResults extends Component{
             ? null
             : <Redirect to='/'/>
           }
+          <br/>
+          <br/>
+          <br/>
+          <br/>
           <div>
             <Grid container spacing={4} className={classes.gridContainer} justify="center">
               {this.state.qualifiedCandidates.map((candidate, index) => (
@@ -178,8 +182,6 @@ class RecruiterQueryResults extends Component{
                 <Button onClick={() => this.handleAccept(candidate[2])} size="small">Accept</Button>
                 <Button size="small">Reject</Button>
                 <Button size="small" onClick={ (event) => this.handleMore(event, candidate[2])}>More</Button>
-        
-      
               </CardActions>
               </Card>
               </Grid>

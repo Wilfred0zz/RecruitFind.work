@@ -53,6 +53,7 @@ const handleAccept = async (match_id) => {
 }
 
 const MatchInfoModal = (props) => {
+  const { status } = props;
   const classes = useStyles();
   //console.log(props.matches.query_info ? props.matches.query_info[0] : null);
   const match_id = props.matches.match_id;
@@ -70,8 +71,11 @@ const MatchInfoModal = (props) => {
   console.log(role);
 
   const handleMore = (event, link) => {
-    console.log(event);
-    window.open(`/candidate_profile/${link}`, '_blank');
+    console.log("the status is: ", status)
+    if(status!=='candidate'){
+      console.log("This is the email", event);
+      window.open(`/candidate_profile/${link}`, '_blank');
+    }
   }
 
   return (
@@ -89,7 +93,7 @@ const MatchInfoModal = (props) => {
           </Paper>
         </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={12}>
             <Paper className={classes.paper}>
               <div className={classes.div}>
                 {"Description"}<br/>{description}<br/>
@@ -99,21 +103,25 @@ const MatchInfoModal = (props) => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <div className={classes.div}>
                   <CandidateProf email={recruiter_email}/>
               </div>
             </Paper>
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             { match_status === 'PENDING' && <Paper className={classes.paper}>
               Would you like to accept {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
                   request?'
               <br/>
               <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
-              <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
-            </Paper> }
+              {
+                status === 'candidate'
+                ? null
+                : <Button size="small" onClick={ (event) => handleMore(event, recruiter_email)}>Candidate Info</Button>
+              }
+              </Paper> }
             { match_status === 'ACCEPTED' && <Paper className={classes.paper}>
               You have accepted {recruiter_firstName}{" "}{recruiter_lastName}{'\'s '}
                   request.

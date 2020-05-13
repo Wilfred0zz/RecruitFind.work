@@ -85,7 +85,7 @@ class PublicCandidateProfile extends Component {
     const data = {
       email: email
     }
-    // console.log(email)
+    console.log("the data is: ", JSON.stringify(data))
     const response = await fetch('/api/fetchCandidatePage', {
       headers: {
         'Content-Type': 'application/json'
@@ -106,16 +106,13 @@ class PublicCandidateProfile extends Component {
       }
       const error = await response.json();
       if(!error.error){
-        alert("User doen't exist");
+        console.log("User doen't exist");
+        return;
       }
       else{
-        alert(error.error);
+        console.log(" I am in here", error.error);
+        return;
       }
-      setTimeout(()=>{
-        this.setState({
-          redirect: true,
-        }        
-      )}, 2000)
     }
     const result = await response.json();
     console.log("testing", result);
@@ -218,7 +215,17 @@ class PublicCandidateProfile extends Component {
     // alternative to getting URL
     // const result= window.location.href.split('/')
     // console.log(result[4]);
-    const email = this.props.email;
+    console.log(this.props);
+    if(this.props.email){
+      var email = this.props.email;
+      console.log("THe email at this point is: ", email)
+    }
+    else{
+      var email = this.props.routeProps.match.params.email;
+    }
+    // const email = this.props.routeProps.match.params.email;
+    // console.log(this.props.routeProps.match.params.email);
+    console.log(email);
     try {
       await this.getAllInformation(email);
     } catch(error) {
