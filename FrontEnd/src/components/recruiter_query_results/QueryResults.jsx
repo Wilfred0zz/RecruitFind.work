@@ -25,7 +25,8 @@ class RecruiterQueryResults extends Component{
     this.state = {
       is_logged_in: true,
       query_id: '',
-      qualifiedCandidates : []
+      qualifiedCandidates : [],
+      didRegister: true
     };
   }
 
@@ -43,10 +44,20 @@ class RecruiterQueryResults extends Component{
     });
 
     const status = queryResponse.status;   
-    // const result = await queryResponse.json();
 
+    if(status === 401){
+      this.setState({
+        is_logged_in: false,
+      })
+      return;
+    }
     if (status === 400 || status === 500) {
-      alert("Problem with query: ")
+      this.setState({
+        didRegister: false,
+      })
+      return;
+      const result = await queryResponse.json();
+      console.log(result.error);
       // alert(result.error);
     } else {
       // console.log(result);  
@@ -75,7 +86,7 @@ class RecruiterQueryResults extends Component{
           query_id : query_id
         })
 
-        
+
 
         if (status === 400 || status === 500) {
           alert("Problem with computing: ")
@@ -91,12 +102,6 @@ class RecruiterQueryResults extends Component{
         //const temp = JSON.parse(JSON.stringify(state));
       }
   };
-
-  updateLogout = () => {
-    this.setState({
-      is_logged_in: false
-    })
-  }
 
   handleMore = (event, link) => {
     console.log(event);
@@ -127,7 +132,7 @@ class RecruiterQueryResults extends Component{
       console.log("400 or 500 error")
     }
     else{
-      console.log("successfully set match")
+      console.log("successfully set match to " + email)
     }
 
   }
@@ -136,6 +141,11 @@ class RecruiterQueryResults extends Component{
     const { classes } = this.props;
       return (
         <div>
+          {
+            this.state.didRegister
+            ? null
+            : <Redirect to='/recruiter_register_profile'/>
+          }
           <NavigationBarRecruiter updateLogout={this.updateLogout}/>
           {
             this.state.is_logged_in

@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"tonyrock1@gmail.com\",\n    \"password\": \"abc123\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
+					"raw": "{\n\t\"email\": \"mike@gmail.com\",\n    \"password\": \"lolz\",\n    \"first_name\": \"bohn\",\n    \"last_name\": \"jrkgnj\",\n    \"personal_street_address\": \"700 Park Ave\",\n    \"personal_city\": \"efjbe\",\n    \"personal_state\": \"jebge\",\n    \"personal_postal\": \"10069\",\n    \"personal_country\": \"America\",\n    \"phone_number\": \"347-772-4000\",\n    \"status\": \"recruiter\",\n    \"gender\": \"male\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"jimmy@gmail.com\",\n    \"password\": \"123456\"\n}",
+					"raw": "{\n   \"email\": \"mikey@gmail.com\",\n    \"password\": \"lolz\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -431,7 +431,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"skill\": \"backend development\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"skill\": \"hiking\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -701,7 +701,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Developer\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"c#\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"jokor\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"hiking\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -733,7 +733,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"query_title\": \"Developer\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"c++\",\n\t\"desired_skill_2\": \"python\",\n\t\"desired_skill_3\": \"c#\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"nbnbnbn\",\n\t\"is_deleted\": false\n}",
+					"raw": "{\n\t\"query_title\": \"jokor\",\n\t\"query_description\": \"oder\",\n\t\"query_payment\": \"100-160k\",\n\t\"query_date\": \"04-30-2020\",\n\t\"desired_skill_1\": \"\",\n\t\"desired_skill_2\": \"\",\n\t\"desired_skill_3\": \"\",\n\t\"desired_skill_4\": \"\",\n\t\"desired_skill_5\": \"\",\n\t\"desired_skill_6\": \"\",\n\t\"desired_skill_7\": \"\",\n\t\"desired_skill_8\": \"\",\n\t\"desired_skill_9\": \"\",\t\n\t\"desired_skill_10\": \"hiking\",\n\t\"is_deleted\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -820,7 +820,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"candidate_email\": \"jimmy@gmail.com\",\n\t\"query_id\": 634\n}",
+					"raw": "{\n\t\"candidate_email\": \"bunny12@gmail.com\",\n\t\"query_id\": 648\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -967,7 +967,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"match_id\": 4\n}",
+					"raw": "{\n\t\"match_id\": 36\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1051,6 +1051,41 @@
 					"path": [
 						"api",
 						"fetchCandidatePage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "status",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/api/status",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"status"
 					]
 				}
 			},

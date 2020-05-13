@@ -23,6 +23,12 @@ class Matches extends Component {
 
     const status =  response.status;
     if(status >= 400){
+      if(status === 401){
+        this.setState({
+          is_logged_in: false,
+        })
+        return;
+      }
       console.log('error', response);
     } else {
       var result = await response.json();

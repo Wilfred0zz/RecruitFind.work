@@ -32,6 +32,7 @@ const MatchesPage = (props) => {
   const classes = useStyles();
   const { matches } = props;
   const [ matchState, setMatchState ] = React.useState({});
+  const [ isRecruiter, setIsRecruiter ] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   // console.log("THIS IS MATCHES: ");
   // console.log(matches);
@@ -47,6 +48,59 @@ const MatchesPage = (props) => {
     //console.log("HANDLE FALSE")
   };
 
+  const handleAccept = async (match_id) => {
+    // console.log(match_id);
+  
+    const match_id_obj = {
+      "match_id": match_id
+    }
+  
+    const acceptMatchResponse = await fetch('/api/acceptMatch', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'PUT',
+      body: JSON.stringify(match_id_obj)
+    });
+  
+    const status = acceptMatchResponse.status;
+  
+    if(status === 400 || status === 500){
+      console.log("400 or 500 error")
+    }
+    else{
+      console.log("successfully set match")
+      document.location.reload();
+    }
+  }
+
+  const handleReject = async (match_id) => {
+    console.log(match_id);
+  
+    const match_id_obj = {
+      "match_id": match_id
+    }
+  
+    const rejectMatchResponse = await fetch('/api/rejectMatch', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'PUT',
+      body: JSON.stringify(match_id_obj)
+    });
+  
+    const status = rejectMatchResponse.status;
+  
+    if(status === 400 || status === 500){
+      console.log("400 or 500 error")
+    }
+    else{
+      console.log("successfully set match")
+      document.location.reload();
+    }
+  }  
 
   return (
     <div className={classes.root}>
@@ -66,8 +120,6 @@ const MatchesPage = (props) => {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
               ? <p key={1}>No Pending Matches</p>
               : Object.keys(matches).map((match, i) => {
-
-              //console.log(match);
 
               const match_id = matches[match].match_id;
               const match_status = matches[match].match_status;
@@ -97,6 +149,8 @@ const MatchesPage = (props) => {
                   </CardContent>
                   
                   <CardActions>
+                    <Button onClick={() => handleAccept(match_id)} size="small">Accept</Button>
+                    <Button onClick={() => handleReject(match_id)} size="small">Reject</Button>
                     <Button onClick={() => handleOpen(matches[match])} size="small">More Info</Button>
                   </CardActions>
                 </Card> : null
@@ -150,7 +204,7 @@ const MatchesPage = (props) => {
           }
         </Grid>
       </Grid>
-      {open ? <MatchInfoModal open={open} close={handleClose} matches={matchState}/> : null}
+      {open ? <MatchInfoModal open={open} close={handleClose} isrecruiter={isRecruiter} matches={matchState}/> : null}
     </div>
   )
 }

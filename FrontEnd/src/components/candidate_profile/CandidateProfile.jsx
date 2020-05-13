@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate'
 import { Redirect } from 'react-router-dom';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import NavigationBarCandidate from './navigation_bar_candidate/NavigationBarCandidate';
 
 class CandidateProfile extends Component {
   constructor(props){
@@ -110,12 +110,18 @@ class CandidateProfile extends Component {
     const status = response.status;
     
     if(status >= 400) {
+      if(status === 401){
+        this.setState({
+          is_logged_in: false
+        })
+        return;
+      }
       const result = await response.json();
-      console.log(result);
       if(result.error === 'Candidate Profile Does Not Exist!'){
         this.setState({
           didRegister: false
         })
+        return;
       }
       else{
         this.setState({
@@ -158,7 +164,6 @@ class CandidateProfile extends Component {
       if(status>= 400){
         throw Error(alert('There is an error in getting candidate Personal Information'))
       }else{
-        console.log(result)
         const{email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
         this.setState({
           email:email,
@@ -196,7 +201,7 @@ class CandidateProfile extends Component {
     const status = response.status;
 
     if(status >= 400) {
-      throw Error(alert('There is an error in getting candidate experiences information'))
+      throw Error(console.log('There is an error in getting candidate experiences information'))
     } else {
       const result = await response.json();
       for(let i = 1; i <= 5; i++){
@@ -233,9 +238,24 @@ class CandidateProfile extends Component {
     const response = await fetch ('/api/fetchCandidateSkills')
     const status = response.status;
     if(status >= 400){
-      throw Error(alert('There is an error in getting candidate experiences information'));
+      if(status === 401){
+        this.setState({
+          is_logged_in:false,
+        });
+        throw(Error(console.log('User is not logged in')))
+      }
+      else {
+        throw Error(console.log('There is an error in getting candidate skills information'));
+      }
     }
     else {
+      const result = await response.json();
+      if(result.status_info === 'User Has No Skills!'){
+        this.setState({
+          didRegister: false,
+        }) 
+        throw Error(console.log('User has not completed registration')); 
+      }
       if(this.state.skills){
         this.setState({
           skills: []
@@ -244,7 +264,6 @@ class CandidateProfile extends Component {
       this.setState({
         delete_skills: []
       })
-      const result = await response.json();
       if(result.status_info === 'User Has No Skills!'){
         alert(result.status_info);
       }
@@ -295,7 +314,8 @@ class CandidateProfile extends Component {
   componentDidMount = async () => {
     console.log(window.location.href);
     try {
-      await Promise.all([this.fetchCandidateInfo(), this.fetchCandidateLinks(), this.fetchCandidateExperiences(), this.fetchCandidateSkills(), this.fetchCandidatePersonalInfo()])
+      await this.fetchCandidateSkills();
+      await Promise.all([ this.fetchCandidateInfo(), this.fetchCandidateLinks(), this.fetchCandidateExperiences(), this.fetchCandidatePersonalInfo()])
       this.oldState = this.state;
     } catch(error) {
       console.log(error)
@@ -785,26 +805,20 @@ class CandidateProfile extends Component {
     
   }
 
-  updateLogout = () => {
-    this.setState({
-      is_logged_in: false
-    })
-  }
-
   render() {
     return (
       <div className='candidate_profile'>
-        <NavigationBarCandidate updateLogout={this.updateLogout}/>
-        {
-          this.state.didRegister 
-          ? null
-          : <Redirect to='/candidate_register_profile'/>
-        }
-        {/* handle logout */}
+        <NavigationBarCandidate/>
+        {/* handle logout if candidate information not provided*/}
         {
           this.state.is_logged_in
           ? null
           : <Redirect to='/'/>
+        }
+        {
+          this.state.didRegister 
+          ? null
+          : <Redirect to='/candidate_register_profile'/>
         }
         {/* candidate data */}
         {

@@ -233,9 +233,14 @@ class RecruiterRegisterProfile extends Component{
       });
 
       const status = response.status;
-      const result = await response.json();
 
       if (status === 400 || status === 500) {
+        if(status === 401){
+          this.setState({
+            is_logged_in: false,
+          })
+        }
+        var result = await response.json();
         // If I dont get an error it means user isn't logged in
         if(!result.error) {
           console.log("User doesn't exist or isn't logged in and should be redirected to login");

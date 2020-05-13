@@ -23,7 +23,12 @@ class Matches extends Component {
 
     const status =  response.status;
     if(status >= 400){
-      console.log('error', response);
+      if(status === 401){
+        this.setState({
+          is_logged_in: false,
+        })
+      }
+      throw Error(console.log('User is not authorized'));
     } else {
       var result = await response.json();
       if(result){

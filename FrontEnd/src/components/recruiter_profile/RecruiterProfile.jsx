@@ -177,7 +177,7 @@ class RecruiterProfile extends Component{
           return;
         }
       } else { // user already has info so not the first time they are registering, so redirect them
-        console.log(result);
+        // console.log(result);
         const { email, first_name, gender, last_name, personal_city, personal_country ,personal_postal, personal_state, personal_street_address, phone_number} = result;
         this.setState({
           email: email,
@@ -236,7 +236,7 @@ class RecruiterProfile extends Component{
           return;
         }
       } else { // user already has info so not the first time they are registering, so redirect them
-        console.log(result);
+        // console.log(result);
         const { recruiter_city, recruiter_company, recruiter_company_street_address, recruiter_country, recruiter_position, recruiter_postal, recruiter_state } = result;
         this.setState({
           recruiter_city: recruiter_city,
@@ -248,6 +248,7 @@ class RecruiterProfile extends Component{
           recruiter_state: recruiter_state,
           input_address_string:`${recruiter_company_street_address}, ${recruiter_city}, ${recruiter_state} ${recruiter_postal} ${recruiter_country}`
         })
+
       }
     } catch (error) {
       console.log(error);

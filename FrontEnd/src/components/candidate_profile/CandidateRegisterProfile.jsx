@@ -482,10 +482,7 @@ class CandidateRegisterProfile extends Component{
     })
 
     try {
-      await this.handleExperiencesSubmission();
-      await this.handleLinkSubmission();
-      await this.handleCandidateProfileSubmission();
-      await this.handleSkillSubmission();
+      await Promise.all([ this.handleExperiencesSubmission(), this.handleLinkSubmission(), this.handleCandidateProfileSubmission(), this.handleSkillSubmission()])
       this.setState({
         candidate_info_update: true
       });
