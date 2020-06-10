@@ -11,8 +11,7 @@ reg = Blueprint('register', __name__)
 @reg.route("/api/register", methods=["POST"])
 def register():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
-
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = dict()
@@ -24,7 +23,6 @@ def register():
                 if error != None:
                     raise Exception(response)
             
-            #the following will parse the json request data into their respective variables
             email = data['email'].lower()
             password = data['password']
             firstName = data['first_name']
@@ -38,7 +36,6 @@ def register():
             status = data['status']
             gender = data['gender']
             
-            # Check if phone number is a valid US number
             if (not phonenumbers.is_valid_number(phonenumbers.parse(phoneNumber, "US"))):
                 response['error'] = "Invalid US Phone Number" 
                 raise Exception(response)
@@ -54,7 +51,6 @@ def register():
                 cursor.execute(f"""SELECT * FROM public."Personal Information" WHERE email = '{email}' and first_name = '{firstName}'""")
                 account = cursor.fetchone()
 
-                #checks to see whether an account with this email and first name already exists in the database
                 if not account:
                     cursor.execute(f"""INSERT INTO public."Personal Information" (email, password, first_name, last_name, personal_street_address, personal_state, personal_city, personal_postal, personal_country, phone_number, status, gender, salts ) VALUES ('{email}', '{encryptedPassword}', '{firstName}', '{lastName}', '{personalStreetAddress}', '{personalState}', '{personalCity}', '{personalPostal}', '{personalCountry}', '{phoneNumber}', '{status}', '{gender}', '{salt}')""")
                     database.commit()
