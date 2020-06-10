@@ -10,7 +10,7 @@ fqrys = Blueprint('fetchQueries', __name__)
 @login_required
 def fetchAllQueriesForAUser():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
@@ -24,7 +24,6 @@ def fetchAllQueriesForAUser():
                     queryResult = cursor.fetchall()
 
                     if len(queryResult) != 0:
-                        #length = len(queryResult)
 
                         response['queries'] = [ {
                             'query_id': row[0],
@@ -34,8 +33,7 @@ def fetchAllQueriesForAUser():
                             'queryDate': row[4]
                         } 
                         for row in queryResult ]
-
-                        
+                     
                     else:
                         error = "User Has No Queries!"
                         response['error'] = error

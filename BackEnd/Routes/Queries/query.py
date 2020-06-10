@@ -9,7 +9,7 @@ qry = Blueprint('query', __name__)
 @login_required
 def storeQuery():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = dict()
@@ -58,14 +58,10 @@ def storeQuery():
 
 
                     for i in range(len(skills)):
-                        print(skills[i])
-                        print("2")
                         cursor.execute(f"""SELECT skill_id FROM public."Skills" WHERE skill='{skills[i]}'""")
                         skillID = cursor.fetchone()
-                        print("THIS IS SKILL IDl :", skillID)
                         if skillID != None:
                             skillID = skillID[0]
-                            print("this is skill id that's being inserted: ", skillID)
                             skillIdTracker.insert(0, skillID)
                             cursor.execute(f"""INSERT INTO public."Query Skills" (query_id, skill_id, is_deleted) VALUES ({queryID}, {skillID}, {False})""")
                             database.commit()
@@ -82,7 +78,6 @@ def storeQuery():
                                     response['error'] = error
                                     raise Exception(response)
 
-                    print(nonExistentSkillsTracker)
                     response["query_id"] = queryID
                     response['status'] = True
                     response['status_info'] = 'Query Stored Successfully!'

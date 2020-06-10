@@ -5,13 +5,11 @@ connect = Blueprint('connection', __name__)
 
 @connect.route("/api/connection")
 def connection():
-    database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1"), port = "5432", database = "recruitfindwork")
-    #checks whether connection to database was successful or not
+    database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
     if(not database):
         return f'''Connection to database failed'''
     else:
         cursor = database.cursor()
-        #extracts the current PostgreSQL version and database name
         cursor.execute("SELECT version();")
         version = cursor.fetchone()[0]
         version = version[0:16]

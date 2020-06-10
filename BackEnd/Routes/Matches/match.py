@@ -10,7 +10,7 @@ mat = Blueprint('match', __name__)
 @login_required
 def storeMatch():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = dict()
@@ -36,10 +36,8 @@ def storeMatch():
                 status = 'PENDING'
 
                 if currentRecruiterId:
-                    print(queryId)
                     cursor.execute(f"""SELECT match_id FROM public."Matches" WHERE query_id={queryId} AND candidate_id={candidateId} AND recruiter_id={currentRecruiterId}""")
                     queryResult = cursor.fetchone()
-                    print(queryResult)
                     if queryResult == None:
                         cursor.execute(f"""INSERT INTO public."Matches" (candidate_id, recruiter_id, status, query_id, is_viewed, is_recruiter_deleted, is_candidate_deleted) VALUES ({candidateId}, {currentRecruiterId}, '{status}', {queryId}, {False}, {False}, {False})""")
                         database.commit()

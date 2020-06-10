@@ -11,7 +11,7 @@ frm = Blueprint('fetchRecruiterMatches', __name__)
 @login_required
 def fetchRecruiterMatches():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
@@ -24,43 +24,32 @@ def fetchRecruiterMatches():
                 if recruiterId:
                     cursor.execute(f"""SELECT candidate_id, query_id, match_id, status FROM public."Matches" WHERE (status='PENDING' OR status='ACCEPTED') AND (is_recruiter_deleted={False} AND recruiter_id={recruiterId})""")
                     queryResult = cursor.fetchall()
-                    #print("this is query result: ", queryResult)
                     
                     for i in range(len(queryResult)):
                         currentMatch = queryResult[i]
                         candidateId = currentMatch[0]
-                        #print("this is candidat id: ", candidateId)
                         queryId = currentMatch[1]
-                        #print("this is the query id: ", queryId)
                         matchId = currentMatch[2]
-                        #print("this is match id: ", matchId)
                         status = currentMatch[3]
-                        #print("this is status: ", status)
                         matches.append(matchId)
 
                         cursor.execute(f"""SELECT email, first_name, last_name FROM public."Personal Information" WHERE user_id={candidateId}""")
                         candidateInfo = cursor.fetchone()
-                        #print("this is candidate info: ", candidateInfo)
     
                         cursor.execute(f"""SELECT query_title, query_description, query_payment, query_date FROM public."Queries" WHERE query_id={queryId}""")
                         queryInfo = cursor.fetchone()
-                        #print("this is first query info: ", queryInfo)
                   
                         cursor.execute(f"""SELECT skill_id FROM public."Query Skills" WHERE query_id={queryId}""")
                         skillIdsFromQueryInfo = cursor.fetchall()
-                        #print("these are skills: ", skillIdsFromQueryInfo)
 
                         for j in range(len(skillIdsFromQueryInfo)):
                             cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id='{skillIdsFromQueryInfo[j][0]}'""")
                             skill = cursor.fetchone()[0]
                             skills.insert(0, skill)
-                            #print("this is ", candidateId, "'s skills ", skills)
 
                         matchObj = { i : constructReponse(response, candidateInfo, queryInfo, skills, matchId, status)}
                         response.update(matchObj)
                         skills = []
-
-                        print("this is response: ", response)
                         
                 
         else:
@@ -75,13 +64,6 @@ def fetchRecruiterMatches():
 
 
 def constructReponse(respObj, candidate, query, skills, match, status):
-    #print(respObj)
-    #print(candidate)
-    #print(query)
-    #print(skills)
-    #print(match)
-    #print(status)
-
     candidateInfo = []
     queryInfo = []
     candidate = candidate[::-1]
