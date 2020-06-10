@@ -11,7 +11,7 @@ fcm = Blueprint('fetchCandidateMatches', __name__)
 @login_required
 def fetchCandidateMatches():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
@@ -22,12 +22,9 @@ def fetchCandidateMatches():
                 currentCandidateId = current_user.get_id()
 
                 if currentCandidateId:
-                    # print()
                     cursor.execute(f"""SELECT recruiter_id, query_id, match_id, status FROM public."Matches" WHERE (status='PENDING' OR status='ACCEPTED') AND (is_candidate_deleted=False AND candidate_id={currentCandidateId})""")                    
                     queryResult = cursor.fetchall()
-                    #print("Result: ", queryResult)
                     if len(queryResult) != 0:
-                        # Need to make an outer for loop, the issue is it is taking skill results from all queries and combining it into one
                         
                         for i in range(len(queryResult)):
                             currentMatch = queryResult[i]
@@ -39,25 +36,17 @@ def fetchCandidateMatches():
 
                             cursor.execute(f"""SELECT email, first_name, last_name FROM public."Personal Information" WHERE user_id={recruiterId}""")
                             recruiterInfo = cursor.fetchone()
-                            #print("RECRUITERINFO: ", recruiterInfo)
         
                             cursor.execute(f"""SELECT query_title, query_description, query_payment, query_date FROM public."Queries" WHERE query_id={queryId}""")
                             queryInfo = cursor.fetchone()
-                            #print("QUERY: ", queryInfo)
 
                             cursor.execute(f"""SELECT skill_id FROM public."Query Skills" WHERE query_id={queryId}""")
-                            #print("this is the query idz: ", queryId)
                             skillIdsFromQueryInfo = cursor.fetchall()
-                            #print("this is the info: ", skillIdsFromQueryInfo)
 
                             for j in range(len(skillIdsFromQueryInfo)):
-                                #print("Current ValuE: ", skillIdsFromQueryInfo[i][0])
                                 cursor.execute(f"""SELECT skill FROM public."Skills" WHERE skill_id={skillIdsFromQueryInfo[j][0]}""")
                                 skill = cursor.fetchone()[0]
-                                #print("SKILL: ", skill)
                                 skills.insert(0, skill)
-                                #print('Skills at this point: ', skills)
-                            #print("The Content of Matches: ", matches)
                             
                             matchObj = { i : constructReponse(response, recruiterInfo, queryInfo, skills, matchId, status)}
                             response.update(matchObj)

@@ -9,7 +9,7 @@ dce = Blueprint('deleteCandidateExperiences', __name__)
 @login_required
 def deleteCandidateExperiences():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = dict()
@@ -24,7 +24,6 @@ def deleteCandidateExperiences():
                 isDeleted5 = data['is_deleted_5']
 
                 currentUserId = current_user.get_id()
-                print("this is the user's id: ", currentUserId)
 
                 if currentUserId:
                     cursor.execute(f"""SELECT experience_id FROM public."Candidate Experiences" WHERE user_id = '{currentUserId}'""")

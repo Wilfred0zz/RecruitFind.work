@@ -11,7 +11,7 @@ cptQry = Blueprint('computeQuery', __name__)
 @login_required
 def computeQueryResult():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = defaultdict(list)
@@ -49,7 +49,6 @@ def computeQueryResult():
                 skills.insert(0, desiredSkill1)
 
                 skills = filterExistingSkills(skills, cursor)
-                print("these are skills: ", skills)
 
                 currentUserId = current_user.get_id()
 
@@ -82,7 +81,6 @@ def computeQueryResult():
                         checkForMatchedUsersThatRejected(response, cursor)
 
                         response['query_id'] = queryID
-                        #print(response , " This is the response")
                         if len(response) == 1:
                             response['status_info'] = 'No Results Could Be Found For This Query! This Is Because No User With That Skill Exists Or Because Some Users Are Hidden!'
                         else:
@@ -102,20 +100,6 @@ def computeQueryResult():
         print(traceback.format_exc())
         return response, 400
 
-    #empty = []
-
-    #for key in response:
-    #    print("this is j: ", key)
-    #    for i in range(len(response[key][4])):
-    #        if response[key][4][i] == "":
-    #           empty.insert(0,response[key][4][i])
-
-    #print("this is the empty responnse: " , empty)
-    #for key in response:
-    #    for item in empty:
-    #        del response[key][4][item]
-    #print (response)
-    #response['query_id'] = queryID
     return response
 
 def extractUsersFromQueryResult(qryResult):
@@ -217,17 +201,14 @@ def filterExistingSkills(listOfSkills, curr):
 def checkSkillsOfCandidate(targetedCandidates, curr):
     usersAndTheirSkills = defaultdict(list)
     skills = []
-    print(targetedCandidates)
 
     for keys in targetedCandidates:
         for candidateId in targetedCandidates[keys]:
-            print(candidateId)
             curr.execute(f"""SELECT email FROM public."Personal Information" WHERE user_id={candidateId}""")
             candidateEmail = curr.fetchone()[0]
             skills.insert(0, keys)
             usersAndTheirSkills[candidateEmail].append(keys)
     
-    print(usersAndTheirSkills)
     return usersAndTheirSkills
 
 

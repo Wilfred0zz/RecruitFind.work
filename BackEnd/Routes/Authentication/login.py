@@ -27,7 +27,7 @@ class User():
 @log.route("/api/login", methods=["POST", "GET"])
 def login():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = dict()
@@ -53,7 +53,6 @@ def login():
 
             cursor.execute(f"""SELECT COUNT(1) FROM public."Personal Information" WHERE email = '{email}'""")
 
-            #checks to see whether or not the user exists
             if not cursor.fetchone()[0]:
                 error = "User Doesn't Exist!"
                 response['error'] = error
@@ -64,7 +63,6 @@ def login():
                 cursor.execute(f"""SELECT password FROM public."Personal Information" WHERE email = '{email}'""")
                 results = cursor.fetchall()
 
-                #fetches the salt that's associated with the user, creates a replica encrypted password, and compares it with the one that's already stored in the database
                 cursor.execute(f"""SELECT salts FROM public."Personal Information" WHERE email = '{email}'""")
                 salt_result = cursor.fetchone()[0]
                 salt_result = str.encode(salt_result)

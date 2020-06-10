@@ -9,7 +9,7 @@ fcl = Blueprint('fetchCandidateLinks', __name__)
 @login_required
 def fetchCandidateLinks():
     try:
-        database = psycopg2.connect(user = "postgres", password = "htrvvC56nb02kqtA", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "recruitfindwork")
+        database = psycopg2.connect(user = "bylinkvsjtfdia", password = "b441303bb98c6533e96fa5c476852dcc067180f3a036d5bde62d61e9c5f19d5f", host= os.getenv('DATABASE_IP', "172.17.0.1") , port = "5432", database = "dauhmnvct04jp4")
         if database:
             cursor = database.cursor()
             response = dict()
@@ -21,14 +21,12 @@ def fetchCandidateLinks():
                 if currentUserId:
                     cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={False}""")
                     queryResult = cursor.fetchall()
-                    print("this is query result: ", queryResult)
 
                     if len(queryResult) != 0:
                         if len(queryResult) == 1:
                             linkId1 = queryResult[0][0]
                             cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE link_id={linkId1}""")
                             queryResultFromLinkId = cursor.fetchall()
-                            print(queryResultFromLinkId)
                             constructLinksResponse(response, queryResultFromLinkId[0], '1')
 
                             cursor.execute(f"""SELECT link, type_of_link, is_deleted FROM public."Candidate Links" WHERE user_id={currentUserId} AND is_deleted={True}""")
