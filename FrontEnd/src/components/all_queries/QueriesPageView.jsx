@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -51,6 +52,16 @@ const useStyles = makeStyles((theme)=>({
     fontSize: '.9em',
     display: 'block',
   },
+
+  deleteIcon4: {
+    '& svg': {
+      fontSize: 600
+    }
+  },
+
+  createQueryButton: {
+    
+  }
 }));
 
 export default function QueriesPageView (props) {
@@ -63,7 +74,7 @@ export default function QueriesPageView (props) {
       <br/>
       <br/>
       <br/>
-      <Button href='/new_query_page' variant="outlined" className={classes.button} color="primary">New Query</Button>
+      
       {PastQueries.length > 0 
       ? <div>
           <ul>
@@ -94,7 +105,12 @@ export default function QueriesPageView (props) {
             )}
           </ul>
         </div>
-      : <p id="no-queries" style={{textAlign:"center"}}>No Past Queries</p>}
+      : 
+      <div>
+      <p id="no-queries" style={{position: 'absolute', top: '58%', right: '40%', fontSize: 30}}>No Past Queries At This Time</p>
+      <Button href='/new_query_page' variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary">Create A New Query</Button>
+      <SearchIcon className="material-icons" style={{top: '16%', left: '39%', position: 'absolute', fontSize: '500px'}}/>
+      </div>}
     </div>
   )
 }
