@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import Modal from '@material-ui/core/Modal';
 
 const styles = (theme) => ({
   root: {
@@ -126,7 +127,13 @@ class NewQueries extends Component{
         {
           this.state.moveOn 
           ? <Redirect push to = "/query_results_page"/> 
-          : <div> 
+          :
+          
+          <div>
+          <Modal disablePortal disableEnforceFocus
+  disableAutoFocus
+  open>
+            <div> 
             <br/>
             <br/>
             <br/>
@@ -175,6 +182,8 @@ class NewQueries extends Component{
                 </Paper>
                 
               </div>
+          </div>
+          </Modal>
           </div>
         }
       </div>
