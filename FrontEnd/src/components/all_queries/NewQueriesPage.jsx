@@ -47,10 +47,13 @@ class NewQueries extends Component{
       skills : [],
       moveOn : false,
       is_logged_in: true,
-    } 
+      
+    };
+   
   }
 
   onChange = (event) =>{
+    console.log(event.target.value);
     this.props.updateState({
       [event.target.name]: event.target.value
     })
@@ -135,7 +138,7 @@ class NewQueries extends Component{
           :
           
           <div>
-          {this.props.show ? <Modal disablePortal disableEnforceFocus disableAutoFocus open style={{position: 'absolute', top: '10%'}}>
+          {this.props.show ? <Modal disablePortal disableEnforceFocus disableAutoFocus open style={{position: 'absolute', top: '10%', borderColor: 'black'}}>
             <div> 
             <br/>
             <br/>
@@ -143,7 +146,7 @@ class NewQueries extends Component{
               <div>
                 <Paper elevation={2}  className={classes.form}>
                   <br/>
-                <h3 style={{textAlign: 'center'}}>Job Posting</h3>
+                <h3 style={{textAlign: 'center', fontSize: 25}}>Job Posting</h3>
                 <form onSubmit={this.onSubmit} >
                   <br/>
                   <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_title} name="query_title" label="Title"/>
@@ -179,8 +182,8 @@ class NewQueries extends Component{
                   <br/>
                   <br/>
                   <br/>
-                  <Button style={{marginLeft: '220px'}} onClick = {this.onSubmit} >Submit</Button>
-                  <Button onClick={this.onClose}>Cancel</Button>
+                  <Button style={{backgroundColor: 'red', width: '10%', left: '50%', position: 'absolute'}} onClick = {this.onSubmit} >Submit</Button>
+                  <Button style={{marginLeft: '240px', backgroundColor: 'grey', width: '10%', left: '27%', position: 'absolute'}} onClick={this.onClose}>Cancel</Button>
                 </form>
                 </Paper>
                 

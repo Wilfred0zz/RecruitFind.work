@@ -73,9 +73,7 @@ export default function QueriesPageView (props) {
   const { PastQueries } = props;
 
   const showModal = e => {
-    console.log(show);
     toggleShow(!show);
-    console.log(show);
   }
 
   return (
@@ -85,6 +83,7 @@ export default function QueriesPageView (props) {
       <br/>
       <br/>
       {/*<Button href='/new_query_page' variant="outlined" className={classes.button} color="primary">New Query</Button>*/}
+      <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
       {PastQueries.length > 0 
       ? <div>
           <ul>
@@ -119,7 +118,6 @@ export default function QueriesPageView (props) {
       <div>
       <p id="no-queries" style={{position: 'absolute', top: '58%', right: '40%', fontSize: 30}}>No Past Queries At This Time</p>
       <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
-      {console.log(show)}
       <SearchIcon className="material-icons" style={{top: '16%', left: '39%', position: 'absolute', fontSize: '500px'}}/>
       </div>}
       <NewQueries onClose={e => showModal()} show={show}/>

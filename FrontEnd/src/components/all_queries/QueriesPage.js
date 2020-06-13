@@ -35,6 +35,7 @@ class DisplayPastQueries extends Component {
         this.setState({
           PastQueries: result.queries
         })
+        
       }
     } catch (error) {
       console.log(error);
