@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -67,8 +67,16 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 export default function QueriesPageView (props) {
+  const [show, toggleShow] = useState(false);
+
   const classes = useStyles();
   const { PastQueries } = props;
+
+  const showModal = e => {
+    console.log(show);
+    toggleShow(!show);
+    console.log(show);
+  }
 
   return (
     <div>
@@ -110,9 +118,11 @@ export default function QueriesPageView (props) {
       : 
       <div>
       <p id="no-queries" style={{position: 'absolute', top: '58%', right: '40%', fontSize: 30}}>No Past Queries At This Time</p>
-      <Button href='/new_query_page' variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary">Create A New Query</Button>
+      <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
+      {console.log(show)}
       <SearchIcon className="material-icons" style={{top: '16%', left: '39%', position: 'absolute', fontSize: '500px'}}/>
       </div>}
+      <NewQueries onClose={e => showModal()} show={show}/>
     </div>
   )
 }

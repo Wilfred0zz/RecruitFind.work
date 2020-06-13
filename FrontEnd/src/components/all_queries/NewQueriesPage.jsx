@@ -109,6 +109,11 @@ class NewQueries extends Component{
     });
   }
 
+  onClose = (e) => {
+    //this.props.show = false;
+    this.props.onClose && this.props.onClose(e);
+  };
+
   render(){
     const { classes } = this.props;
     const { query_title, query_description, query_payment } = this.state
@@ -130,9 +135,7 @@ class NewQueries extends Component{
           :
           
           <div>
-          <Modal disablePortal disableEnforceFocus
-  disableAutoFocus
-  open>
+          {this.props.show ? <Modal disablePortal disableEnforceFocus disableAutoFocus open style={{position: 'absolute', top: '10%'}}>
             <div> 
             <br/>
             <br/>
@@ -177,13 +180,13 @@ class NewQueries extends Component{
                   <br/>
                   <br/>
                   <Button style={{marginLeft: '220px'}} onClick = {this.onSubmit} >Submit</Button>
-                  <Button href='/all_queries'>Cancel</Button>
+                  <Button onClick={this.onClose}>Cancel</Button>
                 </form>
                 </Paper>
                 
               </div>
           </div>
-          </Modal>
+          </Modal> : null}
           </div>
         }
       </div>
