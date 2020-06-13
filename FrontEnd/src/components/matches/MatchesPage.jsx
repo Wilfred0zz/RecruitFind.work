@@ -14,10 +14,40 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
-  paper: {
+  paper1: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    backgroundColor: '#4169E1',
+    height: '1%',
+    width: '100%',
+    position: 'absolute',
+    left: '0%'
+  },
+
+  paper2: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    //backgroundColor: 'silver',
+    height: '1%',
+    width: '48.35%',
+    left: '0%',
+    top: '10.9%',
+    position: 'absolute'
+    
+  },
+  paper3: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    //backgroundColor: 'silver',
+    height: '1%',
+    width: '50%',
+    left: '52%',
+    top: '10.9%',
+    position: 'absolute'
+    
   },
   columns: {
     textAlign: "center"
@@ -122,18 +152,18 @@ const MatchesPage = (props) => {
       <br/>
       <br/>
       <br/>
-      <br/>
+    
       <Grid container>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>MATCHES</Paper>
+          <Paper className={classes.paper1}>MATCHES</Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <div className={classes.paper}>PENDING</div>
+          <div className={classes.paper2} style={{backgroundColor: '#BF0A30'}}>PENDING</div>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <div className={classes.paper}>ACCEPTED</div>
+          <div className={classes.paper3} style={{backgroundColor: '#D0F0C0'}}>ACCEPTED</div>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} style={{backgroundColor: '#BF0A30'}}>
           {/* handles rendering of pending matches */}
           {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
@@ -184,7 +214,7 @@ const MatchesPage = (props) => {
           }
           
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} style={{backgroundColor: '#D0F0C0'}}>
           {/* Handles rendering of accepted matches */}
           {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
