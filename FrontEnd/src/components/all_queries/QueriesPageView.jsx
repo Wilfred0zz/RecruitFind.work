@@ -83,17 +83,17 @@ export default function QueriesPageView (props) {
       <br/>
       <br/>
       {/*<Button href='/new_query_page' variant="outlined" className={classes.button} color="primary">New Query</Button>*/}
-      <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
       {PastQueries.length > 0 
       ? <div>
+        <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '12%', left: '70%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
           <ul>
             {PastQueries.map((query) => {
               if(query.queryTitle!==''){
                 return (<div key={query.query_id}>
-                    <Card className={classes.root} variant="outlined">
+                    <Card className={classes.root} style={{width: '30%'}} variant="outlined">
                       <CardContent className={classes.cardcontent}>
                         <Typography className={classes.date} color="textSecondary">
-                        {query.queryDate} 
+                        Posted On {query.queryDate} 
                         </Typography>
                         <Typography className={classes.title}>
                         {query.queryTitle}
