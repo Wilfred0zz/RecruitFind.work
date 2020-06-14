@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    backgroundColor: '#4169E1',
+    backgroundColor: '#EFEFE8',
     height: '1%',
     width: '100%',
     position: 'absolute',
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     width: '48.35%',
     left: '0%',
     top: '10.9%',
-    position: 'absolute'
+    position: 'absolute',
     
   },
   paper3: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     //backgroundColor: 'silver',
     height: '1%',
     width: '50%',
-    left: '52%',
+    left: '50%',
     top: '10.9%',
     position: 'absolute'
     
@@ -158,16 +158,16 @@ const MatchesPage = (props) => {
           <Paper className={classes.paper1}>MATCHES</Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <div className={classes.paper2} style={{backgroundColor: '#BF0A30'}}>PENDING</div>
+          <div className={classes.paper2} style={{backgroundColor: '#990000'}}>PENDING</div>
         </Grid>
         <Grid item xs={12} sm={6}>
           <div className={classes.paper3} style={{backgroundColor: '#D0F0C0'}}>ACCEPTED</div>
         </Grid>
-        <Grid item xs={12} sm={6} style={{backgroundColor: '#BF0A30'}}>
+        <Grid item xs={12} sm={6} style={{backgroundColor: '#990000', left: '0%', position: 'absolute', top: '15.25%', width: '50%', height: 1000}}>
           {/* handles rendering of pending matches */}
           {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
-              ? <p key={1} style={{textAlign: 'center'}}>No Pending Matches</p>
+              ? <p key={1} style={{position: 'absolute', top: '32%', left: '35%', fontWeight: 'bold', fontSize: 30}}>No Pending Matches</p>
               : Object.keys(matches).map((match, i) => {
               
               const match_id = matches[match].match_id;
@@ -186,7 +186,7 @@ const MatchesPage = (props) => {
               //   salary + date + recruiter_email+recruiter_firstName+recruiter_lastName+skills);
 
               return(match_status === "PENDING" ? 
-                <Card key = {match_id}>
+                <Card key = {match_id} style={{width: '50%', position: 'absolute', left: '25%'}}>
                   <CardContent >
                     <Typography style={{textAlign: 'center'}}> {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
                     <br />
@@ -214,11 +214,11 @@ const MatchesPage = (props) => {
           }
           
         </Grid>
-        <Grid item xs={12} sm={6} style={{backgroundColor: '#D0F0C0'}}>
+        <Grid item xs={12} sm={6} style={{backgroundColor: '#D0F0C0', left: '50%', position: 'absolute', top: '15.25%', width: '50%', height: 1000}}>
           {/* Handles rendering of accepted matches */}
           {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
-              ? <p key={1} style={{textAlign: 'center'}}>No Accepted Matches</p>
+              ? <p key={1} style={{position: 'absolute', top: '32%', left: '43%', fontWeight: 'bold', fontSize: 30}}>No Accepted Matches</p>
               : Object.keys(matches).map((match, i) => {
                   const match_id = matches[match].match_id;
                   const match_status = matches[match].match_status;
