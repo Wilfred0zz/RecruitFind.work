@@ -108,6 +108,7 @@ class NewQueries extends Component{
     this.setState({
       moveOn : true
     });
+    localStorage.clear();
   }
 
   onClose = (e) => {
