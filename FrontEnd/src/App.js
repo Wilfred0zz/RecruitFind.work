@@ -51,7 +51,7 @@ class App extends Component{
     const CandidateProfileComponent = () => <CandidateProfile/>
     const RecruiterRegisterProfileComponent = () => <RecruiterRegisterProfile/>
     const RecruiterProfileComponent = () => <RecruiterProfile/>
-    const QueriesPageComponent = () => <QueriesPage state ={this.state}/>
+    const QueriesPageComponent = () => <QueriesPage state ={this.state} updateState={this.updateState}/>
     const NewQueriesPageComponent = () => <NewQueriesPage state={this.state} updateState={this.updateState}/>
     const RecruiterQueryResultsComponent = () => <RecruiterQueryResults state={this.state} />
     // need to pass in this to get access to history, otherwise need to use window.location.href

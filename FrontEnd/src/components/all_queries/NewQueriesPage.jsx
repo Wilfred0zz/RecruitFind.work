@@ -193,6 +193,7 @@ class NewQueries extends Component{
           </Modal> : null}
           </div>
         }
+        {console.log(this.props.updateState)}
       </div>
     )
   }

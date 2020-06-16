@@ -82,7 +82,6 @@ export default function QueriesPageView (props) {
       <br/>
       <br/>
       <br/>
-      {/*<Button href='/new_query_page' variant="outlined" className={classes.button} color="primary">New Query</Button>*/}
       {PastQueries.length > 0 
       ? <div>
         <p style={{fontWeight: 'bold', fontSize: 30, position: 'relative', left: '46%'}}>Past Queries</p>
@@ -121,8 +120,7 @@ export default function QueriesPageView (props) {
       <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
       <SearchIcon className="material-icons" style={{top: '16%', left: '39%', position: 'absolute', fontSize: '500px'}}/>
       </div>}
-      {console.log(props)}
-      <NewQueries onClose={e => showModal()} show={show} state={props.state}/>
+      <NewQueries onClose={e => showModal()} show={show} state={props.state} updateState={props.updateState}/>
     </div>
   )
 }
