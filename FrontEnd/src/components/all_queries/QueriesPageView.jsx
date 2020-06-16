@@ -121,7 +121,8 @@ export default function QueriesPageView (props) {
       <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
       <SearchIcon className="material-icons" style={{top: '16%', left: '39%', position: 'absolute', fontSize: '500px'}}/>
       </div>}
-      <NewQueries onClose={e => showModal()} show={show}/>
+      {console.log(props)}
+      <NewQueries onClose={e => showModal()} show={show} state={props.state}/>
     </div>
   )
 }

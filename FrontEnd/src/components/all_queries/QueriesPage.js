@@ -66,7 +66,7 @@ class DisplayPastQueries extends Component {
           ? null
           : <Redirect to='/'/>
         }
-        <QueriesPageView PastQueries={this.state.PastQueries}/>
+        <QueriesPageView PastQueries={this.state.PastQueries} state={this.props.state}/>
       </div>
     )
   }

@@ -11,10 +11,12 @@ import QueriesPage from './components/all_queries/QueriesPage';
 import NewQueriesPage from './components/all_queries/NewQueriesPage';
 import RecruiterQueryResults from './components/recruiter_query_results/QueryResults';
 import PublicCandidateProfile from './components/candidate_profile/PublicCandidateProfile';
+import NewQueries from './components/all_queries/NewQueriesPage';
 // import AboutUs from './components/about_us/about_us'
 
 import CandidateMatches from './components/matches/CandidateMatches';
 import RecruiterMatches from './components/matches/RecruiterMatches';
+import QueriesPageView from './components/all_queries/QueriesPageView';
 // import CandidateRegister from './components/';
 //import RecruiterRegister from './components/register_recruiter/RegisterRecruiter';
 
@@ -49,7 +51,7 @@ class App extends Component{
     const CandidateProfileComponent = () => <CandidateProfile/>
     const RecruiterRegisterProfileComponent = () => <RecruiterRegisterProfile/>
     const RecruiterProfileComponent = () => <RecruiterProfile/>
-    const QueriesPageComponent = () => <QueriesPage/>
+    const QueriesPageComponent = () => <QueriesPage state ={this.state}/>
     const NewQueriesPageComponent = () => <NewQueriesPage state={this.state} updateState={this.updateState}/>
     const RecruiterQueryResultsComponent = () => <RecruiterQueryResults state={this.state} />
     // need to pass in this to get access to history, otherwise need to use window.location.href

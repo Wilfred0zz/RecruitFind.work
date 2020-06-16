@@ -49,11 +49,9 @@ class NewQueries extends Component{
       is_logged_in: true,
       
     };
-   
   }
 
   onChange = (event) =>{
-    console.log(event.target.value);
     this.props.updateState({
       [event.target.name]: event.target.value
     })
@@ -120,6 +118,9 @@ class NewQueries extends Component{
   render(){
     const { classes } = this.props;
     const { query_title, query_description, query_payment } = this.state
+
+    console.log(this.props.state)
+
     return(
       <div className="NewQuery" id="background_new_query">
         <NavigationBarRecruiter updateLogout={this.updateLogout}/>
@@ -138,7 +139,7 @@ class NewQueries extends Component{
           :
           
           <div>
-          {this.props.show ? <Modal disablePortal disableEnforceFocus disableAutoFocus open style={{position: 'absolute', top: '10%', borderColor: 'black'}}>
+         {this.props.show ? <Modal disablePortal disableEnforceFocus disableAutoFocus open style={{position: 'absolute', top: '10%', borderColor: 'black'}}>
             <div> 
             <br/>
             <br/>
@@ -149,7 +150,7 @@ class NewQueries extends Component{
                 <h3 style={{textAlign: 'center', fontSize: 25}}>Job Posting</h3>
                 <form onSubmit={this.onSubmit} >
                   <br/>
-                  <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_title} name="query_title" label="Title"/>
+                  <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange.bind(this)} value={query_title} name="query_title" label="Title"/>
                   <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_payment} name="query_payment" label="Payment"/>                                    
                   <TextField variant="outlined" className={classes.description} size='small' type="text" onChange={this.onChange} value={query_description} name="query_description" label="Description" InputProps={{className: classes.input,}} multiline/>                  
                   {/* <label htmlFor="query_title"> Title</label>
