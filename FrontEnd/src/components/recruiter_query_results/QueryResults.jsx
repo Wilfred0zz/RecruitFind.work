@@ -32,88 +32,94 @@ class RecruiterQueryResults extends Component{
   }
 
   componentDidMount = async () => {
-    const queryInfo = {...this.props.state, query_date : new Date(Date.now()).toLocaleDateString()};
-    
+   if(localStorage.getItem('qualified_candidates')){
+      this.setState({qualifiedCandidates: JSON.parse(localStorage.getItem("qualified_candidates"))}) 
+    }else{
 
-    const queryResponse =  await fetch('/api/query', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify(queryInfo)
-    });
+      const queryInfo = {...this.props.state, query_date : new Date(Date.now()).toLocaleDateString()};
+      
 
-    const status = queryResponse.status;   
+      const queryResponse =  await fetch('/api/query', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(queryInfo)
+      });
 
-    if(status === 401){
-      this.setState({
-        is_logged_in: false,
-      })
-      return;
-    }
-    if (status === 400 || status === 500) {
-      const result = await queryResponse.json();
-      if(result.error === 'No Users Have Any of the Skills That Were Entered!'){
-        alert(result.error);
-        setTimeout(()=>{
-          this.setState({
-            redirect: true,
-          }        
-        )}, 2000)
+      const status = queryResponse.status;   
+
+      if(status === 401){
+        this.setState({
+          is_logged_in: false,
+        })
         return;
       }
-      else { 
-        this.setState({
-          didRegister: false,
-        })
-      }
-      return;
-      // const result = await queryResponse.json();
-      // console.log(result.error);
-      // alert(result.error);
-    } else {
-      // console.log(result);  
-        const computeQueryResponse = await fetch('/api/computeQuery', {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: 'POST',
-          body: JSON.stringify(queryInfo)
-        });
-    
-        const status = computeQueryResponse.status;   
-        if(status === 401){
-          this.setState({
-            is_logged_in: false,
-          })
+      if (status === 400 || status === 500) {
+        const result = await queryResponse.json();
+        if(result.error === 'No Users Have Any of the Skills That Were Entered!'){
+          alert(result.error);
+          setTimeout(()=>{
+            this.setState({
+              redirect: true,
+            }        
+          )}, 2000)
           return;
         }
-        const result = await computeQueryResponse.json();
-        const value = Object.values(result);
-        const query_id = value.pop();
-        // console.log(result);
-        
-        this.setState({
-          query_id : query_id
-        })
-
-
-
-        if (status === 400 || status === 500) {
-          alert("Problem with computing: ")
-          alert(result.error);
-        } else {
+        else { 
           this.setState({
-            qualifiedCandidates : value
+            didRegister: false,
           })
-          // console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
-          //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
+        }
+        return;
+        // const result = await queryResponse.json();
+        // console.log(result.error);
+        // alert(result.error);
+      } else {
+        // console.log(result);  
+          const computeQueryResponse = await fetch('/api/computeQuery', {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(queryInfo)
+          });
+      
+          const status = computeQueryResponse.status;   
+          if(status === 401){
+            this.setState({
+              is_logged_in: false,
+            })
+            return;
+          }
+          const result = await computeQueryResponse.json();
+          const value = Object.values(result);
+          const query_id = value.pop();
+          // console.log(result);
+          
+          this.setState({
+            query_id : query_id
+          })
+
+
+
+          if (status === 400 || status === 500) {
+            alert("Problem with computing: ")
+            alert(result.error);
+          } else {
+            this.setState({
+              qualifiedCandidates : value
+            })
+            localStorage.setItem('qualified_candidates', JSON.stringify(this.state.qualifiedCandidates));
+            // console.log('Qualified Candidates: ', this.state.qualifiedCandidates)
+            //console.log('Qualified Candidates 1: ', this.state.qualifiedCandidates[3])
+            //const temp = JSON.parse(JSON.stringify(state));
+          }
           //const temp = JSON.parse(JSON.stringify(state));
         }
-        //const temp = JSON.parse(JSON.stringify(state));
-      }
+    }
   };
 
   handleMore = (event, link) => {
@@ -210,6 +216,7 @@ class RecruiterQueryResults extends Component{
             </Grid>
             
           </div>
+          {console.log(this.state.qualifiedCandidates)}
         </div>
         );  
   }
