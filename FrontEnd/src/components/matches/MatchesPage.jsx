@@ -158,7 +158,7 @@ const MatchesPage = (props) => {
               const skills = matches[match].skills;
 
               return(match_status === "PENDING" ? 
-                <Card key = {match_id} style={{width: '50%', position: 'absolute', left: '25%', alignItems: 'center'}}>
+                <Card key = {match_id} style={{width: '50%', position: 'absolute', left: '24%', alignItems: 'center'}}>
                   <CardContent >
                     <Typography style={{textAlign: 'center'}}> {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
                     <br />
