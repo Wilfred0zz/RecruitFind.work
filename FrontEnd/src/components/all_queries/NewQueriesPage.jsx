@@ -184,8 +184,9 @@ class NewQueries extends Component{
                   <br/>
                   <br/>
                   <br/>
-                  <Button style={{backgroundColor: 'red', width: '10%', left: '50%', position: 'absolute'}} onClick = {this.onSubmit} >Submit</Button>
-                  <Button style={{marginLeft: '250px', backgroundColor: 'grey', width: '10%', left: '26%', position: 'absolute'}} onClick={this.onClose}>Cancel</Button>
+                  <Button  style={{marginLeft: '220px'}} onClick={this.onClose}>Cancel</Button>
+                  <Button  onClick = {this.onSubmit} >Submit</Button>
+                  
                 </form>
                 </Paper>
                 
