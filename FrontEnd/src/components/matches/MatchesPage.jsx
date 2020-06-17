@@ -14,10 +14,38 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
-  paper: {
+  paper1: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    backgroundColor: '#EFEFE8',
+    height: '1%',
+    width: '100%',
+    position: 'absolute',
+    left: '-0.7%'
+  },
+
+  paper2: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: '1%',
+    width: '48.32%',
+    left: '0%',
+    top: '10.9%',
+    position: 'absolute',
+    
+  },
+  paper3: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: '1%',
+    width: '50%',
+    left: '50%',
+    top: '10.9%',
+    position: 'absolute'
+    
   },
   columns: {
     textAlign: "center"
@@ -34,23 +62,17 @@ const MatchesPage = (props) => {
   const [ matchState, setMatchState ] = React.useState({});
   const [ isRecruiter, setIsRecruiter ] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  // const [ status, setStatus] = React.useState('');
-  // console.log("THIS IS MATCHES: ");
-  // console.log(matches);
 
   const handleOpen = async (match) => {
     setOpen(true);
     setMatchState(match);
-    //console.log("HANDLE OPEN")
   };
   
   const handleClose = () => {
     setOpen(false);
-    //console.log("HANDLE FALSE")
   };
 
   const handleAccept = async (match_id) => {
-    // console.log(match_id);
   
     const match_id_obj = {
       "match_id": match_id
@@ -77,7 +99,6 @@ const MatchesPage = (props) => {
   }
 
   const handleReject = async (match_id) => {
-    // console.log(match_id);
   
     const match_id_obj = {
       "match_id": match_id
@@ -98,46 +119,31 @@ const MatchesPage = (props) => {
       console.log("400 or 500 error")
     }
     else{
-      // console.log("successfully set match")
       document.location.reload();
     }
   }  
-
-  // const componentDidMount = async () => {
-  //   const response = await fetch('/api/status');
-  //   const status = response.status;
-    
-  //   if(status >= 400){
-  //     consle.log("You aren't logged in");
-  //   }
-  //   else{
-  //     const result = await response.json();
-  //     setStatus(result.user_status);
-  //   }
-
-  // }
 
   return (
     <div className={classes.root}>
       <br/>
       <br/>
       <br/>
-      <br/>
+    
       <Grid container>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>MATCHES</Paper>
+          <Paper className={classes.paper1}>MATCHES</Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <div className={classes.paper}>PENDING</div>
+          <div className={classes.paper2} style={{backgroundColor: '#990000'}}>PENDING</div>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <div className={classes.paper}>ACCEPTED</div>
+          <div className={classes.paper3} style={{backgroundColor: '#D0F0C0'}}>ACCEPTED</div>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} style={{backgroundColor: '#990000', left: '0%', position: 'absolute', top: '15.25%', width: '50%', height: 1000}}>
           {/* handles rendering of pending matches */}
           {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
-              ? <p key={1} style={{textAlign: 'center'}}>No Pending Matches</p>
+              ? <p key={1} style={{position: 'absolute', top: '32%', left: '37%', fontWeight: 'bold', fontSize: 30}}>No Pending Matches</p>
               : Object.keys(matches).map((match, i) => {
               
               const match_id = matches[match].match_id;
@@ -151,12 +157,8 @@ const MatchesPage = (props) => {
               const recruiter_lastName = matches[match].recruiter_info ? matches[match].recruiter_info[2] : matches[match].candidate_info[2];
               const skills = matches[match].skills;
 
-              //lmao it works
-              // console.log(match_id + match_status + title + description+
-              //   salary + date + recruiter_email+recruiter_firstName+recruiter_lastName+skills);
-
               return(match_status === "PENDING" ? 
-                <Card key = {match_id}>
+                <Card key = {match_id} style={{width: '50%', position: 'absolute', left: '24%', alignItems: 'center'}}>
                   <CardContent >
                     <Typography style={{textAlign: 'center'}}> {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
                     <br />
@@ -184,11 +186,11 @@ const MatchesPage = (props) => {
           }
           
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} style={{backgroundColor: '#D0F0C0', left: '50%', position: 'absolute', top: '15.25%', width: '50%', height: 1000}}>
           {/* Handles rendering of accepted matches */}
           {
               (matches.status_info === "Candidate Has No Matches At This Time!" || Object.keys(matches).length === 0)
-              ? <p key={1} style={{textAlign: 'center'}}>No Accepted Matches</p>
+              ? <p key={1} style={{position: 'absolute', top: '32%', left: '38.5%', fontWeight: 'bold', fontSize: 30}}>No Accepted Matches</p>
               : Object.keys(matches).map((match, i) => {
                   const match_id = matches[match].match_id;
                   const match_status = matches[match].match_status;
@@ -206,7 +208,7 @@ const MatchesPage = (props) => {
                   //   salary + date + recruiter_email+recruiter_firstName+recruiter_lastName+skills);
 
               return(match_status === "ACCEPTED" ? 
-                <Card key = {match_id}>
+                <Card key = {match_id} style={{width: '50%', position: 'absolute', left: '27%', alignItems: 'center'}}>
                   <CardContent>
                     <Typography style={{textAlign: 'center'}} > {'You matched with '}{recruiter_firstName}{" "}{recruiter_lastName}</Typography>
                     <br />
