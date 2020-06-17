@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import SearchIcon from '@material-ui/icons/Search';
+import Modal from '@material-ui/core/Modal';
+import NewQueries from './NewQueriesPage';
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -51,29 +54,46 @@ const useStyles = makeStyles((theme)=>({
     fontSize: '.9em',
     display: 'block',
   },
+
+  deleteIcon4: {
+    '& svg': {
+      fontSize: 600
+    }
+  },
+
+  createQueryButton: {
+    
+  }
 }));
 
 export default function QueriesPageView (props) {
+  const [show, toggleShow] = useState(false);
+
   const classes = useStyles();
   const { PastQueries } = props;
-  
+
+  const showModal = e => {
+    toggleShow(!show);
+  }
+
   return (
     <div>
       <br/>
       <br/>
       <br/>
       <br/>
-      <Button href='/new_query_page' variant="outlined" className={classes.button} color="primary">New Query</Button>
       {PastQueries.length > 0 
       ? <div>
+        <p style={{fontWeight: 'bold', fontSize: 30, position: 'relative', left: '46%'}}>Past Queries</p>
+        <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '20%', left: '70%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
           <ul>
             {PastQueries.map((query) => {
               if(query.queryTitle!==''){
                 return (<div key={query.query_id}>
-                    <Card className={classes.root} variant="outlined">
+                    <Card className={classes.root} style={{width: '30%'}} variant="outlined">
                       <CardContent className={classes.cardcontent}>
                         <Typography className={classes.date} color="textSecondary">
-                        {query.queryDate} 
+                        Posted On {query.queryDate} 
                         </Typography>
                         <Typography className={classes.title}>
                         {query.queryTitle}
@@ -94,7 +114,13 @@ export default function QueriesPageView (props) {
             )}
           </ul>
         </div>
-      : <p id="no-queries" style={{textAlign:"center"}}>No Past Queries</p>}
+      : 
+      <div>
+      <p id="no-queries" style={{position: 'absolute', top: '58%', right: '40%', fontSize: 30}}>No Past Queries At This Time</p>
+      <Button variant="contained" style={{borderRadius: 10, width: '15%', height: '5%', top: '68%', left: '43%', position: 'absolute'}} color="primary" onClick={e => showModal()}>Create A New Query</Button>
+      <SearchIcon className="material-icons" style={{top: '16%', left: '39%', position: 'absolute', fontSize: '500px'}}/>
+      </div>}
+      <NewQueries onClose={e => showModal()} show={show} state={props.state} updateState={props.updateState}/>
     </div>
   )
 }

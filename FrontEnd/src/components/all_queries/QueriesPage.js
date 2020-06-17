@@ -35,6 +35,7 @@ class DisplayPastQueries extends Component {
         this.setState({
           PastQueries: result.queries
         })
+        
       }
     } catch (error) {
       console.log(error);
@@ -65,7 +66,7 @@ class DisplayPastQueries extends Component {
           ? null
           : <Redirect to='/'/>
         }
-        <QueriesPageView PastQueries={this.state.PastQueries}/>
+        <QueriesPageView PastQueries={this.state.PastQueries} state={this.props.state} updateState={this.props.updateState}/>
       </div>
     )
   }

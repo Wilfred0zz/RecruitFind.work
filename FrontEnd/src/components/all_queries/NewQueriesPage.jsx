@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import Modal from '@material-ui/core/Modal';
 
 const styles = (theme) => ({
   root: {
@@ -46,7 +47,8 @@ class NewQueries extends Component{
       skills : [],
       moveOn : false,
       is_logged_in: true,
-    } 
+      
+    };
   }
 
   onChange = (event) =>{
@@ -106,11 +108,20 @@ class NewQueries extends Component{
     this.setState({
       moveOn : true
     });
+    localStorage.clear();
   }
+
+  onClose = (e) => {
+    //this.props.show = false;
+    this.props.onClose && this.props.onClose(e);
+  };
 
   render(){
     const { classes } = this.props;
     const { query_title, query_description, query_payment } = this.state
+
+    console.log(this.props.state)
+
     return(
       <div className="NewQuery" id="background_new_query">
         <NavigationBarRecruiter updateLogout={this.updateLogout}/>
@@ -126,17 +137,21 @@ class NewQueries extends Component{
         {
           this.state.moveOn 
           ? <Redirect push to = "/query_results_page"/> 
-          : <div> 
+          :
+          
+          <div>
+         {this.props.show ? <Modal disablePortal disableEnforceFocus disableAutoFocus open style={{position: 'absolute', top: '10%', borderColor: 'black'}}>
+            <div> 
             <br/>
             <br/>
             <br/>
               <div>
                 <Paper elevation={2}  className={classes.form}>
                   <br/>
-                <h3 style={{textAlign: 'center'}}>Job Posting</h3>
+                <h3 style={{textAlign: 'center', fontSize: 25}}>Job Posting</h3>
                 <form onSubmit={this.onSubmit} >
                   <br/>
-                  <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_title} name="query_title" label="Title"/>
+                  <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange.bind(this)} value={query_title} name="query_title" label="Title"/>
                   <TextField variant="outlined" className={classes.root} size='small' type="text" onChange={this.onChange} value={query_payment} name="query_payment" label="Payment"/>                                    
                   <TextField variant="outlined" className={classes.description} size='small' type="text" onChange={this.onChange} value={query_description} name="query_description" label="Description" InputProps={{className: classes.input,}} multiline/>                  
                   {/* <label htmlFor="query_title"> Title</label>
@@ -169,14 +184,17 @@ class NewQueries extends Component{
                   <br/>
                   <br/>
                   <br/>
-                  <Button style={{marginLeft: '220px'}} onClick = {this.onSubmit} >Submit</Button>
-                  <Button href='/all_queries'>Cancel</Button>
+                  <Button style={{backgroundColor: 'red', width: '10%', left: '50%', position: 'absolute'}} onClick = {this.onSubmit} >Submit</Button>
+                  <Button style={{marginLeft: '250px', backgroundColor: 'grey', width: '10%', left: '26%', position: 'absolute'}} onClick={this.onClose}>Cancel</Button>
                 </form>
                 </Paper>
                 
               </div>
           </div>
+          </Modal> : null}
+          </div>
         }
+        {console.log(this.props.updateState)}
       </div>
     )
   }
