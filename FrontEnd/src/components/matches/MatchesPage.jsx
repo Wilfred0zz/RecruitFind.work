@@ -41,7 +41,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    //backgroundColor: 'silver',
     height: '1%',
     width: '50%',
     left: '50%',
